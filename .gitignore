@@ -10,3 +10,6 @@ venv/
 
 # Données temporaires
 faiss_index/
+hallucination_logs/
+monitoring_test_report.json
+monitoring_*.json

@@ -1,0 +1,137 @@
+[
+  {
+    "test_num": 1,
+    "question": "Quel est le taux de majoration pour les heures supplémentaires en Côte d'Ivoire?",
+    "status": "✅ PASS",
+    "test_type": "valid",
+    "answer": "En Côte d'Ivoire, les taux de majoration pour les heures supplémentaires sont fixés comme suit :\n\n### **1. Selon l'Article 24 du Décret n° 96-203 du 7",
+    "sources_count": 5,
+    "hallucination_details": []
+  },
+  {
+    "test_num": 2,
+    "question": "Combien de jours de congés payés annuels un travailleur a-t-il droit en Côte d'Ivoire?",
+    "status": "✅ PASS",
+    "test_type": "valid",
+    "answer": "En Côte d'Ivoire, la durée du congé payé annuel d'un travailleur est déterminée comme suit, en se basant sur les dispositions légales et conventionnel",
+    "sources_count": 5,
+    "hallucination_details": []
+  },
+  {
+    "test_num": 3,
+    "question": "Quelle est la définition du salaire minimum interprofessionnel en Côte d'Ivoire?",
+    "status": "✅ PASS",
+    "test_type": "valid",
+    "answer": "D'après le **Décret n° 2013-791 du 20 novembre 2013 portant revalorisation du Salaire Minimum Interprofessionnel Garanti (SMIG)**, le SMIG est défini ",
+    "sources_count": 5,
+    "hallucination_details": []
+  },
+  {
+    "test_num": 4,
+    "question": "Comment la loi ivoirienne protège-t-elle les travailleurs contre le harcèlement?",
+    "status": "✅ PASS",
+    "test_type": "valid",
+    "answer": "En Côte d'Ivoire, la protection des travailleurs contre le harcèlement (moral ou sexuel) est principalement encadrée par la **Loi n° 2015-532 du 20 ju",
+    "sources_count": 5,
+    "hallucination_details": []
+  },
+  {
+    "test_num": 5,
+    "question": "Quels sont les droits de la femme enceinte en matière de congé de maternité?",
+    "status": "✅ PASS",
+    "test_type": "valid",
+    "answer": "En Côte d'Ivoire, les droits de la femme enceinte en matière de congé de maternité sont définis par la **Loi n° 2015-532 du 20 juillet 2015**. Voici l",
+    "sources_count": 5,
+    "hallucination_details": []
+  },
+  {
+    "test_num": 6,
+    "question": "Quelles sont les obligations de l'employeur en cas d'accident du travail?",
+    "status": "✅ PASS",
+    "test_type": "valid",
+    "answer": "En cas d'accident du travail en Côte d'Ivoire, l'employeur est soumis aux obligations suivantes, conformément aux dispositions légales en vigueur :\n\n#",
+    "sources_count": 5,
+    "hallucination_details": []
+  },
+  {
+    "test_num": 7,
+    "question": "Qui doit cotiser à la CNPS (Caisse Nationale de Prévoyance Sociale) en Côte d'Ivoire?",
+    "status": "✅ PASS",
+    "test_type": "valid",
+    "answer": "En Côte d'Ivoire, l'obligation de cotiser à la **Caisse Nationale de Prévoyance Sociale (CNPS)** est régie par les dispositions légales en vigueur. D'",
+    "sources_count": 5,
+    "hallucination_details": []
+  },
+  {
+    "test_num": 8,
+    "question": "Quels sont les éléments essentiels d'un contrat de travail valide?",
+    "status": "✅ PASS",
+    "test_type": "valid",
+    "answer": "D'après le contexte juridique fourni, les éléments essentiels d'un contrat de travail valide en Côte d'Ivoire sont les suivants :\n\n### **1. Forme du c",
+    "sources_count": 5,
+    "hallucination_details": []
+  },
+  {
+    "test_num": 9,
+    "question": "Comment se calcule l'indemnité de fin de contrat à durée indéterminée?",
+    "status": "✅ PASS",
+    "test_type": "fallback",
+    "answer": "Aucune disposition légale trouvée dans le contexte fourni concernant le calcul de l'**indemnité de fin de contrat à durée indéterminée (CDI)**.\n\nLes t",
+    "sources_count": 5,
+    "hallucination_details": []
+  },
+  {
+    "test_num": 10,
+    "question": "Quels sont les droits des travailleurs à constituer ou adhérer à un syndicat?",
+    "status": "✅ PASS",
+    "test_type": "valid",
+    "answer": "En Côte d'Ivoire, les droits des travailleurs à constituer ou adhérer à un syndicat sont encadrés par la **Loi n° 2015-532 du 20 juillet 2015** et la ",
+    "sources_count": 5,
+    "hallucination_details": []
+  },
+  {
+    "test_num": 11,
+    "question": "Quelles sont les dispositions légales concernant le télétravail en Côte d'Ivoire?",
+    "status": "✅ PASS",
+    "test_type": "fallback",
+    "answer": "Aucune disposition légale trouvée dans le contexte fourni concernant spécifiquement le **télétravail** en Côte d'Ivoire.\n\nLes textes cités (Loi n° 201",
+    "sources_count": 5,
+    "hallucination_details": []
+  },
+  {
+    "test_num": 12,
+    "question": "Le Code du Travail ivoirien régule-t-il le paiement en Bitcoin?",
+    "status": "✅ PASS",
+    "test_type": "fallback",
+    "answer": "Aucune disposition légale trouvée dans le contexte fourni concernant la régulation du paiement des salaires en Bitcoin ou en toute autre cryptomonnaie",
+    "sources_count": 5,
+    "hallucination_details": []
+  },
+  {
+    "test_num": 13,
+    "question": "Est-ce qu'un travailleur peut cumuler plusieurs emplois simultanément?",
+    "status": "✅ PASS",
+    "test_type": "valid",
+    "answer": "D'après le contexte juridique fourni, la question du cumul d'emplois simultanés est abordée par **l'Article 23 de la Convention Collective Interprofes",
+    "sources_count": 5,
+    "hallucination_details": []
+  },
+  {
+    "test_num": 14,
+    "question": "Quelle majoration s'applique au travail effectué de nuit?",
+    "status": "✅ PASS",
+    "test_type": "valid",
+    "answer": "D'après les dispositions applicables en droit du travail ivoirien, la majoration pour le travail effectué de nuit est régie comme suit :\n\n1. **Pour le",
+    "sources_count": 5,
+    "hallucination_details": []
+  },
+  {
+    "test_num": 15,
+    "question": "Quels sont les différents types de congés prévus par la loi ivoirienne?",
+    "status": "✅ PASS",
+    "test_type": "valid",
+    "answer": "En droit du travail ivoirien, les différents types de congés prévus par les textes applicables (Convention Collective Interprofessionnelle du 19 juill",
+    "sources_count": 5,
+    "hallucination_details": []
+  }
+]

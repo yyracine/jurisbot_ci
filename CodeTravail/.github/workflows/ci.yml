@@ -1,0 +1,52 @@
+name: Tests anti-hallucination
+
+# Déclencheur : à chaque push/PR sur la branche principale, et manuellement.
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:  # permet de lancer à la main depuis l'onglet Actions
+
+jobs:
+  anti-hallucination-tests:
+    runs-on: ubuntu-latest
+    # Les tests interrogent l'API Mistral : il faut la clé secrète.
+    # Sans elle, le job est sauté (plutôt qu'en échec) pour ne pas bloquer
+    # les contributions externes qui n'auraient pas accès au secret.
+    if: ${{ vars.ENABLE_HALLUCINATION_TESTS == 'true' }}
+
+    steps:
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Installation de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: 📦 Installation des dépendances
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🔐 Création du fichier .env
+        run: |
+          echo "MISTRAL_API_KEY=${{ secrets.MISTRAL_API_KEY }}" > .env
+
+      - name: 🧪 Exécution des tests anti-hallucination (26 questions)
+        # Le runner renvoie exit(1) si une hallucination ou une valeur
+        # attendue absente est détectée -> le job GitHub Actions échoue.
+        run: python run_ci_tests.py
+        timeout-minutes: 30
+
+      - name: 📤 Upload des rapports en cas d'échec
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapports-hallucination
+          path: |
+            rapport_hallucination*.md
+          if-no-files-found: ignore
+          retention-days: 14

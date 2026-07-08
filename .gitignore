@@ -1,0 +1,12 @@
+# Secrets et variables d'environnement
+.env
+.env.local
+.env.production
+
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# Données temporaires
+faiss_index/

@@ -1,0 +1,16 @@
+# Secrets et variables d'environnement
+.env
+.env.local
+.env.production
+
+# Python
+__pycache__/
+*.pyc
+venv/
+env/
+
+# Données temporaires
+faiss_index/
+
+# Rapports de tests (artefacts régénérables, ne pas committer)
+rapport_hallucination*.md

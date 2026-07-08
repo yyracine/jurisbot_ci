@@ -1,0 +1,177 @@
+import os
+import re
+from dotenv import load_dotenv
+from langchain_community.document_loaders import TextLoader
+from langchain_mistralai import MistralAIEmbeddings, ChatMistralAI
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.vectorstores import FAISS
+
+# 1. Charger les variables d'environnement
+load_dotenv()
+MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
+if not MISTRAL_API_KEY:
+    raise ValueError("❌ Erreur: La clé MISTRAL_API_KEY est introuvable dans le fichier .env")
+os.environ["MISTRAL_API_KEY"] = MISTRAL_API_KEY
+
+# 2. Chemin du fichier
+FILE_PATH = "code_du_travail_ci.md"
+
+# ==========================================
+# FONCTION DE POST-PROCESSING (ANTI-HALLUCINATION)
+# ==========================================
+def verify_and_correct_citations(answer: str) -> str:
+    """
+    Version simplifiée : remplacements directs sans regex complexes.
+    """
+    corrected = answer
+    
+    # Liste de tuples (texte_faux, texte_vrai)
+    corrections = [
+        # Heures supplémentaires
+        ("Article 24 de la Loi n° 2015-532 du 20 juillet 2015", "Article 24 du Décret n° 96-203 du 7 mars 1996"),
+        ("Article 24 de la Loi n° 2015-532", "Article 24 du Décret n° 96-203"),
+        ("Article 24 de la Loi", "Article 24 du Décret n° 96-203"),
+        
+        # Saisie et cession
+        ("Article 3 de la Loi n° 2015-532", "Article 3 du Décret n° 2014-370"),
+        ("Article 3 de la Loi", "Article 3 du Décret n° 2014-370"),
+        ("Article 4 de la Loi n° 2015-532", "Article 4 du Décret n° 2014-370"),
+        ("Article 4 de la Loi", "Article 4 du Décret n° 2014-370"),
+        
+        # Dates erronées
+        ("Décret n° 96-203 du 20 juillet 2015", "Décret n° 96-203 du 7 mars 1996"),
+        ("Décret n° 96-200 du 20 juillet 2015", "Décret n° 96-200 du 7 mars 1996"),
+        ("Décret n° 2014-370 du 20 juillet 2015", "Décret n° 2014-370 du 18 juin 2014"),
+        
+        # Préavis
+        ("tableau de la Loi", "tableau du Décret"),
+        ("Annexe de la Loi", "Annexe du Décret"),
+    ]
+    
+    for wrong, correct in corrections:
+        if wrong in corrected:
+            corrected = corrected.replace(wrong, correct)
+            print(f"✅ Correction : '{wrong}' → '{correct}'")
+    
+    return corrected
+
+# ==========================================
+# MOTEUR RAG
+# ==========================================
+def init_rag_engine():
+    """Initialise la base vectorielle et le modèle de langage."""
+    print("🧠 Chargement et indexation du Code du Travail...")
+    
+    if not os.path.exists(FILE_PATH):
+        raise FileNotFoundError(f"❌ Le fichier '{FILE_PATH}' est introuvable dans le dossier : {os.getcwd()}")
+
+    loader = TextLoader(FILE_PATH, encoding="utf-8")
+    documents = loader.load()
+    
+    # Découpage intelligent
+    legal_separators = [
+        "\nDECRET N°", "\nARRETE N°", "\nLOI N°", 
+        "\n## ", "\n### ", "\nArt. ", "\nARTICLE ", 
+        "\nCHAPITRE ", "\nSECTION ", "\nTITRE ", "\n\n", "\n", " ", ""
+    ]
+    
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=2000, chunk_overlap=400, separators=legal_separators
+    )
+    splits = text_splitter.split_documents(documents)
+    
+    # Enrichissement des métadonnées
+    for chunk in splits:
+        content = chunk.page_content
+        source_ref = "Code du Travail (Loi n° 2015-532)" 
+        
+        if "DECRET N°" in content:
+            match = re.search(r'DECRET\s+N°\s*(\d+-\d+)', content)
+            if match: source_ref = f"Décret n° {match.group(1)}"
+        elif "ARRETE N°" in content:
+            match = re.search(r'ARRETE\s+N°\s*([\d-]+)', content)
+            if match: source_ref = f"Arrêté n° {match.group(1)}"
+        elif "CONVENTION COLLECTIVE" in content.upper():
+            source_ref = "Convention Collective Interprofessionnelle"
+            
+        chunk.metadata["source_ref"] = source_ref
+    
+    print(f"✂️ Document découpé en {len(splits)} chunks avec métadonnées.")
+    
+    embeddings = MistralAIEmbeddings(model="mistral-embed")
+    vectorstore = FAISS.from_documents(splits, embeddings)
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
+
+    llm = ChatMistralAI(model="mistral-large-latest", temperature=0, timeout=120, max_retries=3)
+    
+    print("✅ Moteur RAG initialisé avec succès !")
+    return retriever, llm
+
+def ask_legal_bot(query: str, retriever, llm) -> dict:
+    """Fonction simple et robuste pour interroger le RAG."""
+    print(f"🔍 Recherche pour : '{query}'")
+    
+    # 1. Récupération des documents
+    docs = retriever.invoke(query)
+    
+    # 2. Construction du contexte
+    context_parts = []
+    sources_list = []
+    
+    for doc in docs:
+        source_ref = doc.metadata.get("source_ref", "Non spécifié")
+        snippet = doc.page_content[:200].replace('\n', ' ') + "..."
+        sources_list.append({"source_ref": source_ref, "snippet": snippet})
+        context_parts.append(f"[{source_ref}]\n{doc.page_content}")
+    
+    context = "\n\n---\n\n".join(context_parts)
+    
+    # 3. Prompt système
+    system_prompt = f"""
+Tu es un assistant juridique expert en Droit du Travail Ivoirien.
+Tu réponds UNIQUEMENT en te basant sur le contexte fourni.
+
+RÈGLES ABSOLUES :
+
+1. CITATIONS EXACTES OBLIGATOIRES :
+   Pour les heures supplémentaires, tu DOIS citer EXACTEMENT :
+   - "Article 24 du Décret n° 96-203 du 7 mars 1996" (pour les taux de majoration)
+   - "Article 51 de la Convention Collective Interprofessionnelle du 19 juillet 1977" (pour les majorations conventionnelles)
+   
+   ❌ INTERDIT d'écrire : "Dispositions générales sur les heures supplémentaires", "Code du Travail (extrait fourni)", "Ibid."
+   ✅ OBLIGATOIRE d'écrire les numéros d'articles COMPLETS avec dates.
+
+2. INTERDICTION FORMELLE :
+   ❌ Ne mentionne JAMAIS la "Loi n° 2015-532" pour les heures supplémentaires, préavis, saisie/cession.
+   ✅ Pour ces sujets, cite UNIQUEMENT les DÉCRETS et la CONVENTION COLLECTIVE.
+
+3. Si tu n'as pas l'information exacte, réponds : "Aucune disposition légale trouvée."
+
+Contexte juridique :
+{context}
+"""
+    
+    # 4. Appel à Mistral
+    print("🤖 Appel à Mistral AI...")
+    messages = [("system", system_prompt), ("human", query)]
+    response = llm.invoke(messages)
+    print("✅ Réponse reçue de Mistral.")
+    
+    # 5. Vérification et correction automatique
+    corrected_answer = verify_and_correct_citations(response.content)
+    
+    print(f"\n📝 RÉPONSE CORRIGÉE :\n{corrected_answer}\n")
+    
+    # LOG CRITIQUE : Voir ce qui est retourné
+    print(f"🔍 VALEUR QUI VA ÊTRE RETOURNÉE : {corrected_answer[:100]}...\n")
+    
+    # LOG ULTRA-PRÉCIS : Afficher exactement ce qui va être retourné
+    print(f"🎯 VALEUR EXACTE RETOURNÉE (100 premiers chars) : '{corrected_answer[:100]}'")
+    print(f"🎯 CONTIENT 'Décret n° 96-203' ? {'Article 24 du Décret n° 96-203' in corrected_answer}")
+    print(f"🎯 CONTIENT 'Loi n° 2015-532' ? {'Article 24 de la Loi n° 2015-532' in corrected_answer}\n")
+    
+
+    return {
+        "answer": corrected_answer,  # ← ✅ C'EST ÇA QU'IL FAUT !
+        "sources": sources_list
+    }

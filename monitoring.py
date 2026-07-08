@@ -1,8 +1,11 @@
 import json
 import os
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, List
+
+sys.stdout.reconfigure(encoding='utf-8')
 
 class HallucinationMonitor:
     """Système de monitoring des hallucinations en production"""

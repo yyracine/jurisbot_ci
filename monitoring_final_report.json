@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-07-08T23:09:04.710113",
+  "statistics": {
+    "total_responses": 3,
+    "total_feedback": 0,
+    "hallucinations_detected": 0,
+    "false_positive_rate": 0.0,
+    "alerts": []
+  },
+  "log_directory": "hallucination_logs",
+  "files": {
+    "session_log": "hallucination_logs\\session_20260708_230753.jsonl",
+    "feedback_log": "hallucination_logs\\feedback.jsonl",
+    "alerts_log": "hallucination_logs\\alerts.jsonl"
+  }
+}

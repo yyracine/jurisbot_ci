@@ -4,6 +4,9 @@ Intègre le système de monitoring et feedback pour la production.
 """
 
 import os
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
+
 from dotenv import load_dotenv
 from bot_juridique import init_rag_engine, ask_legal_bot, verify_and_correct_citations
 from monitoring import get_monitor

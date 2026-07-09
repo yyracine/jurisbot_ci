@@ -82,31 +82,50 @@ class HallucinationMonitor:
             "total_responses": 0,
             "total_feedback": 0,
             "hallucinations_detected": 0,
-            "false_positive_rate": 0.0,
-            "alerts": []
+            "hallucinations_by_score": 0,
+            "hallucination_rate": 0.0,
+            "average_hallucination_score": 0.0,
+            "alerts": [],
+            "responses_by_score": []
         }
 
-        # Compter les réponses
+        # Compter les réponses et calculer le score d'hallucination
         if self.session_log.exists():
             with open(self.session_log, "r", encoding="utf-8") as f:
-                stats["total_responses"] = sum(1 for _ in f)
+                responses = [json.loads(line) for line in f]
+                stats["total_responses"] = len(responses)
 
-        # Compter les feedbacks et hallucinations
-        hallucinations = 0
+                # Calculer le score moyen d'hallucination et compter les réponses avec hallucination détectée
+                hallucination_scores = []
+                auto_hallucinations = 0
+                for resp in responses:
+                    detection = resp.get("detection", {})
+                    if detection.get("is_hallucinating"):
+                        auto_hallucinations += 1
+                    score = detection.get("hallucination_score", 0.0)
+                    hallucination_scores.append(score)
+
+                stats["hallucinations_by_score"] = auto_hallucinations
+                if hallucination_scores:
+                    stats["average_hallucination_score"] = sum(hallucination_scores) / len(hallucination_scores)
+                    # Taux d'hallucination basé sur score >= 0.5
+                    stats["hallucination_rate"] = (sum(1 for s in hallucination_scores if s >= 0.5) / len(hallucination_scores)) * 100
+
+                stats["responses_by_score"] = hallucination_scores
+
+        # Compter les feedbacks utilisateur
         feedbacks = 0
+        user_hallucinations = 0
         if self.feedback_log.exists():
             with open(self.feedback_log, "r", encoding="utf-8") as f:
                 for line in f:
                     entry = json.loads(line)
                     feedbacks += 1
                     if entry.get("is_hallucination"):
-                        hallucinations += 1
+                        user_hallucinations += 1
 
         stats["total_feedback"] = feedbacks
-        stats["hallucinations_detected"] = hallucinations
-
-        if feedbacks > 0:
-            stats["false_positive_rate"] = (hallucinations / feedbacks) * 100
+        stats["hallucinations_detected"] = user_hallucinations  # Feedback utilisateur
 
         # Lister les dernières alertes
         if self.alerts_log.exists():

@@ -217,49 +217,113 @@ def show_chat_page():
         st.markdown("---")
 
 def show_stats_page():
-    st.title("📊 Statistiques & Monitoring")
-
-    col1, col2, col3 = st.columns(3)
+    st.title("📊 Statistiques & Monitoring - JurisBot CI")
 
     try:
         stats = get_stats()
 
-        total_responses = stats.get("total_responses", 0)
-        total_feedbacks = stats.get("total_feedbacks", 0)
-        hallucination_count = stats.get("hallucination_count", 0)
+        # KPIs en haut
+        col1, col2, col3, col4 = st.columns(4)
 
         with col1:
-            st.metric("Total Réponses", total_responses)
+            st.metric(
+                "📝 Réponses",
+                stats.get("total_responses", 0),
+                delta=None,
+                label_visibility="visible"
+            )
 
         with col2:
-            st.metric("Total Feedbacks", total_feedbacks)
+            st.metric(
+                "💬 Feedbacks",
+                stats.get("total_feedback", 0),
+                delta=None
+            )
 
         with col3:
-            hallucination_rate = (hallucination_count / total_responses * 100) if total_responses > 0 else 0
-            st.metric("Taux d'Hallucinations", f"{hallucination_rate:.1f}%")
+            hallucination_rate = stats.get("hallucination_rate", 0.0)
+            st.metric(
+                "🎯 Taux Hallucination",
+                f"{hallucination_rate:.1f}%",
+                delta=None
+            )
+
+        with col4:
+            avg_score = stats.get("average_hallucination_score", 0.0)
+            st.metric(
+                "📊 Score Moyen",
+                f"{avg_score:.2f}",
+                delta=None
+            )
 
         st.markdown("---")
 
-        feedback_stats = stats.get("feedback_distribution", {})
-        if feedback_stats:
-            st.subheader("Distribution des Feedbacks")
+        # Tableau détaillé des réponses
+        st.subheader("Détail par Réponse")
 
-            feedback_data = {
-                "Type": list(feedback_stats.keys()),
-                "Nombre": list(feedback_stats.values())
-            }
-            df = pd.DataFrame(feedback_data)
+        responses_by_score = stats.get("responses_by_score", [])
+        if responses_by_score:
+            response_data = []
+            for idx, score in enumerate(responses_by_score, 1):
+                response_data.append({
+                    "#": idx,
+                    "Score Hallucination": f"{score:.2%}",
+                    "Statut": "✅ Sain" if score < 0.5 else "⚠️ Risque",
+                    "Confiance": "Haute" if score > 0.1 else "Basse"
+                })
 
-            col1, col2 = st.columns(2)
-            with col1:
-                st.bar_chart(df.set_index("Type"))
-            with col2:
-                st.dataframe(df, use_container_width=True, hide_index=True)
+            df_responses = pd.DataFrame(response_data)
+            st.dataframe(df_responses, use_container_width=True, hide_index=True)
+        else:
+            st.info("Aucune réponse enregistrée pour le moment.")
 
         st.markdown("---")
 
-        st.subheader("Détails Complets")
-        st.json(stats)
+        # Feedback utilisateur
+        st.subheader("Feedback Utilisateur")
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            total_fb = stats.get("total_feedback", 0)
+            halluc_fb = stats.get("hallucinations_detected", 0)
+            st.metric("Total", total_fb)
+
+        with col2:
+            st.metric("Hallucinations signalées", halluc_fb)
+
+        with col3:
+            if total_fb > 0:
+                positive_rate = ((total_fb - halluc_fb) / total_fb) * 100
+                st.metric("Taux satisfait", f"{positive_rate:.0f}%")
+
+        st.markdown("---")
+
+        # Résumé exécutif
+        st.subheader("Résumé Exécutif")
+
+        summary_col1, summary_col2 = st.columns(2)
+
+        with summary_col1:
+            st.write("""
+            ### 🔬 Détection Automatique
+            - Basée sur les **scores d'hallucination** du modèle
+            - Seuil: score ≥ 0.5 = hallucination
+            - Indépendante du feedback utilisateur
+            """)
+
+        with summary_col2:
+            st.write(f"""
+            ### 👤 Feedback Utilisateur
+            - **{total_fb}** feedbacks enregistrés
+            - **{halluc_fb}** hallucinations signalées
+            - Taux de satisfaction: **{positive_rate:.0f}%** si total > 0
+            """)
+
+        st.markdown("---")
+
+        # Données brutes (optionnel)
+        with st.expander("📋 Données Brutes"):
+            st.json(stats)
 
     except Exception as e:
         st.error(f"❌ Erreur lors du chargement des statistiques: {e}")

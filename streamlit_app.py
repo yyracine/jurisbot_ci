@@ -178,8 +178,8 @@ def show_chat_page():
 
         with col1:
             st.markdown(f"**👤 Question:** {msg['question']}")
-            st.markdown(f"<div class='response-box'>{msg['response']}</div>",
-                       unsafe_allow_html=True)
+            with st.container(border=True):
+                st.markdown(msg['response'])
 
         response_id = msg["response_id"]
         key_prefix = f"feedback_{response_id}"

@@ -173,7 +173,8 @@ def show_chat_page():
                 "timestamp": datetime.now().isoformat()
             })
 
-    for idx, msg in enumerate(st.session_state.chat_history):
+    if st.session_state.chat_history:
+        msg = st.session_state.chat_history[-1]
         col1, col2 = st.columns([10, 2])
 
         with col1:

@@ -319,12 +319,6 @@ def show_stats_page():
             - Taux de satisfaction: **{positive_rate:.0f}%** si total > 0
             """)
 
-        st.markdown("---")
-
-        # Données brutes (optionnel)
-        with st.expander("📋 Données Brutes"):
-            st.json(stats)
-
     except Exception as e:
         st.error(f"❌ Erreur lors du chargement des statistiques: {e}")
         st.info("Le système de monitoring n'est pas encore actif. Posez des questions pour générer des données.")

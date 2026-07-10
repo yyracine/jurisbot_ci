@@ -341,35 +341,28 @@ def show_stats_page():
         stats = get_stats()
 
         # KPIs en haut
-        col1, col2, col3, col4 = st.columns(4)
+        col1, col2, col3 = st.columns(3)
 
         with col1:
             st.metric(
-                "📝 Réponses",
+                "📝 Réponses Générées",
                 stats.get("total_responses", 0),
                 delta=None,
                 label_visibility="visible"
             )
 
         with col2:
-            st.metric(
-                "💬 Feedbacks",
-                stats.get("total_feedback", 0),
-                delta=None
-            )
-
-        with col3:
             hallucination_rate = stats.get("hallucination_rate", 0.0)
             st.metric(
-                "🎯 Taux Hallucination",
+                "🚨 Taux Hallucination",
                 f"{hallucination_rate:.1f}%",
                 delta=None
             )
 
-        with col4:
+        with col3:
             avg_score = stats.get("average_hallucination_score", 0.0)
             st.metric(
-                "📊 Score Moyen",
+                "📊 Score Hallucination Moyen",
                 f"{avg_score:.2f}",
                 delta=None
             )
@@ -397,45 +390,21 @@ def show_stats_page():
 
         st.markdown("---")
 
-        # Feedback utilisateur
-        st.subheader("Feedback Utilisateur")
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            total_fb = stats.get("total_feedback", 0)
-            halluc_fb = stats.get("hallucinations_detected", 0)
-            st.metric("Total", total_fb)
-
-        with col2:
-            st.metric("Hallucinations signalées", halluc_fb)
-
-        with col3:
-            if total_fb > 0:
-                positive_rate = ((total_fb - halluc_fb) / total_fb) * 100
-                st.metric("Taux satisfait", f"{positive_rate:.0f}%")
-
-        st.markdown("---")
-
         # Résumé exécutif
-        st.subheader("Résumé Exécutif")
+        st.subheader("📋 Résumé Exécutif")
 
-        summary_col1, summary_col2 = st.columns(2)
+        st.info("""
+        **💡 Feedback des utilisateurs?**
+        Les feedbacks détaillés sont maintenant gérés dans l'onglet **"Feedbacks"**.
+        Cette page affiche uniquement les statistiques du système RAG.
+        """)
 
-        with summary_col1:
-            st.write("""
-            ### 🔬 Détection Automatique
-            - Basée sur les **scores d'hallucination** du modèle
-            - Seuil: score ≥ 0.5 = hallucination
-            - Indépendante du feedback utilisateur
-            """)
-
-        with summary_col2:
-            st.write(f"""
-            ### 👤 Feedback Utilisateur
-            - **{total_fb}** feedbacks enregistrés
-            - **{halluc_fb}** hallucinations signalées
-            - Taux de satisfaction: **{positive_rate:.0f}%** si total > 0
-            """)
+        st.write("""
+        ### 🔬 Détection Automatique des Hallucinations
+        - Basée sur les **scores d'hallucination** du modèle
+        - Seuil: score ≥ 0.5 = hallucination détectée
+        - Système indépendant et automatisé
+        """)
 
     except Exception as e:
         st.error(f"❌ Erreur lors du chargement des statistiques: {e}")

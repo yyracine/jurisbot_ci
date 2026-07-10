@@ -1,0 +1,22 @@
+[
+  {
+    "file_path": "code_du_travail_ci.md",
+    "file_name": "code_du_travail_ci.md",
+    "ingestion_date": "2026-07-09T23:31:26.009814",
+    "file_size_kb": 599.033203125,
+    "chunk_count": 1,
+    "source_ref": "LOI N° 2015-532 DU 20 JUILLET 2015 PORTANT CODE DU TRAVAIL, L'ASSEMBLEE NATIONALE A ADOPTE,",
+    "document_type": "loi",
+    "timestamp": "2026-07-09T23:31:26.010132"
+  },
+  {
+    "file_path": "code_du_travail_ci.md",
+    "file_name": "code_du_travail_ci.md",
+    "ingestion_date": "2026-07-10T00:05:53.609397",
+    "file_size_kb": 603.083984375,
+    "chunk_count": 1,
+    "source_ref": "LOI N° 2015-532 DU 20 JUILLET 2015 PORTANT CODE DU TRAVAIL, L'ASSEMBLEE NATIONALE A ADOPTE,",
+    "document_type": "loi",
+    "timestamp": "2026-07-10T00:05:53.609743"
+  }
+]

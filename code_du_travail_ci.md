@@ -9327,4 +9327,93 @@ La présente convention collective annexe entrera en vigueur à partir du jour q
 
 Edité par IVOIRE-JURISTE - 03 Janvier 2021
 
+---
+
+# DÉCRET N° 2022-31 DU 12 JANVIER 2022
+
+## FIXANT LES MODALITÉS DE MISE EN ŒUVRE DU TÉLÉTRAVAIL POUR LES TRAVAILLEURS RÉGIS PAR LE CODE DU TRAVAIL
+
+## CHAPITRE I : DISPOSITIONS PRÉLIMINAIRES
+
+### ARTICLE 1
+
+Le présent décret a pour objet de fixer les modalités de mise en œuvre du télétravail pour les travailleurs régis par le Code du Travail.
+
+### ARTICLE 2
+
+Le télétravail se définit comme un mode d'organisation ou de réalisation du travail, formalisé par un contrat de travail ou un avenant au contrat de travail, dans lequel un travail qui aurait pu être exécuté en tout ou partie dans les locaux de l'entreprise, est effectué par un salarié hors de ces locaux, en utilisant les technologies de l'information et de la communication.
+
+## CHAPITRE II : RECOURS AU TÉLÉTRAVAIL
+
+### ARTICLE 3
+
+Le télétravail peut être envisagé à l'embauche ou ultérieurement, à la demande du salarié ou sur proposition de l'employeur.
+
+### ARTICLE 4
+
+Le télétravail est mis en place dans le cadre d'un accord collectif.
+
+En cas d'absence d'accord collectif, le recours au télétravail reste possible par accord entre le salarié et l'employeur.
+
+L'accord doit être formalisé par écrit.
+
+### ARTICLE 5
+
+L'accord collectif ou individuel doit comporter les mentions obligatoires et non exclusives suivantes :
+
+1. Les conditions de passage en télétravail ;
+2. Les conditions de retour à une exécution du contrat de travail dans les locaux de l'entreprise ;
+3. Les conditions de mise en œuvre du télétravail ;
+4. Les modalités de mise en œuvre du télétravail relevant des questions de Santé et Sécurité au Travail ;
+5. La détermination des horaires de travail ;
+6. Les modalités de contrôle du temps de travail et de régulation de la charge de travail ;
+7. Les modalités d'exercice du pouvoir disciplinaire de l'employeur.
+
+## CHAPITRE III : DROITS ET OBLIGATIONS DES PARTIES
+
+### ARTICLE 6
+
+Le télétravailleur a les mêmes droits et obligations que le salarié qui exécute son contrat de travail dans les locaux de l'entreprise.
+
+### ARTICLE 7
+
+Outre ses obligations de droit commun vis-à-vis de ses salariés, l'employeur est tenu à l'égard du télétravailleur :
+
+1. De fournir au télétravailleur les moyens nécessaires à l'exécution de son travail ;
+2. De le former au bon usage des équipements et outils nécessaires au télétravail ;
+3. De l'informer de toute restriction à l'usage d'équipements ou outils informatiques ou de services de communication électronique et des sanctions en cas de non-respect de telles restrictions ;
+4. De respecter sa vie privée.
+
+## CHAPITRE IV : CONTRÔLE DU TÉLÉTRAVAIL
+
+### ARTICLE 8
+
+Le télétravail est soumis aux règles de contrôle des lieux de travail édictées par le Code du Travail.
+
+L'autorité administrative compétente, accompagnée selon le cas, de l'employeur, des membres du Comité de Santé et Sécurité au Travail ou des délégués du personnel, a accès au lieu du télétravail.
+
+Cet accès est subordonné à l'information préalable de l'intéressé.
+
+Toutefois, si le télétravailleur exerce son activité à domicile, cet accès est subordonné à une notification à l'intéressé, qui doit préalablement donner son accord.
+
+Le télétravailleur est autorisé à demander une visite d'inspection.
+
+### ARTICLE 9
+
+L'accident survenu sur le lieu du télétravail, pendant les horaires du télétravail, est présumé être un accident du travail au sens des dispositions du Code de Prévoyance Sociale.
+
+## CHAPITRE V : DISPOSITIONS FINALES
+
+### ARTICLE 10
+
+Le présent décret abroge toutes dispositions antérieures contraires portant sur le même objet.
+
+### ARTICLE 11
+
+Le Ministre de l'Emploi et de la Protection Sociale et le Ministre de l'Économie Numérique, des Télécommunications et de l'innovation sont chargés, chacun en ce qui le concerne, de l'exécution du présent décret qui sera publié au Journal Officiel de la République de Côte d'Ivoire.
+
+Fait à Abidjan, le 12 janvier 2022
+
+Alassane OUATTARA
+
 

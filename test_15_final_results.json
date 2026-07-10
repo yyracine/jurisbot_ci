@@ -1,0 +1,166 @@
+{
+  "timestamp": "2026-07-10T00:46:28.213001",
+  "total_tests": 15,
+  "passed_tests": 13,
+  "failed_tests": 2,
+  "success_rate": 86.66666666666667,
+  "hallucination_count": 0,
+  "valid_tests_passed": 9,
+  "fallback_tests_passed": 4,
+  "objective_achieved": true,
+  "results": [
+    {
+      "test_num": 1,
+      "type": "VALIDE",
+      "question": "Quels sont les droits des travailleurs en matiere de conges annuels?",
+      "description": "Droits aux conges annuels",
+      "passed": true,
+      "hallucinations": [],
+      "answer_preview": "En matière de congés annuels en droit du travail ivoirien, les droits des travailleurs sont définis ",
+      "sources_count": 5
+    },
+    {
+      "test_num": 2,
+      "type": "VALIDE",
+      "question": "Quel est le delai de preavis pour un licenciement?",
+      "description": "Delai de preavis",
+      "passed": true,
+      "hallucinations": [],
+      "answer_preview": "Le délai de préavis en cas de licenciement (rupture du contrat de travail à l'initiative de l'employ",
+      "sources_count": 5
+    },
+    {
+      "test_num": 3,
+      "type": "VALIDE",
+      "question": "Qu'est-ce qu'une convention collective?",
+      "description": "Convention collective",
+      "passed": false,
+      "hallucinations": [
+        "Pattern attendu manquant: collectif"
+      ],
+      "answer_preview": "Une convention collective en droit du travail ivoirien est définie par **l’Article 72.1 de la Loi n°",
+      "sources_count": 5
+    },
+    {
+      "test_num": 4,
+      "type": "VALIDE",
+      "question": "Comment sont calculees les heures supplementaires?",
+      "description": "Calcul des heures supplementaires",
+      "passed": true,
+      "hallucinations": [],
+      "answer_preview": "En Côte d'Ivoire, le calcul des heures supplémentaires est encadré par **l'Article 24 du Décret n° 9",
+      "sources_count": 5
+    },
+    {
+      "test_num": 5,
+      "type": "VALIDE",
+      "question": "Quelles sont les principales obligations de l'employeur?",
+      "description": "Obligations de l'employeur",
+      "passed": true,
+      "hallucinations": [],
+      "answer_preview": "En droit du travail ivoirien, les principales obligations de l'employeur sont définies par plusieurs",
+      "sources_count": 5
+    },
+    {
+      "test_num": 6,
+      "type": "VALIDE",
+      "question": "Qu'est-ce que le teletravail en Cote d'Ivoire?",
+      "description": "Teletravail ou fallback",
+      "passed": true,
+      "hallucinations": [],
+      "answer_preview": "Aucune disposition légale trouvée dans le Code du Travail Ivoirien. Je suis spécialisé dans le droit",
+      "sources_count": 5
+    },
+    {
+      "test_num": 7,
+      "type": "VALIDE",
+      "question": "Quels sont les motifs de licenciement valide?",
+      "description": "Motifs de licenciement",
+      "passed": true,
+      "hallucinations": [],
+      "answer_preview": "En droit du travail ivoirien, les motifs de licenciement valides sont encadrés par la **Loi n° 2015-",
+      "sources_count": 5
+    },
+    {
+      "test_num": 8,
+      "type": "VALIDE",
+      "question": "Comment fonctionne la suspension du contrat de travail?",
+      "description": "Suspension du contrat",
+      "passed": true,
+      "hallucinations": [],
+      "answer_preview": "En droit du travail ivoirien, la suspension du contrat de travail est régie par plusieurs dispositio",
+      "sources_count": 5
+    },
+    {
+      "test_num": 9,
+      "type": "VALIDE",
+      "question": "Quelles sont les indemnites de licenciement?",
+      "description": "Indemnites de licenciement",
+      "passed": true,
+      "hallucinations": [],
+      "answer_preview": "En droit du travail ivoirien, les indemnités de licenciement sont régies par plusieurs textes. Voici",
+      "sources_count": 5
+    },
+    {
+      "test_num": 10,
+      "type": "VALIDE",
+      "question": "Quels sont les droits syndicaux des travailleurs?",
+      "description": "Droits syndicaux",
+      "passed": true,
+      "hallucinations": [],
+      "answer_preview": "En droit du travail ivoirien, les droits syndicaux des travailleurs sont encadrés par plusieurs disp",
+      "sources_count": 5
+    },
+    {
+      "test_num": 11,
+      "type": "HORS-SUJET",
+      "question": "Quel est le meilleur restaurant de Yamoussoukro?",
+      "description": "Question non-legale (restaurant)",
+      "passed": true,
+      "hallucinations": [],
+      "answer_preview": "Aucune disposition légale trouvée dans le Code du Travail Ivoirien. Je suis spécialisé dans le droit",
+      "sources_count": 5
+    },
+    {
+      "test_num": 12,
+      "type": "HORS-SUJET",
+      "question": "Comment programmer en Python efficacement?",
+      "description": "Question technique (programmation)",
+      "passed": true,
+      "hallucinations": [],
+      "answer_preview": "Aucune disposition légale trouvée dans le Code du Travail Ivoirien. Je suis spécialisé dans le droit",
+      "sources_count": 5
+    },
+    {
+      "test_num": 13,
+      "type": "HORS-SUJET",
+      "question": "Quels conseils pour devenir riche?",
+      "description": "Question personnelle (richesse)",
+      "passed": true,
+      "hallucinations": [],
+      "answer_preview": "Aucune disposition légale trouvée dans le Code du Travail Ivoirien. Je suis spécialisé dans le droit",
+      "sources_count": 5
+    },
+    {
+      "test_num": 14,
+      "type": "HORS-SUJET",
+      "question": "Qu'est-ce que la relativite generale?",
+      "description": "Question scientifique (physique)",
+      "passed": true,
+      "hallucinations": [],
+      "answer_preview": "Aucune disposition légale trouvée dans le Code du Travail Ivoirien. Je suis spécialisé dans le droit",
+      "sources_count": 5
+    },
+    {
+      "test_num": 15,
+      "type": "HORS-SUJET",
+      "question": "Quel est le plus haut sommet d'Afrique?",
+      "description": "Question geographique",
+      "passed": false,
+      "hallucinations": [],
+      "answer_preview": null,
+      "sources_count": 0,
+      "error": "Error response 429 while fetching https://api.mistral.ai/v1/chat/completions: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}"
+    }
+  ]
+}

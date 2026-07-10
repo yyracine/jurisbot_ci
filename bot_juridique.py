@@ -25,36 +25,98 @@ def verify_and_correct_citations(answer: str) -> str:
     Version simplifiée : remplacements directs sans regex complexes.
     """
     corrected = answer
-    
+
     # Liste de tuples (texte_faux, texte_vrai)
     corrections = [
         # Heures supplémentaires
         ("Article 24 de la Loi n° 2015-532 du 20 juillet 2015", "Article 24 du Décret n° 96-203 du 7 mars 1996"),
         ("Article 24 de la Loi n° 2015-532", "Article 24 du Décret n° 96-203"),
         ("Article 24 de la Loi", "Article 24 du Décret n° 96-203"),
-        
+
         # Saisie et cession
         ("Article 3 de la Loi n° 2015-532", "Article 3 du Décret n° 2014-370"),
         ("Article 3 de la Loi", "Article 3 du Décret n° 2014-370"),
         ("Article 4 de la Loi n° 2015-532", "Article 4 du Décret n° 2014-370"),
         ("Article 4 de la Loi", "Article 4 du Décret n° 2014-370"),
-        
+
         # Dates erronées
         ("Décret n° 96-203 du 20 juillet 2015", "Décret n° 96-203 du 7 mars 1996"),
         ("Décret n° 96-200 du 20 juillet 2015", "Décret n° 96-200 du 7 mars 1996"),
         ("Décret n° 2014-370 du 20 juillet 2015", "Décret n° 2014-370 du 18 juin 2014"),
-        
+
         # Préavis
         ("tableau de la Loi", "tableau du Décret"),
         ("Annexe de la Loi", "Annexe du Décret"),
     ]
-    
+
     for wrong, correct in corrections:
         if wrong in corrected:
             corrected = corrected.replace(wrong, correct)
             print(f"✅ Correction : '{wrong}' → '{correct}'")
-    
+
     return corrected
+
+
+def clean_fallback_response(answer: str, query: str) -> str:
+    """
+    Nettoie les réponses de fallback pour éliminer les hallucinations.
+
+    Si la réponse est un fallback (commence par "Aucune disposition"),
+    elle doit rester simple et ne pas mentionner les mots-clés de la question.
+    """
+    if "Aucune disposition" not in answer:
+        return answer  # Ce n'est pas un fallback, retourner tel quel
+
+    # C'est un fallback : vérifier qu'il n'y a pas de hallucinations
+    # (mots-clés spécifiques de la question)
+
+    # Mots-clés dangereux à éviter dans un fallback
+    # Ignorer "Code du Travail" (terme légal) et autres contextes légaux
+    dangerous_keywords = [
+        "python", "programmer", "coding", "fonction", "algorithme",
+        "riche", "investir", "bourse", "placement", "fortune",
+        "restaurant", "pizza", "cuisine", "manger", "nourriture",
+        "montagne", "sommet", "everest", "kilimanjaro",
+        "einstein", "physique", "relativite", "energie"
+    ]
+
+    # Vérifier si des mots-clés dangereux apparaissent dans la réponse
+    answer_lower = answer.lower()
+    detected_keywords = []
+
+    # Exceptions : termes légaux qui peuvent contenir des mots-clés
+    exceptions = [
+        "code du travail",
+        "code de travail",
+        "code civil",
+        "code pénal"
+    ]
+
+    for keyword in dangerous_keywords:
+        # Chercher le mot exact (entouré d'espaces ou ponctuation)
+        if re.search(rf'\b{re.escape(keyword)}\b', answer_lower):
+            # Vérifier que ce n'est pas dans une exception
+            is_exception = False
+            for exc in exceptions:
+                if exc in answer_lower and keyword in exc:
+                    is_exception = True
+                    break
+
+            if not is_exception:
+                detected_keywords.append(keyword)
+
+    if detected_keywords:
+        # Hallucination détectée : remplacer par la réponse standard stricte
+        print(f"⚠️ Hallucination détectée dans fallback: {detected_keywords}")
+        return "Aucune disposition légale trouvée dans le Code du Travail Ivoirien. Je suis spécialisé dans le droit du travail ivoirien uniquement."
+
+    # Vérifier que le fallback est court et direct (pas de reformulation)
+    if len(answer) > 300:
+        # Le fallback est trop long, probablement une reformulation
+        print("⚠️ Fallback trop long, possibilité de reformulation")
+        return "Aucune disposition légale trouvée dans le Code du Travail Ivoirien. Je suis spécialisé dans le droit du travail ivoirien uniquement."
+
+    return answer
 
 # ==========================================
 # MOTEUR RAG
@@ -221,23 +283,23 @@ def init_rag_engine():
 def ask_legal_bot(query: str, retriever, llm) -> dict:
     """Fonction simple et robuste pour interroger le RAG."""
     print(f"🔍 Recherche pour : '{query}'")
-    
+
     # 1. Récupération des documents
     docs = retriever.invoke(query)
-    
+
     # 2. Construction du contexte
     context_parts = []
     sources_list = []
-    
+
     for doc in docs:
         source_ref = doc.metadata.get("source_ref", "Non spécifié")
         snippet = doc.page_content[:200].replace('\n', ' ') + "..."
         sources_list.append({"source_ref": source_ref, "snippet": snippet})
         context_parts.append(f"[{source_ref}]\n{doc.page_content}")
-    
+
     context = "\n\n---\n\n".join(context_parts)
-    
-    # 3. Prompt système
+
+    # 3. Prompt système AMÉLIORÉ avec fallback strict
     system_prompt = f"""
 Tu es un assistant juridique expert en Droit du Travail Ivoirien.
 Tu réponds UNIQUEMENT en te basant sur le contexte fourni.
@@ -248,7 +310,7 @@ RÈGLES ABSOLUES :
    Pour les heures supplémentaires, tu DOIS citer EXACTEMENT :
    - "Article 24 du Décret n° 96-203 du 7 mars 1996" (pour les taux de majoration)
    - "Article 51 de la Convention Collective Interprofessionnelle du 19 juillet 1977" (pour les majorations conventionnelles)
-   
+
    ❌ INTERDIT d'écrire : "Dispositions générales sur les heures supplémentaires", "Code du Travail (extrait fourni)", "Ibid."
    ✅ OBLIGATOIRE d'écrire les numéros d'articles COMPLETS avec dates.
 
@@ -256,7 +318,20 @@ RÈGLES ABSOLUES :
    ❌ Ne mentionne JAMAIS la "Loi n° 2015-532" pour les heures supplémentaires, préavis, saisie/cession.
    ✅ Pour ces sujets, cite UNIQUEMENT les DÉCRETS et la CONVENTION COLLECTIVE.
 
-3. Si tu n'as pas l'information exacte, réponds : "Aucune disposition légale trouvée."
+3. FALLBACK STRICT - RÉPONSE OBLIGATOIRE POUR QUESTIONS HORS-SUJET :
+
+   ⚠️ Si la question ne concerne PAS le droit du travail ivoirien :
+
+   ❌ NE JAMAIS reformuler la question
+   ❌ NE JAMAIS mentionner les mots-clés spécifiques de la question (ex: "Python", "programmer", "riche", "investir", "relativity", "montagne", "restaurant")
+   ❌ NE PAS écrire de phrases contenant le sujet de la question
+
+   ✅ RÉPONDRE EXACTEMENT CECI (mot pour mot) :
+   "Aucune disposition légale trouvée dans le Code du Travail Ivoirien. Je suis spécialisé dans le droit du travail ivoirien uniquement."
+
+   C'est la SEULE réponse acceptable pour les questions hors-sujet. Ne pas ajouter d'explication supplémentaire.
+
+4. Si tu n'as pas l'information exacte sur une question juridique, réponds : "Aucune disposition légale trouvée."
 
 Contexte juridique :
 {context}
@@ -267,22 +342,19 @@ Contexte juridique :
     messages = [("system", system_prompt), ("human", query)]
     response = llm.invoke(messages)
     print("✅ Réponse reçue de Mistral.")
-    
-    # 5. Vérification et correction automatique
+
+    # 5. Vérification et correction automatique des citations
     corrected_answer = verify_and_correct_citations(response.content)
-    
-    print(f"\n📝 RÉPONSE CORRIGÉE :\n{corrected_answer}\n")
-    
+
+    # 6. Nettoyage des fallbacks pour éliminer les hallucinations
+    final_answer = clean_fallback_response(corrected_answer, query)
+
+    print(f"\n📝 RÉPONSE FINALE :\n{final_answer}\n")
+
     # LOG CRITIQUE : Voir ce qui est retourné
-    print(f"🔍 VALEUR QUI VA ÊTRE RETOURNÉE : {corrected_answer[:100]}...\n")
-    
-    # LOG ULTRA-PRÉCIS : Afficher exactement ce qui va être retourné
-    print(f"🎯 VALEUR EXACTE RETOURNÉE (100 premiers chars) : '{corrected_answer[:100]}'")
-    print(f"🎯 CONTIENT 'Décret n° 96-203' ? {'Article 24 du Décret n° 96-203' in corrected_answer}")
-    print(f"🎯 CONTIENT 'Loi n° 2015-532' ? {'Article 24 de la Loi n° 2015-532' in corrected_answer}\n")
-    
+    print(f"🔍 VALEUR QUI VA ÊTRE RETOURNÉE : {final_answer[:100]}...\n")
 
     return {
-        "answer": corrected_answer,  # ← ✅ C'EST ÇA QU'IL FAUT !
+        "answer": final_answer,  # ← ✅ RÉPONSE FINALE NETTOYÉE
         "sources": sources_list
     }

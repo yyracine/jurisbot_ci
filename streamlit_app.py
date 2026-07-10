@@ -4,6 +4,7 @@ from datetime import datetime
 import pandas as pd
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
+from pathlib import Path
 
 from bot_juridique import init_rag_engine, ask_legal_bot, verify_and_correct_citations
 from monitoring import get_monitor
@@ -41,6 +42,17 @@ st.markdown("""
         padding: 1.5rem;
         border-radius: 0.5rem;
         text-align: center;
+    }
+    .feedback-form {
+        background-color: #e8f5e9;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin: 1rem 0;
+        border-left: 4px solid #4caf50;
+    }
+    .rating-stars {
+        font-size: 2rem;
+        cursor: pointer;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -90,15 +102,54 @@ class JurisBotMonitored:
 
         return answer, response_id
 
-def submit_feedback(response_id: str, feedback_type: str):
+def submit_feedback(response_id: str, feedback_type: str, detailed_feedback: dict = None):
     monitor = get_monitoring()
     is_hallucination = feedback_type == "hallucination"
+
+    details = f"Feedback: {feedback_type}"
+    if detailed_feedback:
+        details = json.dumps(detailed_feedback, ensure_ascii=False)
+
     monitor.log_user_feedback(
         response_id=response_id,
         feedback="thumbs_down" if feedback_type in ["negative", "hallucination"] else "thumbs_up",
         is_hallucination=is_hallucination,
-        details=f"Feedback: {feedback_type}"
+        details=details
     )
+
+    save_detailed_feedback(response_id, feedback_type, detailed_feedback)
+
+def save_detailed_feedback(response_id: str, feedback_type: str, feedback_data: dict = None):
+    """Sauvegarde le feedback détaillé dans un fichier JSON"""
+    feedback_dir = Path("feedback_logs")
+    feedback_dir.mkdir(exist_ok=True)
+
+    feedback_file = feedback_dir / "detailed_feedback.jsonl"
+
+    entry = {
+        "response_id": response_id,
+        "timestamp": datetime.now().isoformat(),
+        "feedback_type": feedback_type,
+        "feedback_data": feedback_data or {}
+    }
+
+    with open(feedback_file, "a", encoding="utf-8") as f:
+        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+
+def load_detailed_feedback():
+    """Charge tous les feedbacks détaillés"""
+    feedback_file = Path("feedback_logs/detailed_feedback.jsonl")
+
+    if not feedback_file.exists():
+        return []
+
+    feedbacks = []
+    with open(feedback_file, "r", encoding="utf-8") as f:
+        for line in f:
+            if line.strip():
+                feedbacks.append(json.loads(line))
+
+    return feedbacks
 
 def get_stats():
     monitor = get_monitoring()
@@ -133,12 +184,14 @@ def main():
         """)
         st.markdown("---")
 
-        page = st.radio("Navigation", ["Chat", "Statistiques"])
+        page = st.radio("Navigation", ["Chat", "Statistiques", "Feedbacks"])
 
     if page == "Chat":
         show_chat_page()
-    else:
+    elif page == "Statistiques":
         show_stats_page()
+    else:
+        show_feedback_page()
 
 def show_chat_page():
     st.title("⚖️ JurisBot - Droit du Travail Ivoirien")
@@ -175,44 +228,109 @@ def show_chat_page():
 
     if st.session_state.chat_history:
         msg = st.session_state.chat_history[-1]
-        col1, col2 = st.columns([10, 2])
 
-        with col1:
-            st.markdown(f"**👤 Question:** {msg['question']}")
-            with st.container(border=True):
-                st.markdown(msg['response'])
+        st.markdown(f"**👤 Question:** {msg['question']}")
+        with st.container(border=True):
+            st.markdown(msg['response'])
 
         response_id = msg["response_id"]
-        key_prefix = f"feedback_{response_id}"
 
+        # Quick feedback buttons
+        st.markdown("### Feedback rapide")
         col_up, col_down, col_neutral = st.columns(3, gap="small")
 
+        quick_feedback_submitted = st.session_state.feedback_submitted.get(response_id)
+
         with col_up:
-            if st.button("👍 Utile", key=f"{key_prefix}_up"):
+            if st.button("👍 Utile", key=f"quick_up_{response_id}", disabled=quick_feedback_submitted is not None):
                 submit_feedback(response_id, "positive")
                 st.session_state.feedback_submitted[response_id] = "positive"
-                st.success("✅ Merci pour votre feedback positif!")
+                st.rerun()
 
         with col_down:
-            if st.button("👎 Pas utile", key=f"{key_prefix}_down"):
+            if st.button("👎 Pas utile", key=f"quick_down_{response_id}", disabled=quick_feedback_submitted is not None):
                 submit_feedback(response_id, "negative")
                 st.session_state.feedback_submitted[response_id] = "negative"
-                st.warning("⚠️ Feedback négatif enregistré")
+                st.rerun()
 
         with col_neutral:
-            if st.button("🚫 Hallucination", key=f"{key_prefix}_hallucination"):
+            if st.button("🚫 Hallucination", key=f"quick_halluc_{response_id}", disabled=quick_feedback_submitted is not None):
                 submit_feedback(response_id, "hallucination")
                 st.session_state.feedback_submitted[response_id] = "hallucination"
-                st.error("🚨 Hallucination signalée à nos équipes!")
+                st.rerun()
 
-        feedback_status = st.session_state.feedback_submitted.get(response_id)
-        if feedback_status:
-            if feedback_status == "positive":
-                st.caption("✅ Feedback positif enregistré")
-            elif feedback_status == "negative":
-                st.caption("⚠️ Feedback négatif enregistré")
+        if quick_feedback_submitted:
+            if quick_feedback_submitted == "positive":
+                st.success("✅ Feedback positif enregistré")
+            elif quick_feedback_submitted == "negative":
+                st.warning("⚠️ Feedback négatif enregistré")
             else:
-                st.caption("🚨 Hallucination signalée")
+                st.error("🚨 Hallucination signalée!")
+
+        # Detailed feedback form
+        st.markdown("---")
+        st.markdown("### 📝 Feedback détaillé (optionnel)")
+        st.caption("Aidez-nous à améliorer JurisBot en répondant à quelques questions")
+
+        with st.form(key=f"detailed_feedback_{response_id}"):
+            col1, col2 = st.columns(2)
+
+            with col1:
+                accuracy = st.slider(
+                    "📌 Précision juridique",
+                    min_value=1, max_value=5, value=3,
+                    help="La réponse est-elle juridiquement exacte?"
+                )
+                clarity = st.slider(
+                    "💬 Clarté de la réponse",
+                    min_value=1, max_value=5, value=3,
+                    help="La réponse est-elle compréhensible?"
+                )
+
+            with col2:
+                citations = st.slider(
+                    "📖 Qualité des citations",
+                    min_value=1, max_value=5, value=3,
+                    help="Les sources sont-elles correctes et pertinentes?"
+                )
+                completeness = st.slider(
+                    "✅ Complétude",
+                    min_value=1, max_value=5, value=3,
+                    help="La réponse couvre-t-elle votre question?"
+                )
+
+            st.markdown("---")
+
+            comments = st.text_area(
+                "💭 Commentaires supplémentaires",
+                placeholder="Décrivez votre expérience, erreurs détectées, suggestions...",
+                height=100,
+                label_visibility="visible"
+            )
+
+            email = st.text_input(
+                "📧 Email (pour suivi)",
+                placeholder="votre.email@example.com",
+                label_visibility="visible"
+            )
+
+            col_submit, col_cancel = st.columns(2)
+            with col_submit:
+                submit_detail = st.form_submit_button("✅ Envoyer le feedback détaillé", use_container_width=True)
+
+            if submit_detail:
+                detailed_data = {
+                    "accuracy": accuracy,
+                    "clarity": clarity,
+                    "citations": citations,
+                    "completeness": completeness,
+                    "comments": comments,
+                    "email": email if email else "anonymous"
+                }
+                submit_feedback(response_id, "detailed", detailed_data)
+                st.session_state.feedback_submitted[response_id] = "detailed"
+                st.success("🎉 Merci pour votre feedback détaillé!")
+                st.balloons()
 
         st.markdown("---")
 
@@ -322,6 +440,122 @@ def show_stats_page():
     except Exception as e:
         st.error(f"❌ Erreur lors du chargement des statistiques: {e}")
         st.info("Le système de monitoring n'est pas encore actif. Posez des questions pour générer des données.")
+
+def show_feedback_page():
+    st.title("💬 Feedback des Testeurs - JurisBot CI")
+    st.markdown("Analysez les retours des utilisateurs beta")
+
+    feedbacks = load_detailed_feedback()
+
+    if not feedbacks:
+        st.info("Aucun feedback détaillé reçu pour le moment. Commencez à utiliser l'application et partagez votre feedback!")
+        return
+
+    # KPIs
+    col1, col2, col3, col4 = st.columns(4)
+
+    detailed_ratings = [f["feedback_data"] for f in feedbacks if f.get("feedback_data")]
+
+    if detailed_ratings:
+        avg_accuracy = sum(r.get("accuracy", 0) for r in detailed_ratings) / len(detailed_ratings)
+        avg_clarity = sum(r.get("clarity", 0) for r in detailed_ratings) / len(detailed_ratings)
+        avg_citations = sum(r.get("citations", 0) for r in detailed_ratings) / len(detailed_ratings)
+        avg_completeness = sum(r.get("completeness", 0) for r in detailed_ratings) / len(detailed_ratings)
+
+        with col1:
+            st.metric("📌 Précision (moy.)", f"{avg_accuracy:.1f}/5")
+
+        with col2:
+            st.metric("💬 Clarté (moy.)", f"{avg_clarity:.1f}/5")
+
+        with col3:
+            st.metric("📖 Citations (moy.)", f"{avg_citations:.1f}/5")
+
+        with col4:
+            st.metric("✅ Complétude (moy.)", f"{avg_completeness:.1f}/5")
+
+        st.markdown("---")
+
+        # Distribution des évaluations
+        st.subheader("📊 Distribution des évaluations")
+
+        ratings_df = pd.DataFrame({
+            "Catégorie": ["Précision", "Clarté", "Citations", "Complétude"],
+            "Score moyen": [avg_accuracy, avg_clarity, avg_citations, avg_completeness]
+        })
+
+        st.bar_chart(
+            ratings_df.set_index("Catégorie"),
+            height=300,
+            use_container_width=True
+        )
+
+    st.markdown("---")
+
+    # Commentaires détaillés
+    st.subheader("📝 Commentaires des Testeurs")
+
+    with st.expander(f"👥 Afficher tous les commentaires ({len(feedbacks)})"):
+        for idx, fb in enumerate(feedbacks, 1):
+            with st.container(border=True):
+                timestamp = datetime.fromisoformat(fb.get("timestamp", "")).strftime("%d/%m/%Y %H:%M")
+                email = fb.get("feedback_data", {}).get("email", "Anonyme")
+
+                col_header = st.columns([3, 1])
+                with col_header[0]:
+                    st.markdown(f"**#{idx}** — {email}")
+                with col_header[1]:
+                    st.caption(timestamp)
+
+                if fb.get("feedback_type") == "detailed":
+                    data = fb.get("feedback_data", {})
+                    st.markdown(f"""
+                    - **Précision:** {data.get("accuracy", "N/A")}/5
+                    - **Clarté:** {data.get("clarity", "N/A")}/5
+                    - **Citations:** {data.get("citations", "N/A")}/5
+                    - **Complétude:** {data.get("completeness", "N/A")}/5
+                    """)
+
+                comments = fb.get("feedback_data", {}).get("comments", "")
+                if comments:
+                    st.write(f"💭 *{comments}*")
+
+    st.markdown("---")
+
+    # Export des feedbacks
+    st.subheader("📥 Export des données")
+
+    if st.button("📥 Télécharger tous les feedbacks (JSON)"):
+        json_data = json.dumps(feedbacks, ensure_ascii=False, indent=2)
+        st.download_button(
+            label="Télécharger",
+            data=json_data,
+            file_name="jurisbot_feedbacks.json",
+            mime="application/json"
+        )
+
+    if st.button("📊 Télécharger en CSV"):
+        csv_data = []
+        for fb in feedbacks:
+            data = fb.get("feedback_data", {})
+            csv_data.append({
+                "Date": datetime.fromisoformat(fb.get("timestamp", "")).strftime("%d/%m/%Y %H:%M"),
+                "Email": data.get("email", "Anonyme"),
+                "Précision": data.get("accuracy", ""),
+                "Clarté": data.get("clarity", ""),
+                "Citations": data.get("citations", ""),
+                "Complétude": data.get("completeness", ""),
+                "Commentaires": data.get("comments", "")
+            })
+
+        df = pd.DataFrame(csv_data)
+        csv = df.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="Télécharger",
+            data=csv,
+            file_name="jurisbot_feedbacks.csv",
+            mime="text/csv"
+        )
 
 if __name__ == "__main__":
     main()

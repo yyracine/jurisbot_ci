@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "timestamp": "2026-07-10T00:06:38.751983",
+  "backend": "faiss",
+  "ingestion": {
+    "total_files": 2,
+    "total_chunks": 2,
+    "total_size_kb": 1202.1171875,
+    "document_types": {
+      "loi": 2
+    },
+    "last_ingestion": "2026-07-10T00:05:53.609397",
+    "files": [
+      {
+        "name": "code_du_travail_ci.md",
+        "type": "loi",
+        "chunks": 1,
+        "size_kb": 599.033203125,
+        "date": "2026-07-09T23:31:26.009814"
+      },
+      {
+        "name": "code_du_travail_ci.md",
+        "type": "loi",
+        "chunks": 1,
+        "size_kb": 603.083984375,
+        "date": "2026-07-10T00:05:53.609397"
+      }
+    ]
+  },
+  "vectorstore": {
+    "embedding_model": "mistral-embed",
+    "index_dir": "./faiss_indexes",
+    "indexes": [
+      {
+        "name": "droit_travail_ci",
+        "created_at": "2026-07-10T00:06:16.843082",
+        "document_count": 402,
+        "embedding_model": "mistral-embed",
+        "document_types": [
+          "loi"
+        ]
+      }
+    ],
+    "timestamp": "2026-07-10T00:06:16.846734"
+  },
+  "test_passed": true
+}

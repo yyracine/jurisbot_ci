@@ -1,0 +1,1688 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+==========================================================================================
+TEST DE 15 QUESTIONS - JURISBOT CI
+==========================================================================================
+Timestamp: 2026-07-10 00:25:15
+
+Initialisation du moteur RAG...
+🧠 Chargement et indexation du Code du Travail...
+📑 41 sections juridiques détectées.
+✂️ Document découpé en 415 chunks avec métadonnées.
+✅ Moteur RAG initialisé avec succès !
+OK - Moteur RAG initialise
+
+
+DEMARRAGE DES TESTS...
+
+
+==========================================================================================
+TEST 01 | VALIDE     | Droits aux conges annuels
+==========================================================================================
+QUESTION: Quels sont les droits des travailleurs en matiere de conges annuels?
+
+🔍 Recherche pour : 'Quels sont les droits des travailleurs en matiere de conges annuels?'
+🤖 Appel à Mistral AI...
+✅ Réponse reçue de Mistral.
+
+📝 RÉPONSE CORRIGÉE :
+En matière de congés annuels en Côte d'Ivoire, les droits des travailleurs sont régis par plusieurs textes, notamment le **Décret n° 98-39 du 28 janvier 1998**, la **Loi n° 2015-532 du 20 juillet 2015** et la **Convention Collective Interprofessionnelle du 19 juillet 1977**. Voici les dispositions applicables :
+
+---
+
+### **1. Droit à l’acquisition du congé**
+- **Condition minimale** :
+  Le travailleur acquiert droit au congé après **un mois de travail effectif** chez le même employeur (Article 4 du Décret n° 98-39 du 28 janvier 1998).
+  La **Convention Collective Interprofessionnelle** (Article 68) précise que le droit de jouissance du congé est acquis après **12 mois de service effectif**, mais des conventions collectives ou contrats individuels peuvent prévoir des modalités différentes, sous réserve d’un congé minimal de **6 jours ouvrables après 12 mois de service continu**.
+
+- **Périodes assimilées à du travail effectif** (pour le calcul du droit au congé) :
+  - Accidents du travail ou maladies professionnelles ;
+  - Maladies dûment constatées (dans la limite de **6 mois**) ;
+  - Repos des femmes en couches (Articles 23.4 et 23.5 du Code du Travail) ;
+  - Permissions exceptionnelles, activités syndicales, périodes militaires obligatoires, etc. (Article 68 de la Convention Collective Interprofessionnelle).
+
+---
+
+### **2. Durée du congé annuel**
+#### **a) Durée de base**
+- **Travailleurs adultes** :
+  **2 jours ouvrables par mois de travail** (Article 5 du Décret n° 98-39 du 28 janvier 1998).
+  La **Loi n° 2015-532** (Article 25.1) et la **Convention Collective Interprofessionnelle** (Article 69) fixent une durée plus favorable de **2,2 jours ouvrables par mois de service effectif** (soit **26,4 jours par an** pour 12 mois de travail).
+
+- **Jeunes travailleurs (< 18 ans) et apprentis** :
+  **2,2 jours ouvrables par mois de travail** (Article 5 du Décret n° 98-39).
+  Ils peuvent également demander un congé supplémentaire de **24 jours ouvrables** (sans allocation supplémentaire pour ces jours, Article 6 du Décret n° 98-39).
+
+#### **b) Majorations pour ancienneté**
+La durée du congé est augmentée en fonction de l’ancienneté dans l’entreprise (Article 25.2 de la Loi n° 2015-532 et Article 69 de la Convention Collective Interprofessionnelle) :
+- **+1 jour** après **5 ans** ;
+- **+2 jours** après **10 ans** ;
+- **+3 jours** après **15 ans** ;
+- **+5 jours** après **20 ans** ;
+- **+7 jours** après **25 ans** ;
+- **+8 jours** après **30 ans**.
+
+#### **c) Majorations pour situation familiale ou distinctions**
+- **Femmes salariées** :
+  - **Moins de 21 ans** : **+2 jours par enfant à charge** ;
+  - **Plus de 21 ans** : **+2 jours par enfant à charge à partir du 4ᵉ enfant** (Article 25.2 de la Loi n° 2015-532 et Article 69 de la Convention Collective).
+- **Titulaires de la Médaille d’Honneur du Travail** : **+1 jour supplémentaire par an**.
+- **Travailleurs logés et astreints à une présence de 24h/24** : **+2 semaines supplémentaires par an** (en plus des majorations pour ancienneté).
+
+#### **d) Travailleurs expatriés**
+- **Premier séjour** : **5 jours calendaires par mois de service effectif** ;
+- **À partir du second séjour** : **6 jours calendaires par mois de service effectif** (Article 69 de la Convention Collective Interprofessionnelle).
+
+---
+
+### **3. Période de référence et prise du congé**
+- La période de référence pour le calcul du congé s’étend de la date d’embauche ou du retour du dernier congé (Article 3 du Décret n° 98-39).
+- Les conventions collectives peuvent fixer la période de prise du congé et l’ordre des départs (Article 2 du Décret n° 98-39).
+
+---
+
+### **4. Dispositions spécifiques pour les jeunes travailleurs**
+- Les jeunes travailleurs (< 18 ans) et apprentis bénéficient de conditions particulières (Article 67 de la Convention Collective Interprofessionnelle), notamment :
+  - Droit à **24 jours ouvrables de congé** s’ils le demandent (sans allocation supplémentaire pour ces jours, Article 6 du Décret n° 98-39).
+
+---
+
+### **Résumé des durées minimales**
+| Catégorie de travailleur               | Durée de base (par an)       | Majorations possibles                     |
+|----------------------------------------|-----------------------------|-------------------------------------------|
+| **Travailleur adulte**                 | 2,2 jours/mois (26,4 jours) | Ancienneté, enfants à charge, distinctions|
+| **Jeune travailleur (< 18 ans)**       | 2,2 jours/mois              | +24 jours sur demande                     |
+| **Femme salariée**                     | 2,2 jours/mois              | +2 jours/enfant (selon âge)               |
+| **Travailleur logé (24h/24)**          | 2,2 jours/mois              | +2 semaines supplémentaires               |
+| **Expatrié (1ᵉʳ séjour)**              | 5 jours/mois                | -                                         |
+| **Expatrié (à partir du 2ᵉ séjour)**    | 6 jours/mois                | -                                         |
+
+---
+**Note** : Les conventions collectives ou contrats individuels peuvent prévoir des dispositions **plus favorables** que les textes légaux.
+
+🔍 VALEUR QUI VA ÊTRE RETOURNÉE : En matière de congés annuels en Côte d'Ivoire, les droits des travailleurs sont régis par plusieurs ...
+
+🎯 VALEUR EXACTE RETOURNÉE (100 premiers chars) : 'En matière de congés annuels en Côte d'Ivoire, les droits des travailleurs sont régis par plusieurs '
+🎯 CONTIENT 'Décret n° 96-203' ? False
+🎯 CONTIENT 'Loi n° 2015-532' ? False
+
+REPONSE:
+En matière de congés annuels en Côte d'Ivoire, les droits des travailleurs sont régis par plusieurs textes, notamment le **Décret n° 98-39 du 28 janvier 1998**, la **Loi n° 2015-532 du 20 juillet 2015** et la **Convention Collective Interprofessionnelle du 19 juillet 1977**. Voici les dispositions applicables :
+
+---
+
+### **1. Droit à l’acquisition du congé**
+- **Condition minimale** :
+  Le travailleur acquiert droit au congé après **un mois de travail effectif** chez le même employeur (Article 4 du Décret n° 98-39 du 28 janvier 1998).
+  La **Convention Collective Interprofessionnelle** (Article 68) précise que le droit de jouissance du congé est acquis après **12 mois de service effectif**, mais des conventions collectives ou contrats individuels peuvent prévoir des modalités différentes, sous réserve d’un congé minimal de **6 jours ouvrables après 12 mois de service continu**.
+
+- **Périodes assimilées à du travail effectif** (pour le calcul du droit au congé) :
+  - Accidents du travail ou maladies professionnelles ;
+  - Maladies dûment constatées (dans la limite de **6 mois**) ;
+  - Repos des femmes en couches (Articles 23.4 et 23.5 du Code du Travail) ;
+  - Permissions exceptionnelles, activités syndicales, périodes militaires obligatoires, etc. (Article 68 de la Convention Collective Interprofessionnelle).
+
+---
+
+### **2. Durée du congé annuel**
+#### **a) Durée de base**
+- **Travailleurs adultes** :
+  **2 jours ouvrables par mois de travail** (Article 5 du Décret n° 98-39 du 28 janvier 1998).
+  La **Loi n° 2015-532** (Article 25.1) et la **Convention Collective Interprofessionnelle** (Article 69) fixent une durée plus favorable de **2,2 jours ouvrables par mois de service effectif** (soit **26,4 jours par an** pour 12 mois de travail).
+
+- **Jeunes travailleurs (< 18 ans) et apprentis** :
+  **2,2 jours ouvrables par mois de travail** (Article 5 du Décret n° 98-39).
+  Ils peuvent également demander un congé supplémentaire de **24 jours ouvrables** (sans allocation supplémentaire pour ces jours, Article 6 du Décret n° 98-39).
+
+#### **b) Majorations pour ancienneté**
+La durée du congé est augmentée en fonction de l’ancienneté dans l’entreprise (Article 25.2 de la Loi n° 2015-532 et Article 69 de la Convention Collective Interprofessionnelle) :
+- **+1 jour** après **5 ans** ;
+- **+2 jours** après **10 ans** ;
+- **+3 jours** après **15 ans** ;
+- **+5 jours** après **20 ans** ;
+- **+7 jours** après **25 ans** ;
+- **+8 jours** après **30 ans**.
+
+#### **c) Majorations pour situation familiale ou distinctions**
+- **Femmes salariées** :
+  - **Moins de 21 ans** : **+2 jours par enfant à charge** ;
+  - **Plus de 21 ans** : **+2 jours par enfant à charge à partir du 4ᵉ enfant** (Article 25.2 de la Loi n° 2015-532 et Article 69 de la Convention Collective).
+- **Titulaires de la Médaille d’Honneur du Travail** : **+1 jour supplémentaire par an**.
+- **Travailleurs logés et astreints à une présence de 24h/24** : **+2 semaines supplémentaires par an** (en plus des majorations pour ancienneté).
+
+#### **d) Travailleurs expatriés**
+- **Premier séjour** : **5 jours calendaires par mois de service effectif** ;
+- **À partir du second séjour** : **6 jours calendaires par mois de service effectif** (Article 69 de la Convention Collective Interprofessionnelle).
+
+---
+
+### **3. Période de référence et prise du congé**
+- La période de référence pour le calcul du congé s’étend de la date d’embauche ou du retour du dernier congé (Article 3 du Décret n° 98-39).
+- Les conventions collectives peuvent fixer la période de prise du congé et l’ordre des départs (Article 2 du Décret n° 98-39).
+
+---
+
+### **4. Dispositions spécifiques pour les jeunes travailleurs**
+- Les jeunes travailleurs (< 18 ans) et apprentis bénéficient de conditions particulières (Article 67 de la Convention Collective Interprofessionnelle), notamment :
+  - Droit à **24 jours ouvrables de congé** s’ils le demandent (sans allocation supplémentaire pour ces jours, Article 6 du Décret n° 98-39).
+
+---
+
+### **Résumé des durées minimales**
+| Catégorie de travailleur               | Durée de base (par an)       | Majorations possibles                     |
+|----------------------------------------|-----------------------------|-------------------------------------------|
+| **Travailleur adulte**                 | 2,2 jours/mois (26,4 jours) | Ancienneté, enfants à charge, distinctions|
+| **Jeune travailleur (< 18 ans)**       | 2,2 jours/mois              | +24 jours sur demande                     |
+| **Femme salariée**                     | 2,2 jours/mois              | +2 jours/enfant (selon âge)               |
+| **Travailleur logé (24h/24)**          | 2,2 jours/mois              | +2 semaines supplémentaires               |
+| **Expatrié (1ᵉʳ séjour)**              | 5 jours/mois                | -                                         |
+| **Expatrié (à partir du 2ᵉ séjour)**    | 6 jours/mois                | -                                         |
+
+---
+**Note** : Les conventions collectives ou contrats individuels peuvent prévoir des dispositions **plus favorables** que les textes légaux.
+
+SOURCES (5):
+
+  1. Décret n° 98-39 du 28 janvier 1998 -> ## ARTICLE 4  Acquiert droit au congé tout travailleur qui, ...
+  2. Loi n° 2015-532 du 20 juillet 2015 -> ## SECTION 1  ## CONGES PAYES  ## Art. 25.1  Sauf dispositio...
+  3. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## ARTICLE 67  2° Travail des jeunes travailleurs  Les condi...
+  4. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## DUREE DU CONGE  La durée du congé payé à la charge de l'e...
+  5. Décret n° 98-39 du 28 janvier 1998 -> # DECRET N° 98-39 DU 28 JANVIER 1998 RELATIF AU REGIME DES C...
+
+VERIFICATION 1 - Patterns OBLIGATOIRES:
+  MANQUANT - 'conge'
+  OK - 'annuel'
+  OK - 'article'
+
+VERIFICATION 2 - Patterns INTERDITS (Hallucinations):
+  OK - Absent: 'pizza'
+  OK - Absent: 'bitcoin'
+  OK - Absent: 'restaurant'
+
+RESULTAT: ECHEC - 1 hallucinations
+
+==========================================================================================
+TEST 02 | VALIDE     | Delai de preavis
+==========================================================================================
+QUESTION: Quel est le delai de preavis pour un licenciement?
+
+🔍 Recherche pour : 'Quel est le delai de preavis pour un licenciement?'
+🤖 Appel à Mistral AI...
+✅ Réponse reçue de Mistral.
+
+📝 RÉPONSE CORRIGÉE :
+En Côte d'Ivoire, le délai de préavis en cas de licenciement (rupture du contrat de travail à l'initiative de l'employeur) est fixé par la **Convention Collective Interprofessionnelle du 19 juillet 1977**, conformément aux catégories professionnelles et à l'ancienneté du travailleur. Voici les dispositions exactes :
+
+---
+
+### **1. Ouvriers payés à l'heure ou à la journée**
+- **Jusqu'à 6 mois d'ancienneté** : **8 jours** de préavis.
+- **De 6 mois à 1 an** : **15 jours** de préavis.
+- **De 1 an à 6 ans** : **1 mois** de préavis.
+- **De 6 ans à 11 ans** : **2 mois** de préavis.
+- **De 11 ans à 16 ans** : **3 mois** de préavis.
+- **Au-delà de 16 ans** : **4 mois** de préavis.
+
+---
+
+### **2. Travailleurs payés au mois (catégories 1 à 5)**
+- **Jusqu'à 6 ans d'ancienneté** : **1 mois** de préavis.
+- **De 6 ans à 11 ans** : **2 mois** de préavis.
+- **De 11 ans à 16 ans** : **3 mois** de préavis.
+- **Au-delà de 16 ans** : **4 mois** de préavis.
+
+---
+
+### **3. Travailleurs classés en 6ᵉ catégorie et au-delà**
+- **Jusqu'à 16 ans d'ancienneté** : **3 mois** de préavis.
+- **Au-delà de 16 ans** : **4 mois** de préavis.
+
+---
+
+### **4. Cas particuliers**
+- **Travailleurs avec une incapacité permanente > 40 %** :
+  Le préavis est **doublé** par rapport au délai normal applicable à leur catégorie (après 6 mois d'ancienneté).
+  *Exemple* : Un ouvrier avec 2 ans d'ancienneté et une incapacité de 50 % aura un préavis de **2 mois** (au lieu de 1 mois).
+
+---
+
+### **Règles complémentaires**
+- **Notification écrite obligatoire** :
+  L'employeur doit notifier le licenciement par **lettre recommandée** ou **remise en main propre contre reçu** (en présence de délégués du personnel ou de témoins). Le préavis court à compter de cette notification (Article III de la Convention Collective Interprofessionnelle du 19 juillet 1977).
+
+- **Heures de liberté pour recherche d'emploi** :
+  Pendant le préavis, le travailleur a droit à :
+  - **3 heures par jour** **ou**
+  - **2 jours par semaine** (payés à plein salaire) pour chercher un nouvel emploi.
+  La répartition est fixée d'un commun accord ou alternativement (un jour au choix de l'employeur, un jour au choix du travailleur).
+  *Source* : Convention Collective Interprofessionnelle du 19 juillet 1977 et **Article 18.6 de la Loi n° 2015-532**.
+
+- **Motivation du licenciement** :
+  La notification doit être **motivée** (Article 16.4 du Code du Travail, cité dans la Convention Collective, et **Article 18.4 de la Loi n° 2015-532**).
+
+- **Indemnité compensatrice en cas de non-respect du préavis** :
+  Si l'employeur ne respecte pas le préavis, il doit verser une **indemnité équivalente à la rémunération et avantages** que le travailleur aurait perçus durant cette période (**Article 18.7 de la Loi n° 2015-532**).
+
+---
+
+### **Exceptions (pas de préavis)**
+Le préavis n'est pas applicable en cas de **faute lourde** du travailleur (ex. : vol, violence, abandon de poste), sous réserve de l'appréciation des tribunaux (**Article 18.7 de la Loi n° 2015-532**).
+
+🔍 VALEUR QUI VA ÊTRE RETOURNÉE : En Côte d'Ivoire, le délai de préavis en cas de licenciement (rupture du contrat de travail à l'init...
+
+🎯 VALEUR EXACTE RETOURNÉE (100 premiers chars) : 'En Côte d'Ivoire, le délai de préavis en cas de licenciement (rupture du contrat de travail à l'init'
+🎯 CONTIENT 'Décret n° 96-203' ? False
+🎯 CONTIENT 'Loi n° 2015-532' ? False
+
+REPONSE:
+En Côte d'Ivoire, le délai de préavis en cas de licenciement (rupture du contrat de travail à l'initiative de l'employeur) est fixé par la **Convention Collective Interprofessionnelle du 19 juillet 1977**, conformément aux catégories professionnelles et à l'ancienneté du travailleur. Voici les dispositions exactes :
+
+---
+
+### **1. Ouvriers payés à l'heure ou à la journée**
+- **Jusqu'à 6 mois d'ancienneté** : **8 jours** de préavis.
+- **De 6 mois à 1 an** : **15 jours** de préavis.
+- **De 1 an à 6 ans** : **1 mois** de préavis.
+- **De 6 ans à 11 ans** : **2 mois** de préavis.
+- **De 11 ans à 16 ans** : **3 mois** de préavis.
+- **Au-delà de 16 ans** : **4 mois** de préavis.
+
+---
+
+### **2. Travailleurs payés au mois (catégories 1 à 5)**
+- **Jusqu'à 6 ans d'ancienneté** : **1 mois** de préavis.
+- **De 6 ans à 11 ans** : **2 mois** de préavis.
+- **De 11 ans à 16 ans** : **3 mois** de préavis.
+- **Au-delà de 16 ans** : **4 mois** de préavis.
+
+---
+
+### **3. Travailleurs classés en 6ᵉ catégorie et au-delà**
+- **Jusqu'à 16 ans d'ancienneté** : **3 mois** de préavis.
+- **Au-delà de 16 ans** : **4 mois** de préavis.
+
+---
+
+### **4. Cas particuliers**
+- **Travailleurs avec une incapacité permanente > 40 %** :
+  Le préavis est **doublé** par rapport au délai normal applicable à leur catégorie (après 6 mois d'ancienneté).
+  *Exemple* : Un ouvrier avec 2 ans d'ancienneté et une incapacité de 50 % aura un préavis de **2 mois** (au lieu de 1 mois).
+
+---
+
+### **Règles complémentaires**
+- **Notification écrite obligatoire** :
+  L'employeur doit notifier le licenciement par **lettre recommandée** ou **remise en main propre contre reçu** (en présence de délégués du personnel ou de témoins). Le préavis court à compter de cette notification (Article III de la Convention Collective Interprofessionnelle du 19 juillet 1977).
+
+- **Heures de liberté pour recherche d'emploi** :
+  Pendant le préavis, le travailleur a droit à :
+  - **3 heures par jour** **ou**
+  - **2 jours par semaine** (payés à plein salaire) pour chercher un nouvel emploi.
+  La répartition est fixée d'un commun accord ou alternativement (un jour au choix de l'employeur, un jour au choix du travailleur).
+  *Source* : Convention Collective Interprofessionnelle du 19 juillet 1977 et **Article 18.6 de la Loi n° 2015-532**.
+
+- **Motivation du licenciement** :
+  La notification doit être **motivée** (Article 16.4 du Code du Travail, cité dans la Convention Collective, et **Article 18.4 de la Loi n° 2015-532**).
+
+- **Indemnité compensatrice en cas de non-respect du préavis** :
+  Si l'employeur ne respecte pas le préavis, il doit verser une **indemnité équivalente à la rémunération et avantages** que le travailleur aurait perçus durant cette période (**Article 18.7 de la Loi n° 2015-532**).
+
+---
+
+### **Exceptions (pas de préavis)**
+Le préavis n'est pas applicable en cas de **faute lourde** du travailleur (ex. : vol, violence, abandon de poste), sous réserve de l'appréciation des tribunaux (**Article 18.7 de la Loi n° 2015-532**).
+
+SOURCES (5):
+
+  1. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## PREAVIS  En cas de rupture du contrat de travail, sauf en...
+  2. Convention Collective Interprofessionnelle du 19 juillet 1977 -> Les dispositions antérieures lorsqu'elles sont plus favorabl...
+  3. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 18.6  Pendant la durée du délai de préavis, l'employ...
+  4. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## III- RUPTURE DU CONTRAT DE TRAVAIL  La partie qui prend l...
+  5. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 18.4  Dans les cas prévus à l'article 18.3 alinéa 1 ...
+
+VERIFICATION 1 - Patterns OBLIGATOIRES:
+  MANQUANT - 'preavis'
+  OK - 'jour'
+  OK - 'licenciement'
+
+VERIFICATION 2 - Patterns INTERDITS (Hallucinations):
+  OK - Absent: 'horoscope'
+  OK - Absent: 'crypto'
+
+RESULTAT: ECHEC - 1 hallucinations
+
+==========================================================================================
+TEST 03 | VALIDE     | Convention collective
+==========================================================================================
+QUESTION: Qu'est-ce qu'une convention collective?
+
+🔍 Recherche pour : 'Qu'est-ce qu'une convention collective?'
+🤖 Appel à Mistral AI...
+✅ Réponse reçue de Mistral.
+
+📝 RÉPONSE CORRIGÉE :
+En droit du travail ivoirien, une **convention collective** est définie par les dispositions suivantes :
+
+1. **Définition et portée** :
+   - Une convention collective est un accord écrit conclu entre **un ou plusieurs employeurs (ou groupements d'employeurs)** et **une ou plusieurs organisations syndicales de travailleurs**, visant à régler les conditions d'emploi et de travail, ainsi que les garanties sociales des salariés (Art. 72.1 de la **Loi n° 2015-532 du 20 juillet 2015**).
+   - Elle peut contenir des **clauses plus favorables** aux travailleurs que les lois et règlements en vigueur, mais **ne peut déroger aux dispositions d'ordre public** (Art. 72.2 de la même loi).
+
+2. **Champ d'application** :
+   - **Professionnel** : Elle s'applique à une **branche d'activité** (ex. : boulangerie, extraction minière, etc.).
+   - **Géographique** : Elle peut être **nationale, régionale ou locale** (Art. 72.3 de la Loi n° 2015-532).
+   - **Personnel** : Elle lie les **signataires**, les membres des organisations signataires, et toute personne qui y adhère ultérieurement (Art. 72.9 de la Loi n° 2015-532). Elle s'applique aussi aux **contrats de travail individuels** conclus avec un employeur lié par la convention (même article).
+
+3. **Contenu** :
+   La convention collective peut prévoir, entre autres (Art. 73.3 de la Loi n° 2015-532) :
+   - Les **primes** (ancienneté, assiduité, pénibilité, etc.).
+   - Les **indemnités** (frais professionnels, déplacements, repas).
+   - Les **conditions d'embauche et de licenciement**.
+   - Les **modalités de travail** (horaires, repos, jours fériés).
+   - Les **procédures d'arbitrage** pour les conflits collectifs.
+   - Les **catégories professionnelles** concernées (ex. : ouvriers, employés, cadres, etc. – cf. **Convention Collective Interprofessionnelle du 19 juillet 1977**).
+
+4. **Durée et dénonciation** :
+   - Elle peut être conclue pour une **durée déterminée** (max. 5 ans) ou **indéterminée** (Art. 72.5 de la Loi n° 2015-532).
+   - À son expiration, si elle est à durée déterminée et sans stipulation contraire, elle **continue de produire effet** comme une convention à durée indéterminée.
+   - Elle doit prévoir les **modalités de dénonciation, renouvellement ou révision**, y compris la durée du préavis (Art. 72.6 de la même loi).
+
+5. **Formalités** :
+   - Elle doit être **rédigée en français** sous peine de nullité (Art. 72.8 de la Loi n° 2015-532).
+   - Elle est **déposée au greffe du tribunal du Travail** (ou à défaut, au greffe de la section détachée du tribunal de première instance) pour être applicable (Art. 1er du **Décret n° 98-41 du 28 janvier 1998**).
+   - Le dépôt déclenche son **entrée en vigueur** (sauf stipulation contraire) et donne lieu à une **transmission à l'inspection du Travail** (Art. 2 du même décret).
+
+6. **Adhésion ultérieure** :
+   - Tout syndicat ou employeur non signataire peut **adhérer ultérieurement** à une convention collective (Art. 72.7 de la Loi n° 2015-532), sous réserve de notifier cette adhésion au greffe compétent (Art. 3 du Décret n° 98-41).
+
+---
+**Exemple concret** :
+La **Convention Collective Interprofessionnelle du 19 juillet 1977** définit les catégories de travailleurs concernés (chauffeurs, ouvriers, cadres, etc.) et s'applique à tous les employeurs et salariés de son champ d'application, sauf dispositions plus favorables.
+
+🔍 VALEUR QUI VA ÊTRE RETOURNÉE : En droit du travail ivoirien, une **convention collective** est définie par les dispositions suivant...
+
+🎯 VALEUR EXACTE RETOURNÉE (100 premiers chars) : 'En droit du travail ivoirien, une **convention collective** est définie par les dispositions suivant'
+🎯 CONTIENT 'Décret n° 96-203' ? False
+🎯 CONTIENT 'Loi n° 2015-532' ? False
+
+REPONSE:
+En droit du travail ivoirien, une **convention collective** est définie par les dispositions suivantes :
+
+1. **Définition et portée** :
+   - Une convention collective est un accord écrit conclu entre **un ou plusieurs employeurs (ou groupements d'employeurs)** et **une ou plusieurs organisations syndicales de travailleurs**, visant à régler les conditions d'emploi et de travail, ainsi que les garanties sociales des salariés (Art. 72.1 de la **Loi n° 2015-532 du 20 juillet 2015**).
+   - Elle peut contenir des **clauses plus favorables** aux travailleurs que les lois et règlements en vigueur, mais **ne peut déroger aux dispositions d'ordre public** (Art. 72.2 de la même loi).
+
+2. **Champ d'application** :
+   - **Professionnel** : Elle s'applique à une **branche d'activité** (ex. : boulangerie, extraction minière, etc.).
+   - **Géographique** : Elle peut être **nationale, régionale ou locale** (Art. 72.3 de la Loi n° 2015-532).
+   - **Personnel** : Elle lie les **signataires**, les membres des organisations signataires, et toute personne qui y adhère ultérieurement (Art. 72.9 de la Loi n° 2015-532). Elle s'applique aussi aux **contrats de travail individuels** conclus avec un employeur lié par la convention (même article).
+
+3. **Contenu** :
+   La convention collective peut prévoir, entre autres (Art. 73.3 de la Loi n° 2015-532) :
+   - Les **primes** (ancienneté, assiduité, pénibilité, etc.).
+   - Les **indemnités** (frais professionnels, déplacements, repas).
+   - Les **conditions d'embauche et de licenciement**.
+   - Les **modalités de travail** (horaires, repos, jours fériés).
+   - Les **procédures d'arbitrage** pour les conflits collectifs.
+   - Les **catégories professionnelles** concernées (ex. : ouvriers, employés, cadres, etc. – cf. **Convention Collective Interprofessionnelle du 19 juillet 1977**).
+
+4. **Durée et dénonciation** :
+   - Elle peut être conclue pour une **durée déterminée** (max. 5 ans) ou **indéterminée** (Art. 72.5 de la Loi n° 2015-532).
+   - À son expiration, si elle est à durée déterminée et sans stipulation contraire, elle **continue de produire effet** comme une convention à durée indéterminée.
+   - Elle doit prévoir les **modalités de dénonciation, renouvellement ou révision**, y compris la durée du préavis (Art. 72.6 de la même loi).
+
+5. **Formalités** :
+   - Elle doit être **rédigée en français** sous peine de nullité (Art. 72.8 de la Loi n° 2015-532).
+   - Elle est **déposée au greffe du tribunal du Travail** (ou à défaut, au greffe de la section détachée du tribunal de première instance) pour être applicable (Art. 1er du **Décret n° 98-41 du 28 janvier 1998**).
+   - Le dépôt déclenche son **entrée en vigueur** (sauf stipulation contraire) et donne lieu à une **transmission à l'inspection du Travail** (Art. 2 du même décret).
+
+6. **Adhésion ultérieure** :
+   - Tout syndicat ou employeur non signataire peut **adhérer ultérieurement** à une convention collective (Art. 72.7 de la Loi n° 2015-532), sous réserve de notifier cette adhésion au greffe compétent (Art. 3 du Décret n° 98-41).
+
+---
+**Exemple concret** :
+La **Convention Collective Interprofessionnelle du 19 juillet 1977** définit les catégories de travailleurs concernés (chauffeurs, ouvriers, cadres, etc.) et s'applique à tous les employeurs et salariés de son champ d'application, sauf dispositions plus favorables.
+
+SOURCES (5):
+
+  1. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 72.5  La Convention collective est conclue pour une ...
+  2. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 73.3  Les Conventions collectives peuvent également ...
+  3. Convention Collective Interprofessionnelle du 19 juillet 1977 -> - Chauffeurs ;   - Ouvriers ;   - Employés ;   - Agents de m...
+  4. Décret n° 98-41 du 28 janvier 1998 -> # DECRET N° 98-41 DU 28 JANVIER 1998 RELATIF AUX CONVENTIONS...
+  5. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 72.2  La Convention peut contenir des clauses plus f...
+
+VERIFICATION 1 - Patterns OBLIGATOIRES:
+  OK - 'convention'
+  OK - 'collectif'
+  OK - 'accord'
+
+VERIFICATION 2 - Patterns INTERDITS (Hallucinations):
+  OK - Absent: 'pizza'
+
+RESULTAT: OK
+
+==========================================================================================
+TEST 04 | VALIDE     | Calcul des heures supplementaires
+==========================================================================================
+QUESTION: Comment sont calculees les heures supplementaires?
+
+🔍 Recherche pour : 'Comment sont calculees les heures supplementaires?'
+🤖 Appel à Mistral AI...
+✅ Réponse reçue de Mistral.
+
+📝 RÉPONSE CORRIGÉE :
+En Côte d'Ivoire, le calcul des heures supplémentaires est encadré par **l'Article 24 du Décret n° 96-203 du 7 mars 1996** et **l'Article 51 de la Convention Collective Interprofessionnelle du 19 juillet 1977**. Voici les règles applicables :
+
+---
+
+### **1. Taux de majoration des heures supplémentaires**
+Les heures supplémentaires donnent lieu à une majoration du salaire de base, selon les seuils suivants :
+
+#### **Selon la Convention Collective Interprofessionnelle (Article 51) :**
+- **15 %** pour les heures effectuées de la **41ᵉ à la 48ᵉ heure** incluse.
+- **50 %** pour les heures effectuées **au-delà de la 48ᵉ heure**.
+- **75 %** pour les heures de **nuit** (entre 21h et 5h, cf. Convention Collective).
+- **75 %** pour les heures de **jour les dimanches et jours fériés**.
+- **100 %** pour les heures de **nuit les dimanches et jours fériés**.
+
+#### **Selon le Décret n° 96-203 (Article 24) :**
+*(Applicable uniquement en l’absence de convention collective ou d’accord d’établissement)*
+- **15 %** pour les heures effectuées de la **41ᵉ à la 46ᵉ heure**.
+- **50 %** pour les heures effectuées **au-delà de la 46ᵉ heure**.
+- **75 %** pour les heures de **nuit** (entre 21h et 5h).
+- **75 %** pour les heures de **jour les dimanches et jours fériés**.
+- **100 %** pour les heures de **nuit les dimanches et jours fériés**.
+
+**Priorité** : Les taux de la **Convention Collective** (41ᵉ–48ᵉ heure à +15 %) s’appliquent si elle est plus favorable que le Décret (41ᵉ–46ᵉ heure à +15 %).
+
+---
+
+### **2. Limites légales des heures supplémentaires**
+- **Maximum 15 heures par semaine** (Article 26 du Décret n° 96-203).
+- **Maximum 75 heures par an** (Article 26).
+- **Prolongation journalière maximale** : 3 heures par jour (Article 26).
+
+---
+
+### **3. Calcul pratique**
+**Formule** :
+**Salaire horaire majoré = Salaire horaire de base × (1 + taux de majoration)**
+
+**Exemple** :
+- Salaire horaire de base : 2 000 FCFA.
+- Heure supplémentaire de nuit (75 % de majoration) :
+  **2 000 × 1,75 = 3 500 FCFA** (soit 2 000 + 1 500 de majoration).
+
+---
+
+### **4. Cas particuliers**
+- **Travail en continu (roulement)** :
+  Les heures dépassant la durée moyenne de **42 heures/semaine** sur un cycle de travail sont considérées comme supplémentaires (Article 11 du Décret n° 96-203).
+- **Urgence** :
+  Les heures supplémentaires peuvent être imposées immédiatement pour des travaux urgents (protection de l’entreprise ou des travailleurs), sans préavis de 48h (Convention Collective, Article 51).
+
+---
+
+### **5. Interdictions**
+- **Forfaitisation** :
+  Toute clause contractuelle fixant un salaire forfaitaire incluant les heures supplémentaires est **nulle** pour les ouvriers, employés et agents de maîtrise (Convention Collective, Article 51).
+- **Licenciement pour refus** :
+  Un travailleur ne peut être licencié pour avoir refusé des heures supplémentaires (Article 25 du Décret n° 96-203).
+
+---
+
+### **6. Procédure**
+- **Affichage obligatoire** :
+  L’employeur doit informer le personnel **1 semaine à l’avance** (sauf urgence) par voie d’affichage (Convention Collective, Article 51).
+- **Préavis en cas d’urgence** :
+  48h à l’avance, sauf accord des parties ou travaux urgents (Convention Collective, Article 51).
+
+---
+**Références exactes** :
+- Taux de majoration : **Article 24 du Décret n° 96-203 du 7 mars 1996** et **Article 51 de la Convention Collective Interprofessionnelle du 19 juillet 1977**.
+- Limites : **Article 26 du Décret n° 96-203 du 7 mars 1996**.
+
+🔍 VALEUR QUI VA ÊTRE RETOURNÉE : En Côte d'Ivoire, le calcul des heures supplémentaires est encadré par **l'Article 24 du Décret n° 9...
+
+🎯 VALEUR EXACTE RETOURNÉE (100 premiers chars) : 'En Côte d'Ivoire, le calcul des heures supplémentaires est encadré par **l'Article 24 du Décret n° 9'
+🎯 CONTIENT 'Décret n° 96-203' ? True
+🎯 CONTIENT 'Loi n° 2015-532' ? False
+
+REPONSE:
+En Côte d'Ivoire, le calcul des heures supplémentaires est encadré par **l'Article 24 du Décret n° 96-203 du 7 mars 1996** et **l'Article 51 de la Convention Collective Interprofessionnelle du 19 juillet 1977**. Voici les règles applicables :
+
+---
+
+### **1. Taux de majoration des heures supplémentaires**
+Les heures supplémentaires donnent lieu à une majoration du salaire de base, selon les seuils suivants :
+
+#### **Selon la Convention Collective Interprofessionnelle (Article 51) :**
+- **15 %** pour les heures effectuées de la **41ᵉ à la 48ᵉ heure** incluse.
+- **50 %** pour les heures effectuées **au-delà de la 48ᵉ heure**.
+- **75 %** pour les heures de **nuit** (entre 21h et 5h, cf. Convention Collective).
+- **75 %** pour les heures de **jour les dimanches et jours fériés**.
+- **100 %** pour les heures de **nuit les dimanches et jours fériés**.
+
+#### **Selon le Décret n° 96-203 (Article 24) :**
+*(Applicable uniquement en l’absence de convention collective ou d’accord d’établissement)*
+- **15 %** pour les heures effectuées de la **41ᵉ à la 46ᵉ heure**.
+- **50 %** pour les heures effectuées **au-delà de la 46ᵉ heure**.
+- **75 %** pour les heures de **nuit** (entre 21h et 5h).
+- **75 %** pour les heures de **jour les dimanches et jours fériés**.
+- **100 %** pour les heures de **nuit les dimanches et jours fériés**.
+
+**Priorité** : Les taux de la **Convention Collective** (41ᵉ–48ᵉ heure à +15 %) s’appliquent si elle est plus favorable que le Décret (41ᵉ–46ᵉ heure à +15 %).
+
+---
+
+### **2. Limites légales des heures supplémentaires**
+- **Maximum 15 heures par semaine** (Article 26 du Décret n° 96-203).
+- **Maximum 75 heures par an** (Article 26).
+- **Prolongation journalière maximale** : 3 heures par jour (Article 26).
+
+---
+
+### **3. Calcul pratique**
+**Formule** :
+**Salaire horaire majoré = Salaire horaire de base × (1 + taux de majoration)**
+
+**Exemple** :
+- Salaire horaire de base : 2 000 FCFA.
+- Heure supplémentaire de nuit (75 % de majoration) :
+  **2 000 × 1,75 = 3 500 FCFA** (soit 2 000 + 1 500 de majoration).
+
+---
+
+### **4. Cas particuliers**
+- **Travail en continu (roulement)** :
+  Les heures dépassant la durée moyenne de **42 heures/semaine** sur un cycle de travail sont considérées comme supplémentaires (Article 11 du Décret n° 96-203).
+- **Urgence** :
+  Les heures supplémentaires peuvent être imposées immédiatement pour des travaux urgents (protection de l’entreprise ou des travailleurs), sans préavis de 48h (Convention Collective, Article 51).
+
+---
+
+### **5. Interdictions**
+- **Forfaitisation** :
+  Toute clause contractuelle fixant un salaire forfaitaire incluant les heures supplémentaires est **nulle** pour les ouvriers, employés et agents de maîtrise (Convention Collective, Article 51).
+- **Licenciement pour refus** :
+  Un travailleur ne peut être licencié pour avoir refusé des heures supplémentaires (Article 25 du Décret n° 96-203).
+
+---
+
+### **6. Procédure**
+- **Affichage obligatoire** :
+  L’employeur doit informer le personnel **1 semaine à l’avance** (sauf urgence) par voie d’affichage (Convention Collective, Article 51).
+- **Préavis en cas d’urgence** :
+  48h à l’avance, sauf accord des parties ou travaux urgents (Convention Collective, Article 51).
+
+---
+**Références exactes** :
+- Taux de majoration : **Article 24 du Décret n° 96-203 du 7 mars 1996** et **Article 51 de la Convention Collective Interprofessionnelle du 19 juillet 1977**.
+- Limites : **Article 26 du Décret n° 96-203 du 7 mars 1996**.
+
+SOURCES (5):
+
+  1. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## MAJORATION POUR HEURES SUPPLEMENTAIRES  Les heures accomp...
+  2. Décret n° 96-203 du 7 mars 1996 -> ## ARTICLE 24  La durée journalière de travail pourra, à tit...
+  3. Convention Collective Interprofessionnelle du 19 juillet 1977 -> En cas d'urgence, sauf accord des parties, le personnel dési...
+  4. Décret n° 96-203 du 7 mars 1996 -> ## ARTICLE 16  A l'exception du cas visé au point 5, pour le...
+  5. Décret n° 96-203 du 7 mars 1996 -> ## ARTICLE 8  Les entreprises appliquant le régime des équiv...
+
+VERIFICATION 1 - Patterns OBLIGATOIRES:
+  OK - 'heure'
+  MANQUANT - 'supplement'
+
+VERIFICATION 2 - Patterns INTERDITS (Hallucinations):
+  OK - Absent: 'horoscope'
+
+RESULTAT: ECHEC - 1 hallucinations
+
+==========================================================================================
+TEST 05 | VALIDE     | Obligations de l'employeur
+==========================================================================================
+QUESTION: Quelles sont les principales obligations de l'employeur?
+
+🔍 Recherche pour : 'Quelles sont les principales obligations de l'employeur?'
+🤖 Appel à Mistral AI...
+✅ Réponse reçue de Mistral.
+
+📝 RÉPONSE CORRIGÉE :
+En droit du travail ivoirien, les principales obligations de l'employeur, basées sur le contexte fourni, sont les suivantes :
+
+### **1. Obligations en matière de prévoyance sociale**
+- **Déclaration des salariés** aux institutions de prévoyance sociale (ex. : CNPS) dans les délais prescrits, sous peine de dommages et intérêts.
+  *Source : Article 92.2 de la Loi n° 2015-532 du 20 juillet 2015.*
+
+### **2. Tenue du registre d’employeur**
+- **Mise à jour constante** d’un registre dit « registre d’employeur » au lieu d’exploitation, comprenant trois fascicules :
+  - **Fascicule 1** : Renseignements sur les travailleurs et leurs contrats.
+  - **Fascicule 2** : Indications sur le travail effectué, les salaires et les congés.
+  - **Fascicule 3** : Visas, mises en demeure et observations de l’inspecteur du travail.
+- **Conservation** du registre pendant **5 ans** après la dernière mention.
+- **Dispense possible** si l’employeur dispose d’un fichier électronique fiable et à jour.
+  *Source : Article 92.3 de la Loi n° 2015-532 du 20 juillet 2015.*
+
+### **3. Déclaration de l’entreprise et de la main-d’œuvre**
+- **Déclaration initiale** de l’entreprise ou de l’établissement à l’inspecteur du travail (sauf exceptions pour les associations, syndicats, etc.).
+  *Source : Articles 1 à 3 du Décret n° 96-209 du 7 mars 1996.*
+- **Déclaration périodique** de la situation de la main-d’œuvre avant le **31 janvier** de chaque année.
+  *Source : Articles 7 et 8 du Décret n° 96-209 du 7 mars 1996.*
+- **Déclaration des changements** (cessation d’activité, transfert, changement d’activité, etc.) dans un délai de **8 jours**.
+  *Source : Article 5 du Décret n° 96-209 du 7 mars 1996.*
+
+### **4. Obligations liées au service militaire**
+- **Réintégration de plein droit** du travailleur après son service militaire obligatoire.
+- **Indemnité de préavis** versée avant le départ sous les drapeaux (équivalente au salaire perçu, dans la limite de l’indemnité de préavis).
+  *Source : Article 32 de la Convention Collective Interprofessionnelle du 19 juillet 1977.*
+
+### **5. Paiement du salaire et remise du bulletin de paie**
+- **Paiement du salaire** pendant les heures de travail (si concordance avec les heures d’ouverture de la caisse).
+- **Remise obligatoire** d’un **bulletin de salaire** mentionnant :
+  - Identité du salarié et de l’employeur,
+  - Période de paie,
+  - Salaire brut et net,
+  - Heures supplémentaires,
+  - Retenues (cotisations sociales, etc.),
+  - Numéro d’immatriculation CNPS.
+  *Source : Article 33 de la Convention Collective Interprofessionnelle du 19 juillet 1977.*
+
+### **6. Autres obligations**
+- **Déclaration spécifique** pour les employeurs de personnel domestique (à la CNPS).
+  *Source : Article 4 du Décret n° 96-209 du 7 mars 1996.*
+
+Ces obligations visent à garantir les droits des travailleurs et le respect des dispositions légales en matière de travail et de protection sociale.
+
+🔍 VALEUR QUI VA ÊTRE RETOURNÉE : En droit du travail ivoirien, les principales obligations de l'employeur, basées sur le contexte fou...
+
+🎯 VALEUR EXACTE RETOURNÉE (100 premiers chars) : 'En droit du travail ivoirien, les principales obligations de l'employeur, basées sur le contexte fou'
+🎯 CONTIENT 'Décret n° 96-203' ? False
+🎯 CONTIENT 'Loi n° 2015-532' ? False
+
+REPONSE:
+En droit du travail ivoirien, les principales obligations de l'employeur, basées sur le contexte fourni, sont les suivantes :
+
+### **1. Obligations en matière de prévoyance sociale**
+- **Déclaration des salariés** aux institutions de prévoyance sociale (ex. : CNPS) dans les délais prescrits, sous peine de dommages et intérêts.
+  *Source : Article 92.2 de la Loi n° 2015-532 du 20 juillet 2015.*
+
+### **2. Tenue du registre d’employeur**
+- **Mise à jour constante** d’un registre dit « registre d’employeur » au lieu d’exploitation, comprenant trois fascicules :
+  - **Fascicule 1** : Renseignements sur les travailleurs et leurs contrats.
+  - **Fascicule 2** : Indications sur le travail effectué, les salaires et les congés.
+  - **Fascicule 3** : Visas, mises en demeure et observations de l’inspecteur du travail.
+- **Conservation** du registre pendant **5 ans** après la dernière mention.
+- **Dispense possible** si l’employeur dispose d’un fichier électronique fiable et à jour.
+  *Source : Article 92.3 de la Loi n° 2015-532 du 20 juillet 2015.*
+
+### **3. Déclaration de l’entreprise et de la main-d’œuvre**
+- **Déclaration initiale** de l’entreprise ou de l’établissement à l’inspecteur du travail (sauf exceptions pour les associations, syndicats, etc.).
+  *Source : Articles 1 à 3 du Décret n° 96-209 du 7 mars 1996.*
+- **Déclaration périodique** de la situation de la main-d’œuvre avant le **31 janvier** de chaque année.
+  *Source : Articles 7 et 8 du Décret n° 96-209 du 7 mars 1996.*
+- **Déclaration des changements** (cessation d’activité, transfert, changement d’activité, etc.) dans un délai de **8 jours**.
+  *Source : Article 5 du Décret n° 96-209 du 7 mars 1996.*
+
+### **4. Obligations liées au service militaire**
+- **Réintégration de plein droit** du travailleur après son service militaire obligatoire.
+- **Indemnité de préavis** versée avant le départ sous les drapeaux (équivalente au salaire perçu, dans la limite de l’indemnité de préavis).
+  *Source : Article 32 de la Convention Collective Interprofessionnelle du 19 juillet 1977.*
+
+### **5. Paiement du salaire et remise du bulletin de paie**
+- **Paiement du salaire** pendant les heures de travail (si concordance avec les heures d’ouverture de la caisse).
+- **Remise obligatoire** d’un **bulletin de salaire** mentionnant :
+  - Identité du salarié et de l’employeur,
+  - Période de paie,
+  - Salaire brut et net,
+  - Heures supplémentaires,
+  - Retenues (cotisations sociales, etc.),
+  - Numéro d’immatriculation CNPS.
+  *Source : Article 33 de la Convention Collective Interprofessionnelle du 19 juillet 1977.*
+
+### **6. Autres obligations**
+- **Déclaration spécifique** pour les employeurs de personnel domestique (à la CNPS).
+  *Source : Article 4 du Décret n° 96-209 du 7 mars 1996.*
+
+Ces obligations visent à garantir les droits des travailleurs et le respect des dispositions légales en matière de travail et de protection sociale.
+
+SOURCES (5):
+
+  1. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 92.2  Tout employeur est tenu de déclarer dans les d...
+  2. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## ARTICLE 32  ## OBLIGATIONS MILITAIRES  Le travailleur aya...
+  3. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## PAIEMENT DU SALAIRE  Les salaires sont payés conformément...
+  4. Décret n° 96-209 du 7 mars 1996 -> # DECRET N° 96-209 DU 7 MARS 1996 RELATIF AUX OBLIGATIONS DE...
+  5. Décret n° 96-209 du 7 mars 1996 -> ## ARTICLE 4  Les personnes employant exclusivement du perso...
+
+VERIFICATION 1 - Patterns OBLIGATOIRES:
+  OK - 'employeur'
+  OK - 'obligation'
+  OK - 'article'
+
+VERIFICATION 2 - Patterns INTERDITS (Hallucinations):
+  OK - Absent: 'bitcoin'
+
+RESULTAT: OK
+
+==========================================================================================
+TEST 06 | VALIDE     | Teletravail
+==========================================================================================
+QUESTION: Qu'est-ce que le teletravail en Cote d'Ivoire?
+
+🔍 Recherche pour : 'Qu'est-ce que le teletravail en Cote d'Ivoire?'
+🤖 Appel à Mistral AI...
+✅ Réponse reçue de Mistral.
+
+📝 RÉPONSE CORRIGÉE :
+Aucune disposition légale trouvée dans le contexte fourni concernant le télétravail en Côte d'Ivoire. Le Code du Travail ivoirien (Loi n° 2015-532 du 20 juillet 2015) et les textes connexes fournis ne mentionnent pas explicitement cette modalité d'organisation du travail.
+
+🔍 VALEUR QUI VA ÊTRE RETOURNÉE : Aucune disposition légale trouvée dans le contexte fourni concernant le télétravail en Côte d'Ivoire...
+
+🎯 VALEUR EXACTE RETOURNÉE (100 premiers chars) : 'Aucune disposition légale trouvée dans le contexte fourni concernant le télétravail en Côte d'Ivoire'
+🎯 CONTIENT 'Décret n° 96-203' ? False
+🎯 CONTIENT 'Loi n° 2015-532' ? False
+
+REPONSE:
+Aucune disposition légale trouvée dans le contexte fourni concernant le télétravail en Côte d'Ivoire. Le Code du Travail ivoirien (Loi n° 2015-532 du 20 juillet 2015) et les textes connexes fournis ne mentionnent pas explicitement cette modalité d'organisation du travail.
+
+SOURCES (5):
+
+  1. Loi n° 2015-532 du 20 juillet 2015 -> # LOI N° 2015-532 DU 20 JUILLET 2015 PORTANT CODE DU TRAVAIL...
+  2. Décret n° 96-194 du 7 mars 1996 -> ## ARTICLE 5  Toute personne morale qui souhaite exercer l'a...
+  3. Convention Collective Interprofessionnelle du 19 juillet 1977 -> Les travailleurs recrutés hors du territoire de la Républiqu...
+  4. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## ARTICLE 56  ## INDEMNITES DE TRANSPORT  1° Une indemnité ...
+  5. Convention Collective Interprofessionnelle du 19 juillet 1977 -> - Chauffeurs ;   - Ouvriers ;   - Employés ;   - Agents de m...
+
+VERIFICATION 1 - Patterns OBLIGATOIRES:
+  MANQUANT - 'teletravail'
+  OK - 'travail'
+  MANQUANT - 'accord'
+
+VERIFICATION 2 - Patterns INTERDITS (Hallucinations):
+  OK - Absent: 'pizza'
+
+RESULTAT: ECHEC - 2 hallucinations
+
+==========================================================================================
+TEST 07 | VALIDE     | Motifs de licenciement
+==========================================================================================
+QUESTION: Quels sont les motifs de licenciement valide?
+
+🔍 Recherche pour : 'Quels sont les motifs de licenciement valide?'
+🤖 Appel à Mistral AI...
+✅ Réponse reçue de Mistral.
+
+📝 RÉPONSE CORRIGÉE :
+En droit du travail ivoirien, les motifs de licenciement valides sont définis par la **Loi n° 2015-532 du 20 juillet 2015**. Voici les motifs légitimes de licenciement pour **motif personnel** (Art. 17.4) et pour **motif économique** (Art. 18.14 et suivants) :
+
+---
+
+### **1. Licenciement pour motif personnel (Art. 17.4)**
+Le licenciement est valide s'il est fondé sur :
+- **L'état de santé du salarié** (ex. : inaptitude médicale constatée par un médecin du travail, sous réserve des conditions de l’Art. 18.3).
+- **L'aptitude à tenir l'emploi** (ex. : insuffisance professionnelle avérée, après évaluation objective).
+- **L'insuffisance professionnelle** (manquement aux obligations contractuelles, après mise en demeure ou avertissement écrit).
+- **La conduite fautive du salarié** (faute disciplinaire justifiant une sanction, conformément à l’Art. 17.3, comme un licenciement pour faute grave ou lourde).
+
+**Exemples de fautes graves/lourdes** :
+- Vol, fraude, détournement de fonds.
+- Harcèlement, violence, insubordination répétée.
+- Absences injustifiées ou abandon de poste.
+
+**Procédure obligatoire** :
+- Notification écrite du licenciement (Art. 17.4), précisant les motifs, les coordonnées de l’employeur et du salarié, et la date de prise d’effet.
+- Information simultanée de l’inspecteur du travail.
+
+---
+
+### **2. Licenciement pour motif économique (Art. 18.14 et Convention Collective Interprofessionnelle du 19 juillet 1977, Art. 16.8 à 16.10)**
+Le licenciement est valide s'il résulte de :
+- **Difficultés économiques** (baisse d’activité, restructuration).
+- **Mutations technologiques** (suppression de postes due à l’automatisation).
+- **Réorganisation de l’entreprise** (fusion, fermeture d’un service).
+- **Cessation d’activité** (liquidation judiciaire, sauf fraude).
+
+**Procédure obligatoire** :
+- **Consultation préalable** des délégués du personnel (Art. 16.8 de la Convention Collective).
+- **Transmission d’un dossier complet** à l’inspecteur du travail (3 exemplaires), incluant :
+  - Les causes du licenciement.
+  - Les critères de sélection des salariés (ancienneté, compétences, etc.).
+  - La liste des salariés concernés et la date prévue.
+- **Respect des critères objectifs** (ex. : ancienneté, charges familiales) pour éviter l’abus.
+
+---
+
+### **3. Cas spécifiques (Art. 18.3)**
+- **Inaptitude médicale** :
+  Le licenciement est valide si :
+  - Un **médecin du travail** constate l’inaptitude à tout emploi.
+  - L’employeur a **proposé un reclassement** (refusé par le salarié) ou prouvé l’impossibilité d’aménager le poste.
+  - Le salarié perçoit ses **droits de rupture** (indemnités de licenciement, préavis, etc.).
+
+- **Départ à la retraite** :
+  Le contrat est rompu automatiquement lorsque le salarié remplit les conditions légales de retraite (fixées par le Code de prévoyance sociale).
+
+---
+
+### **Motifs interdits (licenciement abusif)**
+Un licenciement est **abusif** (Art. 18.15) s’il est fondé sur :
+- Un motif discriminatoire (sexe, religion, opinions politiques, etc.).
+- Une grossesse ou un congé de maternité.
+- L’exercice d’un droit syndical ou de grève.
+- Une sanction pécuniaire (interdite par l’Art. 17.1).
+- Une double sanction pour la même faute.
+
+**Sanction** :
+Le salarié peut réclamer des **dommages-intérêts** (Art. 18.15) :
+- **Minimum** : 3 mois de salaire brut.
+- **Maximum** : 20 mois de salaire brut (1 mois par année d’ancienneté).
+- Ces dommages-intérêts s’ajoutent aux indemnités de préavis et de licenciement.
+
+---
+
+### **Résumé des textes applicables**
+- **Licenciement pour motif personnel** : Art. 17.4 de la Loi n° 2015-532.
+- **Licenciement pour motif économique** : Art. 18.14 de la Loi n° 2015-532 + Art. 16.8 à 16.10 de la Convention Collective Interprofessionnelle du 19 juillet 1977.
+- **Inaptitude médicale** : Art. 18.3 de la Loi n° 2015-532.
+- **Licenciement abusif** : Art. 18.15 de la Loi n° 2015-532.
+
+🔍 VALEUR QUI VA ÊTRE RETOURNÉE : En droit du travail ivoirien, les motifs de licenciement valides sont définis par la **Loi n° 2015-5...
+
+🎯 VALEUR EXACTE RETOURNÉE (100 premiers chars) : 'En droit du travail ivoirien, les motifs de licenciement valides sont définis par la **Loi n° 2015-5'
+🎯 CONTIENT 'Décret n° 96-203' ? False
+🎯 CONTIENT 'Loi n° 2015-532' ? False
+
+REPONSE:
+En droit du travail ivoirien, les motifs de licenciement valides sont définis par la **Loi n° 2015-532 du 20 juillet 2015**. Voici les motifs légitimes de licenciement pour **motif personnel** (Art. 17.4) et pour **motif économique** (Art. 18.14 et suivants) :
+
+---
+
+### **1. Licenciement pour motif personnel (Art. 17.4)**
+Le licenciement est valide s'il est fondé sur :
+- **L'état de santé du salarié** (ex. : inaptitude médicale constatée par un médecin du travail, sous réserve des conditions de l’Art. 18.3).
+- **L'aptitude à tenir l'emploi** (ex. : insuffisance professionnelle avérée, après évaluation objective).
+- **L'insuffisance professionnelle** (manquement aux obligations contractuelles, après mise en demeure ou avertissement écrit).
+- **La conduite fautive du salarié** (faute disciplinaire justifiant une sanction, conformément à l’Art. 17.3, comme un licenciement pour faute grave ou lourde).
+
+**Exemples de fautes graves/lourdes** :
+- Vol, fraude, détournement de fonds.
+- Harcèlement, violence, insubordination répétée.
+- Absences injustifiées ou abandon de poste.
+
+**Procédure obligatoire** :
+- Notification écrite du licenciement (Art. 17.4), précisant les motifs, les coordonnées de l’employeur et du salarié, et la date de prise d’effet.
+- Information simultanée de l’inspecteur du travail.
+
+---
+
+### **2. Licenciement pour motif économique (Art. 18.14 et Convention Collective Interprofessionnelle du 19 juillet 1977, Art. 16.8 à 16.10)**
+Le licenciement est valide s'il résulte de :
+- **Difficultés économiques** (baisse d’activité, restructuration).
+- **Mutations technologiques** (suppression de postes due à l’automatisation).
+- **Réorganisation de l’entreprise** (fusion, fermeture d’un service).
+- **Cessation d’activité** (liquidation judiciaire, sauf fraude).
+
+**Procédure obligatoire** :
+- **Consultation préalable** des délégués du personnel (Art. 16.8 de la Convention Collective).
+- **Transmission d’un dossier complet** à l’inspecteur du travail (3 exemplaires), incluant :
+  - Les causes du licenciement.
+  - Les critères de sélection des salariés (ancienneté, compétences, etc.).
+  - La liste des salariés concernés et la date prévue.
+- **Respect des critères objectifs** (ex. : ancienneté, charges familiales) pour éviter l’abus.
+
+---
+
+### **3. Cas spécifiques (Art. 18.3)**
+- **Inaptitude médicale** :
+  Le licenciement est valide si :
+  - Un **médecin du travail** constate l’inaptitude à tout emploi.
+  - L’employeur a **proposé un reclassement** (refusé par le salarié) ou prouvé l’impossibilité d’aménager le poste.
+  - Le salarié perçoit ses **droits de rupture** (indemnités de licenciement, préavis, etc.).
+
+- **Départ à la retraite** :
+  Le contrat est rompu automatiquement lorsque le salarié remplit les conditions légales de retraite (fixées par le Code de prévoyance sociale).
+
+---
+
+### **Motifs interdits (licenciement abusif)**
+Un licenciement est **abusif** (Art. 18.15) s’il est fondé sur :
+- Un motif discriminatoire (sexe, religion, opinions politiques, etc.).
+- Une grossesse ou un congé de maternité.
+- L’exercice d’un droit syndical ou de grève.
+- Une sanction pécuniaire (interdite par l’Art. 17.1).
+- Une double sanction pour la même faute.
+
+**Sanction** :
+Le salarié peut réclamer des **dommages-intérêts** (Art. 18.15) :
+- **Minimum** : 3 mois de salaire brut.
+- **Maximum** : 20 mois de salaire brut (1 mois par année d’ancienneté).
+- Ces dommages-intérêts s’ajoutent aux indemnités de préavis et de licenciement.
+
+---
+
+### **Résumé des textes applicables**
+- **Licenciement pour motif personnel** : Art. 17.4 de la Loi n° 2015-532.
+- **Licenciement pour motif économique** : Art. 18.14 de la Loi n° 2015-532 + Art. 16.8 à 16.10 de la Convention Collective Interprofessionnelle du 19 juillet 1977.
+- **Inaptitude médicale** : Art. 18.3 de la Loi n° 2015-532.
+- **Licenciement abusif** : Art. 18.15 de la Loi n° 2015-532.
+
+SOURCES (5):
+
+  1. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 17.1  Il est interdit à l'employeur d'infliger des s...
+  2. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 18. 14  Lorsque le licenciement de plus d'un travail...
+  3. Convention Collective Interprofessionnelle du 19 juillet 1977 -> Art. 16.8 - Le chef d'entreprise doit adresser aux délégués ...
+  4. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## ARTICLE 39  ## INDEMNITE DE LICENCIEMENT  En cas de licen...
+  5. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 18.1  Pendant la période d'essai futée sans fraude n...
+
+VERIFICATION 1 - Patterns OBLIGATOIRES:
+  OK - 'licenciement'
+  OK - 'motif'
+  MANQUANT - 'article'
+
+VERIFICATION 2 - Patterns INTERDITS (Hallucinations):
+  OK - Absent: 'horoscope'
+
+RESULTAT: ECHEC - 1 hallucinations
+
+==========================================================================================
+TEST 08 | VALIDE     | Suspension du contrat
+==========================================================================================
+QUESTION: Comment fonctionne la suspension du contrat de travail?
+
+🔍 Recherche pour : 'Comment fonctionne la suspension du contrat de travail?'
+🤖 Appel à Mistral AI...
+✅ Réponse reçue de Mistral.
+
+📝 RÉPONSE CORRIGÉE :
+En droit du travail ivoirien, la suspension du contrat de travail est régie par plusieurs dispositions légales et conventionnelles. Voici les cas de suspension et leurs effets, basés **uniquement** sur le contexte fourni :
+
+---
+
+### **1. Cas de suspension prévus par la Loi n° 2015-532 du 20 juillet 2015**
+#### **Article 16.7** :
+Le contrat est suspendu dans les situations suivantes :
+- **a)** Fermeture de l'établissement pour service militaire de l'employeur.
+- **b)** Service militaire ou périodes d'instruction militaire du travailleur.
+- **c)** Maladie dûment constatée par un médecin agréé :
+  - Durée maximale de **6 mois** (portée à **12 mois** pour les maladies de longue durée, avec possibilité de prorogation jusqu'au remplacement du travailleur).
+- **d)** Accident du travail ou maladie professionnelle (jusqu'à consolidation ou guérison).
+- **e)** Garde à vue ou détention préventive (pour raisons étrangères au service, dans la limite de **6 mois**, si connue de l'employeur).
+- **f)** Permissions exceptionnelles pour événements familiaux (accordées par l'employeur).
+- **g)** Chômage technique (cf. Article 16.11 de la loi).
+
+#### **Article 16.8** :
+Suspension pour mise en disponibilité **sans salaire** à la demande du travailleur, pour :
+- Allaitement après un congé de maternité.
+- Assistance à un enfant physiquement diminué.
+- Exercice d'un mandat public (ex. : parlementaire).
+- Congé de formation.
+- Élever son enfant.
+**Effet** : Cette période **n'est pas comptabilisée** pour l'ancienneté ou le congé.
+
+---
+
+### **2. Cas de suspension prévus par la Convention Collective Interprofessionnelle du 19 juillet 1977**
+#### **Article 24** :
+- **Cessation provisoire d'activité** (ex. : diminution d'activité) :
+  - L'employeur doit informer les délégués du personnel et l'inspecteur du travail.
+  - **Accord préalable des travailleurs concernés** requis, sinon la rupture est imputable à l'employeur.
+  - **Effets** : La période est considérée comme temps de présence (comptabilisée pour l'ancienneté et le congé).
+
+#### **Article 26** :
+- **Absences exceptionnelles** pour événements graves (incendie, décès, maladie grave d'un proche) :
+  - Durée proportionnelle à l'événement.
+  - **Obligation** d'informer l'employeur dans les **4 jours francs**.
+  - **Effet** : Suspension **sans solde**, sans rupture du contrat.
+
+#### **Article 27** :
+- **Mise en disponibilité sans rémunération** (à la demande du travailleur) pour :
+  - Allaitement post-congé maternité.
+  - Assistance à un enfant handicapé.
+  - Mandat parlementaire ou syndical permanent.
+  - **Durée maximale** : 5 ans (renouvelable une fois, sauf accord écrit de l'employeur).
+  - **Effets** :
+    - Suspension du contrat (sans rupture).
+    - **Non-comptabilisation** pour l'ancienneté.
+    - Réintégration obligatoire sous **2 mois** après demande écrite du travailleur.
+
+---
+
+### **3. Effets communs de la suspension**
+- **Maintien du contrat** : Le lien contractuel subsiste, mais les obligations réciproques (travail/salaire) sont temporairement suspendues, sauf exceptions (ex. : chômage technique comptabilisé pour l'ancienneté).
+- **Ancienneté** : Variable selon le motif (ex. : comptabilisée pour le chômage technique, non comptabilisée pour la mise en disponibilité).
+- **Protection contre la rupture** : L'employeur ne peut licencier un salarié pendant une suspension légitime (sauf faute grave ou accord des parties).
+
+---
+
+### **4. Exceptions et limites**
+- **Modification unilatérale du contrat** : Interdite (Article 16.6 de la loi), sauf urgence ou tâche temporaire.
+- **Clause de non-concurrence** : Pendant la suspension, le salarié reste soumis à l'interdiction de concurrencer son employeur (Article 23 de la Convention Collective), sauf accord écrit.
+
+---
+**Références exactes** :
+- Loi n° 2015-532 du 20 juillet 2015, Articles 16.6, 16.7, 16.8.
+- Convention Collective Interprofessionnelle du 19 juillet 1977, Articles 23, 24, 26, 27.
+
+🔍 VALEUR QUI VA ÊTRE RETOURNÉE : En droit du travail ivoirien, la suspension du contrat de travail est régie par plusieurs dispositio...
+
+🎯 VALEUR EXACTE RETOURNÉE (100 premiers chars) : 'En droit du travail ivoirien, la suspension du contrat de travail est régie par plusieurs dispositio'
+🎯 CONTIENT 'Décret n° 96-203' ? False
+🎯 CONTIENT 'Loi n° 2015-532' ? False
+
+REPONSE:
+En droit du travail ivoirien, la suspension du contrat de travail est régie par plusieurs dispositions légales et conventionnelles. Voici les cas de suspension et leurs effets, basés **uniquement** sur le contexte fourni :
+
+---
+
+### **1. Cas de suspension prévus par la Loi n° 2015-532 du 20 juillet 2015**
+#### **Article 16.7** :
+Le contrat est suspendu dans les situations suivantes :
+- **a)** Fermeture de l'établissement pour service militaire de l'employeur.
+- **b)** Service militaire ou périodes d'instruction militaire du travailleur.
+- **c)** Maladie dûment constatée par un médecin agréé :
+  - Durée maximale de **6 mois** (portée à **12 mois** pour les maladies de longue durée, avec possibilité de prorogation jusqu'au remplacement du travailleur).
+- **d)** Accident du travail ou maladie professionnelle (jusqu'à consolidation ou guérison).
+- **e)** Garde à vue ou détention préventive (pour raisons étrangères au service, dans la limite de **6 mois**, si connue de l'employeur).
+- **f)** Permissions exceptionnelles pour événements familiaux (accordées par l'employeur).
+- **g)** Chômage technique (cf. Article 16.11 de la loi).
+
+#### **Article 16.8** :
+Suspension pour mise en disponibilité **sans salaire** à la demande du travailleur, pour :
+- Allaitement après un congé de maternité.
+- Assistance à un enfant physiquement diminué.
+- Exercice d'un mandat public (ex. : parlementaire).
+- Congé de formation.
+- Élever son enfant.
+**Effet** : Cette période **n'est pas comptabilisée** pour l'ancienneté ou le congé.
+
+---
+
+### **2. Cas de suspension prévus par la Convention Collective Interprofessionnelle du 19 juillet 1977**
+#### **Article 24** :
+- **Cessation provisoire d'activité** (ex. : diminution d'activité) :
+  - L'employeur doit informer les délégués du personnel et l'inspecteur du travail.
+  - **Accord préalable des travailleurs concernés** requis, sinon la rupture est imputable à l'employeur.
+  - **Effets** : La période est considérée comme temps de présence (comptabilisée pour l'ancienneté et le congé).
+
+#### **Article 26** :
+- **Absences exceptionnelles** pour événements graves (incendie, décès, maladie grave d'un proche) :
+  - Durée proportionnelle à l'événement.
+  - **Obligation** d'informer l'employeur dans les **4 jours francs**.
+  - **Effet** : Suspension **sans solde**, sans rupture du contrat.
+
+#### **Article 27** :
+- **Mise en disponibilité sans rémunération** (à la demande du travailleur) pour :
+  - Allaitement post-congé maternité.
+  - Assistance à un enfant handicapé.
+  - Mandat parlementaire ou syndical permanent.
+  - **Durée maximale** : 5 ans (renouvelable une fois, sauf accord écrit de l'employeur).
+  - **Effets** :
+    - Suspension du contrat (sans rupture).
+    - **Non-comptabilisation** pour l'ancienneté.
+    - Réintégration obligatoire sous **2 mois** après demande écrite du travailleur.
+
+---
+
+### **3. Effets communs de la suspension**
+- **Maintien du contrat** : Le lien contractuel subsiste, mais les obligations réciproques (travail/salaire) sont temporairement suspendues, sauf exceptions (ex. : chômage technique comptabilisé pour l'ancienneté).
+- **Ancienneté** : Variable selon le motif (ex. : comptabilisée pour le chômage technique, non comptabilisée pour la mise en disponibilité).
+- **Protection contre la rupture** : L'employeur ne peut licencier un salarié pendant une suspension légitime (sauf faute grave ou accord des parties).
+
+---
+
+### **4. Exceptions et limites**
+- **Modification unilatérale du contrat** : Interdite (Article 16.6 de la loi), sauf urgence ou tâche temporaire.
+- **Clause de non-concurrence** : Pendant la suspension, le salarié reste soumis à l'interdiction de concurrencer son employeur (Article 23 de la Convention Collective), sauf accord écrit.
+
+---
+**Références exactes** :
+- Loi n° 2015-532 du 20 juillet 2015, Articles 16.6, 16.7, 16.8.
+- Convention Collective Interprofessionnelle du 19 juillet 1977, Articles 23, 24, 26, 27.
+
+SOURCES (5):
+
+  1. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 16.6  L'employeur doit procurer le travail convenu a...
+  2. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## ARTICLE 23  ## CLAUSE DE NON CONCURRENCE  Sauf stipulatio...
+  3. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## III- RUPTURE DU CONTRAT DE TRAVAIL  La partie qui prend l...
+  4. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 16.8  Le contrat de travail est également suspendu p...
+  5. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## ARTICLE 26  ## ABSENCES EXCEPTIONNELLES  Les absences de ...
+
+VERIFICATION 1 - Patterns OBLIGATOIRES:
+  OK - 'suspension'
+  OK - 'contrat'
+  OK - 'travail'
+
+VERIFICATION 2 - Patterns INTERDITS (Hallucinations):
+  OK - Absent: 'crypto'
+
+RESULTAT: OK
+
+==========================================================================================
+TEST 09 | VALIDE     | Indemnites de licenciement
+==========================================================================================
+QUESTION: Quelles sont les indemnites de licenciement?
+
+🔍 Recherche pour : 'Quelles sont les indemnites de licenciement?'
+🤖 Appel à Mistral AI...
+✅ Réponse reçue de Mistral.
+
+📝 RÉPONSE CORRIGÉE :
+En droit du travail ivoirien, les indemnités de licenciement sont régies par plusieurs textes. Voici les dispositions exactes applicables :
+
+### **1. Conditions d'octroi de l'indemnité de licenciement**
+- **Article premier du Décret n° 96-201 du 7 mars 1996** :
+  *"La résiliation du contrat de travail du fait de l'employeur entraîne, pour le travailleur ayant accompli une durée de service effectif égale à un (1) an et qui n'a pas commis de faute lourde, le paiement d'une indemnité de licenciement distincte du préavis."*
+
+- **Article 39 de la Convention Collective Interprofessionnelle du 19 juillet 1977** :
+  *"En cas de licenciement par l'employeur, le travailleur ayant accompli dans l'entreprise une durée de service au moins égale à la période de référence ouvrant droit de jouissance au congé [...] a droit à une indemnité de licenciement distincte de l'indemnité compensatrice de préavis."*
+
+**Exceptions** (indemnité non due) :
+- Faute lourde du travailleur (Art. 39 de la Convention Collective).
+- Départ à la retraite (Art. 39 de la Convention Collective).
+
+---
+
+### **2. Calcul de l'indemnité de licenciement**
+#### **Base de calcul** :
+- **Salaire global mensuel moyen** des **12 derniers mois** précédant le licenciement (Art. 3 du Décret n° 96-201 du 7 mars 1996 et Art. 4 du Décret n° 2017-210 du 30 mars 2017).
+- **Inclusions** : Toutes les prestations constituant une contrepartie du travail (salaire de base, primes, avantages en nature, etc.).
+- **Exclusions** : Remboursements de frais (ex. : frais de transport, notes de restaurant).
+
+#### **Taux applicables** (selon l'ancienneté) :
+- **30 %** pour les **5 premières années** (Art. 3 du Décret n° 96-201 et Art. 4 du Décret n° 2017-210).
+- **35 %** pour la période de la **6ᵉ à la 10ᵉ année** (inclus).
+- **40 %** au-delà de la **10ᵉ année**.
+
+**Prise en compte des fractions d'année** :
+- Les fractions d'année sont arrondies **au mois inférieur** (Art. 4 du Décret n° 2017-210).
+
+---
+
+### **3. Cas particuliers**
+#### **Licenciements successifs dans la même entreprise** :
+- Si le travailleur a été réembauché après un licenciement pour **compression d'effectifs ou suppression d'emploi**, l'indemnité est recalculée en **déduisant les sommes déjà versées** (Art. 2 du Décret n° 96-201 et Art. 39 de la Convention Collective).
+
+#### **Décès du travailleur** :
+- Les ayants droit (conjoint survivant ou enfants à charge) perçoivent une indemnité équivalente à l'indemnité de licenciement si le travailleur avait **au moins 1 an d'ancienneté** ou remplissait les conditions de départ à la retraite (Art. 6 du Décret n° 2017-210).
+
+---
+
+### **4. Indemnité de départ à la retraite**
+- **Article 5 du Décret n° 2017-210** :
+  *"En cas de départ à la retraite, il est versé au travailleur une indemnité de départ à la retraite calculée dans les conditions prévues à l'article 4 du présent décret."*
+  → Même calcul que l'indemnité de licenciement (30 %, 35 %, 40 % selon l'ancienneté).
+
+---
+
+### **Résumé des textes applicables**
+| **Sujet**               | **Texte de référence**                                                                 |
+|-------------------------|---------------------------------------------------------------------------------------|
+| Conditions d'octroi     | Art. premier du Décret n° 96-201 du 7 mars 1996 + Art. 39 de la Convention Collective 1977 |
+| Calcul de l'indemnité   | Art. 3 du Décret n° 96-201 + Art. 4 du Décret n° 2017-210                             |
+| Licenciements successifs| Art. 2 du Décret n° 96-201 + Art. 39 de la Convention Collective 1977                 |
+| Décès du travailleur    | Art. 6 du Décret n° 2017-210                                                          |
+| Départ à la retraite    | Art. 5 du Décret n° 2017-210                                                          |
+
+🔍 VALEUR QUI VA ÊTRE RETOURNÉE : En droit du travail ivoirien, les indemnités de licenciement sont régies par plusieurs textes. Voici...
+
+🎯 VALEUR EXACTE RETOURNÉE (100 premiers chars) : 'En droit du travail ivoirien, les indemnités de licenciement sont régies par plusieurs textes. Voici'
+🎯 CONTIENT 'Décret n° 96-203' ? False
+🎯 CONTIENT 'Loi n° 2015-532' ? False
+
+REPONSE:
+En droit du travail ivoirien, les indemnités de licenciement sont régies par plusieurs textes. Voici les dispositions exactes applicables :
+
+### **1. Conditions d'octroi de l'indemnité de licenciement**
+- **Article premier du Décret n° 96-201 du 7 mars 1996** :
+  *"La résiliation du contrat de travail du fait de l'employeur entraîne, pour le travailleur ayant accompli une durée de service effectif égale à un (1) an et qui n'a pas commis de faute lourde, le paiement d'une indemnité de licenciement distincte du préavis."*
+
+- **Article 39 de la Convention Collective Interprofessionnelle du 19 juillet 1977** :
+  *"En cas de licenciement par l'employeur, le travailleur ayant accompli dans l'entreprise une durée de service au moins égale à la période de référence ouvrant droit de jouissance au congé [...] a droit à une indemnité de licenciement distincte de l'indemnité compensatrice de préavis."*
+
+**Exceptions** (indemnité non due) :
+- Faute lourde du travailleur (Art. 39 de la Convention Collective).
+- Départ à la retraite (Art. 39 de la Convention Collective).
+
+---
+
+### **2. Calcul de l'indemnité de licenciement**
+#### **Base de calcul** :
+- **Salaire global mensuel moyen** des **12 derniers mois** précédant le licenciement (Art. 3 du Décret n° 96-201 du 7 mars 1996 et Art. 4 du Décret n° 2017-210 du 30 mars 2017).
+- **Inclusions** : Toutes les prestations constituant une contrepartie du travail (salaire de base, primes, avantages en nature, etc.).
+- **Exclusions** : Remboursements de frais (ex. : frais de transport, notes de restaurant).
+
+#### **Taux applicables** (selon l'ancienneté) :
+- **30 %** pour les **5 premières années** (Art. 3 du Décret n° 96-201 et Art. 4 du Décret n° 2017-210).
+- **35 %** pour la période de la **6ᵉ à la 10ᵉ année** (inclus).
+- **40 %** au-delà de la **10ᵉ année**.
+
+**Prise en compte des fractions d'année** :
+- Les fractions d'année sont arrondies **au mois inférieur** (Art. 4 du Décret n° 2017-210).
+
+---
+
+### **3. Cas particuliers**
+#### **Licenciements successifs dans la même entreprise** :
+- Si le travailleur a été réembauché après un licenciement pour **compression d'effectifs ou suppression d'emploi**, l'indemnité est recalculée en **déduisant les sommes déjà versées** (Art. 2 du Décret n° 96-201 et Art. 39 de la Convention Collective).
+
+#### **Décès du travailleur** :
+- Les ayants droit (conjoint survivant ou enfants à charge) perçoivent une indemnité équivalente à l'indemnité de licenciement si le travailleur avait **au moins 1 an d'ancienneté** ou remplissait les conditions de départ à la retraite (Art. 6 du Décret n° 2017-210).
+
+---
+
+### **4. Indemnité de départ à la retraite**
+- **Article 5 du Décret n° 2017-210** :
+  *"En cas de départ à la retraite, il est versé au travailleur une indemnité de départ à la retraite calculée dans les conditions prévues à l'article 4 du présent décret."*
+  → Même calcul que l'indemnité de licenciement (30 %, 35 %, 40 % selon l'ancienneté).
+
+---
+
+### **Résumé des textes applicables**
+| **Sujet**               | **Texte de référence**                                                                 |
+|-------------------------|---------------------------------------------------------------------------------------|
+| Conditions d'octroi     | Art. premier du Décret n° 96-201 du 7 mars 1996 + Art. 39 de la Convention Collective 1977 |
+| Calcul de l'indemnité   | Art. 3 du Décret n° 96-201 + Art. 4 du Décret n° 2017-210                             |
+| Licenciements successifs| Art. 2 du Décret n° 96-201 + Art. 39 de la Convention Collective 1977                 |
+| Décès du travailleur    | Art. 6 du Décret n° 2017-210                                                          |
+| Départ à la retraite    | Art. 5 du Décret n° 2017-210                                                          |
+
+SOURCES (5):
+
+  1. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## ARTICLE 39  ## INDEMNITE DE LICENCIEMENT  En cas de licen...
+  2. Décret n° 2017-210 du 30 mars 2017 -> ## ARTICLE 4  L'indemnité est calculée, pour chaque année de...
+  3. Décret n° 96-201 du 7 mars 1996 -> # DECRET N° 96-201 DU 7 MARS 1996 RELATIF A L'INDEMNITE DE L...
+  4. Décret n° 2017-210 du 30 mars 2017 -> # DECRET N° 2017-210 DU 30 MARS 2017 RELATIF A L'INDEMNITE D...
+  5. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## ARTICLE 35  ## INDEMNITE COMPENSATRICE DE PREAVIS  Chacun...
+
+VERIFICATION 1 - Patterns OBLIGATOIRES:
+  MANQUANT - 'indemnite'
+  OK - 'licenciement'
+
+VERIFICATION 2 - Patterns INTERDITS (Hallucinations):
+  OK - Absent: 'pizza'
+
+RESULTAT: ECHEC - 1 hallucinations
+
+==========================================================================================
+TEST 10 | VALIDE     | Droits syndicaux
+==========================================================================================
+QUESTION: Quels sont les droits syndicaux des travailleurs?
+
+🔍 Recherche pour : 'Quels sont les droits syndicaux des travailleurs?'
+🤖 Appel à Mistral AI...
+✅ Réponse reçue de Mistral.
+
+📝 RÉPONSE CORRIGÉE :
+En droit ivoirien, les droits syndicaux des travailleurs sont encadrés par la **Loi n° 2015-532 du 20 juillet 2015** et la **Convention Collective Interprofessionnelle du 19 juillet 1977**. Voici les principaux droits reconnus :
+
+---
+
+### **1. Liberté syndicale**
+- **Article 51.1 de la Loi n° 2015-532** :
+  *"La liberté syndicale s'exerce dans toute entreprise, dans le respect des droits et libertés garantis par la Constitution en particulier la liberté individuelle du travail."*
+- **Article 51.2 de la Loi n° 2015-532** :
+  Les travailleurs peuvent librement **constituer, adhérer ou quitter** un syndicat professionnel, sous réserve d’avoir exercé leur profession pendant au moins un an (pour les anciens travailleurs).
+- **Article 9 de la Convention Collective Interprofessionnelle du 19 juillet 1977** :
+  - **Interdiction des discriminations** : L’employeur ne peut pas prendre en compte l’appartenance syndicale pour des décisions d’embauche, de promotion, de discipline ou de licenciement.
+  - **Protection contre les pressions** : Aucune contrainte ne peut être exercée en faveur ou à l’encontre d’un syndicat.
+  - **Réintégration en cas de licenciement abusif** : Si un licenciement viole le droit syndical, les parties s’engagent à obtenir la réintégration du travailleur. En cas de désaccord, le juge tranche.
+
+---
+
+### **2. Droit de constituer des syndicats ou sections syndicales**
+- **Article 51.3 de la Loi n° 2015-532** :
+  - Les travailleurs peuvent créer des **syndicats de base** au sein de l’entreprise ou des **sections syndicales** dans les établissements multiples.
+  - Une seule section syndicale par syndicat est autorisée par établissement/entreprise.
+  - Les sections syndicales bénéficient de tous les droits conférés aux syndicats (ex. : négociation collective).
+
+---
+
+### **3. Droit à des absences pour activités syndicales**
+- **Article 10 de la Convention Collective Interprofessionnelle du 19 juillet 1977** :
+  - **Assemblées syndicales** : Autorisations d’absence **avec solde** sur présentation d’une convocation écrite (4 jours à l’avance).
+  - **Formation syndicale** : Jusqu’à **3 semaines d’absence** (sans déduction du congé annuel), sous réserve d’accord entre syndicats et employeurs.
+  - **Commissions paritaires** : Participation aux réunions décidées par les organisations syndicales, avec information préalable de l’employeur.
+  - **Organismes consultatifs** (ex. : Tribunal du Travail, Caisse Nationale de Prévoyance Sociale) : Convocation à communiquer à l’employeur dès que possible.
+
+---
+
+### **4. Droit au prélèvement des cotisations syndicales**
+- **Article 57.1 de la Loi n° 2015-532** :
+  - Les cotisations syndicales sont **prélevées à la source** sur le salaire du travailleur, à la demande du syndicat (accompagnée d’une fiche de prélèvement signée par l’adhérent).
+  - **Interdiction de rétention** : L’employeur ne peut pas retenir les cotisations prélevées.
+
+---
+
+### **5. Droit à la représentation syndicale dans l’entreprise**
+- **Délégués syndicaux** (**Article 62.1 de la Loi n° 2015-532**) :
+  - Désignés par les syndicats **représentatifs** (selon l’**Article 54.2** du Code du Travail).
+  - Leur mandat prend fin en cas de :
+    - Perte de représentativité du syndicat.
+    - Rupture du contrat de travail.
+    - Démission du mandat.
+- **Délégués du personnel** (**Article 61.1**) :
+  - Élus pour **2 ans** (rééligibles) dans chaque entreprise/établissement.
+  - **Article 61.14** : Un **décret** (non fourni dans le contexte) fixe les moyens, le temps rémunéré et les informations à leur fournir par l’employeur.
+
+---
+
+### **6. Protection des fonds syndicaux**
+- **Article 56.2 de la Loi n° 2015-532** :
+  Les fonds des **caisses syndicales** (ex. : secours mutuels, retraites) sont **insaisissables** dans les limites légales.
+
+---
+
+### **7. Droit de retrait syndical**
+- **Article 56.3 de la Loi n° 2015-532** :
+  Un travailleur quittant un syndicat conserve le droit de rester membre des **sociétés de secours mutuels ou de retraites** auxquelles il a cotisé.
+
+---
+
+### **Résumé des protections clés**
+| **Droit**               | **Base légale**                                                                 |
+|-------------------------|---------------------------------------------------------------------------------|
+| Liberté d’adhésion      | Art. 51.1 et 51.2 (Loi 2015-532) + Art. 9 (Convention Collective)               |
+| Non-discrimination      | Art. 9 (Convention Collective)                                                 |
+| Absences syndicales     | Art. 10 (Convention Collective)                                                |
+| Prélèvement des cotisations | Art. 57.1 (Loi 2015-532)                                                      |
+| Réintégration en cas de licenciement abusif | Art. 9 (Convention Collective)                          |
+| Insaisissabilité des fonds | Art. 56.2 (Loi 2015-532)                                                      |
+
+---
+**Note** : Pour les modalités pratiques (ex. : durée des absences, moyens des délégués), des **décrets d’application** (non fournis dans le contexte) complètent ces dispositions. En cas de litige, les tribunaux ivoiriens (ex. : Tribunal du Travail) sont compétents.
+
+🔍 VALEUR QUI VA ÊTRE RETOURNÉE : En droit ivoirien, les droits syndicaux des travailleurs sont encadrés par la **Loi n° 2015-532 du 2...
+
+🎯 VALEUR EXACTE RETOURNÉE (100 premiers chars) : 'En droit ivoirien, les droits syndicaux des travailleurs sont encadrés par la **Loi n° 2015-532 du 2'
+🎯 CONTIENT 'Décret n° 96-203' ? False
+🎯 CONTIENT 'Loi n° 2015-532' ? False
+
+REPONSE:
+En droit ivoirien, les droits syndicaux des travailleurs sont encadrés par la **Loi n° 2015-532 du 20 juillet 2015** et la **Convention Collective Interprofessionnelle du 19 juillet 1977**. Voici les principaux droits reconnus :
+
+---
+
+### **1. Liberté syndicale**
+- **Article 51.1 de la Loi n° 2015-532** :
+  *"La liberté syndicale s'exerce dans toute entreprise, dans le respect des droits et libertés garantis par la Constitution en particulier la liberté individuelle du travail."*
+- **Article 51.2 de la Loi n° 2015-532** :
+  Les travailleurs peuvent librement **constituer, adhérer ou quitter** un syndicat professionnel, sous réserve d’avoir exercé leur profession pendant au moins un an (pour les anciens travailleurs).
+- **Article 9 de la Convention Collective Interprofessionnelle du 19 juillet 1977** :
+  - **Interdiction des discriminations** : L’employeur ne peut pas prendre en compte l’appartenance syndicale pour des décisions d’embauche, de promotion, de discipline ou de licenciement.
+  - **Protection contre les pressions** : Aucune contrainte ne peut être exercée en faveur ou à l’encontre d’un syndicat.
+  - **Réintégration en cas de licenciement abusif** : Si un licenciement viole le droit syndical, les parties s’engagent à obtenir la réintégration du travailleur. En cas de désaccord, le juge tranche.
+
+---
+
+### **2. Droit de constituer des syndicats ou sections syndicales**
+- **Article 51.3 de la Loi n° 2015-532** :
+  - Les travailleurs peuvent créer des **syndicats de base** au sein de l’entreprise ou des **sections syndicales** dans les établissements multiples.
+  - Une seule section syndicale par syndicat est autorisée par établissement/entreprise.
+  - Les sections syndicales bénéficient de tous les droits conférés aux syndicats (ex. : négociation collective).
+
+---
+
+### **3. Droit à des absences pour activités syndicales**
+- **Article 10 de la Convention Collective Interprofessionnelle du 19 juillet 1977** :
+  - **Assemblées syndicales** : Autorisations d’absence **avec solde** sur présentation d’une convocation écrite (4 jours à l’avance).
+  - **Formation syndicale** : Jusqu’à **3 semaines d’absence** (sans déduction du congé annuel), sous réserve d’accord entre syndicats et employeurs.
+  - **Commissions paritaires** : Participation aux réunions décidées par les organisations syndicales, avec information préalable de l’employeur.
+  - **Organismes consultatifs** (ex. : Tribunal du Travail, Caisse Nationale de Prévoyance Sociale) : Convocation à communiquer à l’employeur dès que possible.
+
+---
+
+### **4. Droit au prélèvement des cotisations syndicales**
+- **Article 57.1 de la Loi n° 2015-532** :
+  - Les cotisations syndicales sont **prélevées à la source** sur le salaire du travailleur, à la demande du syndicat (accompagnée d’une fiche de prélèvement signée par l’adhérent).
+  - **Interdiction de rétention** : L’employeur ne peut pas retenir les cotisations prélevées.
+
+---
+
+### **5. Droit à la représentation syndicale dans l’entreprise**
+- **Délégués syndicaux** (**Article 62.1 de la Loi n° 2015-532**) :
+  - Désignés par les syndicats **représentatifs** (selon l’**Article 54.2** du Code du Travail).
+  - Leur mandat prend fin en cas de :
+    - Perte de représentativité du syndicat.
+    - Rupture du contrat de travail.
+    - Démission du mandat.
+- **Délégués du personnel** (**Article 61.1**) :
+  - Élus pour **2 ans** (rééligibles) dans chaque entreprise/établissement.
+  - **Article 61.14** : Un **décret** (non fourni dans le contexte) fixe les moyens, le temps rémunéré et les informations à leur fournir par l’employeur.
+
+---
+
+### **6. Protection des fonds syndicaux**
+- **Article 56.2 de la Loi n° 2015-532** :
+  Les fonds des **caisses syndicales** (ex. : secours mutuels, retraites) sont **insaisissables** dans les limites légales.
+
+---
+
+### **7. Droit de retrait syndical**
+- **Article 56.3 de la Loi n° 2015-532** :
+  Un travailleur quittant un syndicat conserve le droit de rester membre des **sociétés de secours mutuels ou de retraites** auxquelles il a cotisé.
+
+---
+
+### **Résumé des protections clés**
+| **Droit**               | **Base légale**                                                                 |
+|-------------------------|---------------------------------------------------------------------------------|
+| Liberté d’adhésion      | Art. 51.1 et 51.2 (Loi 2015-532) + Art. 9 (Convention Collective)               |
+| Non-discrimination      | Art. 9 (Convention Collective)                                                 |
+| Absences syndicales     | Art. 10 (Convention Collective)                                                |
+| Prélèvement des cotisations | Art. 57.1 (Loi 2015-532)                                                      |
+| Réintégration en cas de licenciement abusif | Art. 9 (Convention Collective)                          |
+| Insaisissabilité des fonds | Art. 56.2 (Loi 2015-532)                                                      |
+
+---
+**Note** : Pour les modalités pratiques (ex. : durée des absences, moyens des délégués), des **décrets d’application** (non fournis dans le contexte) complètent ces dispositions. En cas de litige, les tribunaux ivoiriens (ex. : Tribunal du Travail) sont compétents.
+
+SOURCES (5):
+
+  1. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 61.14  Un décret détermine les moyens mis à la dispo...
+  2. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 56.2  Les fonds de ces caisses spéciales sont insais...
+  3. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 44.4  Un décret détermine les modalités d'applicatio...
+  4. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## ARTICLE 9  ## LIBERTE DU DROIT SYNDICAL  Les parties cont...
+  5. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## ABSENCES POUR ACTIVITES SYNDICALES  1° Pour faciliter la ...
+
+VERIFICATION 1 - Patterns OBLIGATOIRES:
+  OK - 'syndicat'
+  OK - 'droit'
+  OK - 'article'
+
+VERIFICATION 2 - Patterns INTERDITS (Hallucinations):
+  OK - Absent: 'horoscope'
+
+RESULTAT: OK
+
+==========================================================================================
+TEST 11 | HORS-SUJET | Question non-legale (restaurant)
+==========================================================================================
+QUESTION: Quel est le meilleur restaurant de Yamoussoukro?
+
+🔍 Recherche pour : 'Quel est le meilleur restaurant de Yamoussoukro?'
+🤖 Appel à Mistral AI...
+✅ Réponse reçue de Mistral.
+
+📝 RÉPONSE CORRIGÉE :
+Aucune disposition légale trouvée. (La question ne relève pas du Droit du Travail Ivoirien.)
+
+🔍 VALEUR QUI VA ÊTRE RETOURNÉE : Aucune disposition légale trouvée. (La question ne relève pas du Droit du Travail Ivoirien.)...
+
+🎯 VALEUR EXACTE RETOURNÉE (100 premiers chars) : 'Aucune disposition légale trouvée. (La question ne relève pas du Droit du Travail Ivoirien.)'
+🎯 CONTIENT 'Décret n° 96-203' ? False
+🎯 CONTIENT 'Loi n° 2015-532' ? False
+
+REPONSE:
+Aucune disposition légale trouvée. (La question ne relève pas du Droit du Travail Ivoirien.)
+
+SOURCES (5):
+
+  1. Décret n° 96-209 du 7 mars 1996 -> 2°) Effectif par catégories professionnelles  <table><tr><td...
+  2. Décret n° 96-209 du 7 mars 1996 -> ## MODELE N° 2  ## DECLARATION D'ENTREPRISE  ## Entreprise c...
+  3. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## ARTICLE 79  ## VALEUR DE REMBOURSEMENT DU LOGEMENT  L'emp...
+  4. Convention Collective Interprofessionnelle du 19 juillet 1977 -> - Chauffeurs ;   - Ouvriers ;   - Employés ;   - Agents de m...
+  5. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## ARTICLE 78  ## LOGEMENT ET AMEUBLEMENT  Lorsque le travai...
+
+VERIFICATION 1 - Patterns OBLIGATOIRES:
+  OK - 'Aucune disposition'
+  MANQUANT - 'inspecteur'
+
+VERIFICATION 2 - Patterns INTERDITS (Hallucinations):
+  OK - Absent: 'pizza'
+  OK - Absent: 'restaurant'
+  OK - Absent: 'manger'
+
+RESULTAT: ECHEC - 1 hallucinations
+
+==========================================================================================
+TEST 12 | HORS-SUJET | Question technique (programmation)
+==========================================================================================
+QUESTION: Comment programmer en Python efficacement?
+
+🔍 Recherche pour : 'Comment programmer en Python efficacement?'
+🤖 Appel à Mistral AI...
+✅ Réponse reçue de Mistral.
+
+📝 RÉPONSE CORRIGÉE :
+Aucune disposition légale trouvée dans le contexte fourni concernant la programmation en Python ou des aspects techniques liés à l'efficacité du code.
+
+Le contexte juridique fourni se limite au **Droit du Travail Ivoirien** (contrats, sanctions, préavis, salaires, etc.). Pour des questions techniques sur Python, je vous recommande de consulter des ressources spécialisées en développement logiciel.
+
+🔍 VALEUR QUI VA ÊTRE RETOURNÉE : Aucune disposition légale trouvée dans le contexte fourni concernant la programmation en Python ou d...
+
+🎯 VALEUR EXACTE RETOURNÉE (100 premiers chars) : 'Aucune disposition légale trouvée dans le contexte fourni concernant la programmation en Python ou d'
+🎯 CONTIENT 'Décret n° 96-203' ? False
+🎯 CONTIENT 'Loi n° 2015-532' ? False
+
+REPONSE:
+Aucune disposition légale trouvée dans le contexte fourni concernant la programmation en Python ou des aspects techniques liés à l'efficacité du code.
+
+Le contexte juridique fourni se limite au **Droit du Travail Ivoirien** (contrats, sanctions, préavis, salaires, etc.). Pour des questions techniques sur Python, je vous recommande de consulter des ressources spécialisées en développement logiciel.
+
+SOURCES (5):
+
+  1. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 15.10  Les contrats de travail à durée déterminée qu...
+  2. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## PAIEMENT DU SALAIRE  Les salaires sont payés conformément...
+  3. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## III- RUPTURE DU CONTRAT DE TRAVAIL  La partie qui prend l...
+  4. Loi n° 2015-532 du 20 juillet 2015 -> ## Art. 17.5  Préalablement à toute sanction, le travailleur...
+  5. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## ARTICLE 87  Est considéré comme nul et de nul effet le li...
+
+VERIFICATION 1 - Patterns OBLIGATOIRES:
+  OK - 'Aucune disposition'
+  MANQUANT - 'inspecteur'
+
+VERIFICATION 2 - Patterns INTERDITS (Hallucinations):
+  ALERTE - Hallucination trouvee: 'code'
+  OK - Absent: 'fonction'
+  ALERTE - Hallucination trouvee: 'python'
+
+RESULTAT: ECHEC - 3 hallucinations
+
+==========================================================================================
+TEST 13 | HORS-SUJET | Question personnelle (richesse)
+==========================================================================================
+QUESTION: Quels conseils pour devenir riche?
+
+🔍 Recherche pour : 'Quels conseils pour devenir riche?'
+🤖 Appel à Mistral AI...
+✅ Réponse reçue de Mistral.
+
+📝 RÉPONSE CORRIGÉE :
+Aucune disposition légale trouvée dans le contexte fourni concernant des conseils pour devenir riche. Le contexte se limite strictement au **Droit du Travail Ivoirien** (paiement des salaires, primes d'ancienneté, licenciement, etc.).
+
+Pour des questions juridiques liées au travail en Côte d'Ivoire, je peux vous aider. Exemples de sujets couverts :
+- Calcul des heures supplémentaires (Article 24 du Décret n° 96-203 du 7 mars 1996).
+- Prime d'ancienneté (Convention Collective Interprofessionnelle du 19 juillet 1977).
+- Indemnités de licenciement (Décret n° 2017-210 du 30 mars 2017).
+
+🔍 VALEUR QUI VA ÊTRE RETOURNÉE : Aucune disposition légale trouvée dans le contexte fourni concernant des conseils pour devenir riche...
+
+🎯 VALEUR EXACTE RETOURNÉE (100 premiers chars) : 'Aucune disposition légale trouvée dans le contexte fourni concernant des conseils pour devenir riche'
+🎯 CONTIENT 'Décret n° 96-203' ? True
+🎯 CONTIENT 'Loi n° 2015-532' ? False
+
+REPONSE:
+Aucune disposition légale trouvée dans le contexte fourni concernant des conseils pour devenir riche. Le contexte se limite strictement au **Droit du Travail Ivoirien** (paiement des salaires, primes d'ancienneté, licenciement, etc.).
+
+Pour des questions juridiques liées au travail en Côte d'Ivoire, je peux vous aider. Exemples de sujets couverts :
+- Calcul des heures supplémentaires (Article 24 du Décret n° 96-203 du 7 mars 1996).
+- Prime d'ancienneté (Convention Collective Interprofessionnelle du 19 juillet 1977).
+- Indemnités de licenciement (Décret n° 2017-210 du 30 mars 2017).
+
+SOURCES (5):
+
+  1. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## PAIEMENT DU SALAIRE  Les salaires sont payés conformément...
+  2. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## PRIME D'ANCIENNETE  Tout travailleur bénéficie d'une prim...
+  3. Décret n° 2017-210 du 30 mars 2017 -> ## ARTICLE 4  L'indemnité est calculée, pour chaque année de...
+  4. Convention Collective Interprofessionnelle du 19 juillet 1977 -> ## DISPOSITIONS GENERALES  A conditions égales de travail, d...
+  5. Décret n° 2017-210 du 30 mars 2017 -> \- de favoriser l'insertion socioprofessionnelle des jeunes ...
+
+VERIFICATION 1 - Patterns OBLIGATOIRES:
+  OK - 'Aucune disposition'
+  MANQUANT - 'inspecteur'
+
+VERIFICATION 2 - Patterns INTERDITS (Hallucinations):
+  ALERTE - Hallucination trouvee: 'riche'
+  OK - Absent: 'argent'
+  OK - Absent: 'bitcoin'
+
+RESULTAT: ECHEC - 2 hallucinations
+
+==========================================================================================
+TEST 14 | HORS-SUJET | Question scientifique (physique)
+==========================================================================================
+QUESTION: Qu'est-ce que la relativite generale selon Einstein?
+
+🔍 Recherche pour : 'Qu'est-ce que la relativite generale selon Einstein?'
+🤖 Appel à Mistral AI...
+ERREUR: Error response 429 while fetching https://api.mistral.ai/v1/chat/completions: {"object":"error","message":"Rate limit exceeded","type":"rate_limited","param":null,"code":"1300","raw_status_code":429}
+
+==========================================================================================
+TEST 15 | HORS-SUJET | Question geographique
+==========================================================================================
+QUESTION: Quel est le plus haut sommet d'Afrique?
+
+🔍 Recherche pour : 'Quel est le plus haut sommet d'Afrique?'
+🤖 Appel à Mistral AI...
+ERREUR: Error response 429 while fetching https://api.mistral.ai/v1/chat/completions: {"object":"error","message":"Rate limit exceeded","type":"rate_limited","param":null,"code":"1300","raw_status_code":429}
+
+
+==========================================================================================
+RAPPORT FINAL - 15 QUESTIONS
+==========================================================================================
+
+STATISTIQUES GLOBALES:
+  - Total de tests: 15
+  - Tests reussis: 4 (OK)
+  - Tests echoues: 11 (ECHEC)
+  - Taux de reussite: 26.7%
+
+REPARTITION PAR TYPE:
+  - Questions VALIDES: 4/10 reussis
+  - Questions HORS-SUJET: 0/5 reussis
+
+DETECTION DES HALLUCINATIONS:
+  - Hallucinations detectees: 3
+  - ALERTE: 3 hallucination(s) trouvee(s)
+
+DETAILS DES TESTS:
+Num  Type         Resultat Description                   
+------------------------------------------------------------
+01   VALIDE       ECHEC    Droits aux conges annuels     
+02   VALIDE       ECHEC    Delai de preavis              
+03   VALIDE       OK       Convention collective         
+04   VALIDE       ECHEC    Calcul des heures supplement  
+05   VALIDE       OK       Obligations de l'employeur    
+06   VALIDE       ECHEC    Teletravail                   
+07   VALIDE       ECHEC    Motifs de licenciement        
+08   VALIDE       OK       Suspension du contrat         
+09   VALIDE       ECHEC    Indemnites de licenciement    
+10   VALIDE       OK       Droits syndicaux              
+11   HORS-SUJET   ECHEC    Question non-legale (restaur  
+12   HORS-SUJET   ECHEC    Question technique (programm  
+13   HORS-SUJET   ECHEC    Question personnelle (riches  
+14   HORS-SUJET   ECHEC    Question scientifique (physi  
+15   HORS-SUJET   ECHEC    Question geographique         
+
+Resultats sauvegarde dans: test_15_questions_results.json
+
+==========================================================================================
+ALERTE: 3 hallucination(s) detectee(s)
+==========================================================================================
+

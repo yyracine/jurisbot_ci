@@ -8,10 +8,24 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 
 # 1. Charger les variables d'environnement
-load_dotenv()
-MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
+try:
+    import streamlit as st
+    MISTRAL_API_KEY = st.secrets.get("mistral_api_key")
+except (ImportError, AttributeError, KeyError):
+    MISTRAL_API_KEY = None
+
 if not MISTRAL_API_KEY:
-    raise ValueError("❌ Erreur: La clé MISTRAL_API_KEY est introuvable dans le fichier .env")
+    load_dotenv()
+    MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
+
+if not MISTRAL_API_KEY:
+    raise ValueError(
+        "❌ Erreur: La clé MISTRAL_API_KEY est introuvable.\n"
+        "Pour Streamlit Cloud: Allez à 'Settings' → 'Secrets' et ajoutez:\n"
+        "mistral_api_key = 'votre-clé-ici'\n"
+        "Pour développement local: Créez un fichier .env avec:\n"
+        "MISTRAL_API_KEY=votre-clé-ici"
+    )
 os.environ["MISTRAL_API_KEY"] = MISTRAL_API_KEY
 
 # 2. Chemin du fichier

@@ -1002,17 +1002,16 @@ def show_admin_panel():
 
         with col_export1:
             if st.button("💾 Export Feedbacks JSON", use_container_width=True):
-                export_file = "feedbacks_export.json"
-                export_all_data()
                 try:
-                    with open(export_file, "r", encoding="utf-8") as f:
-                        json_data = json.load(f)
+                    export_data = export_all_data()
+                    json_content = json.dumps(export_data, indent=2, ensure_ascii=False)
                     st.download_button(
-                        "Télécharger Feedbacks",
-                        json.dumps(json_data, indent=2, ensure_ascii=False),
-                        file_name=export_file,
+                        "📥 Télécharger Feedbacks",
+                        json_content,
+                        file_name=f"feedbacks_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
                         mime="application/json"
                     )
+                    st.success("✅ Export prêt!")
                 except Exception as e:
                     st.error(f"Erreur: {e}")
 
@@ -1024,13 +1023,14 @@ def show_admin_panel():
                         with open(analysis_file, "r", encoding="utf-8") as f:
                             analysis_data = f.read()
                         st.download_button(
-                            "Télécharger Analyse",
+                            "📥 Télécharger Analyse",
                             analysis_data,
-                            file_name=analysis_file,
+                            file_name=f"analyse_jurisbot_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
                             mime="application/json"
                         )
+                        st.success("✅ Export prêt!")
                     else:
-                        st.warning("Fichier d'analyse non trouvé")
+                        st.warning("⚠️ Fichier d'analyse non trouvé. Lancez d'abord une analyse.")
                 except Exception as e:
                     st.error(f"Erreur: {e}")
 

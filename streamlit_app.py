@@ -234,11 +234,7 @@ def authenticate_user():
 
             admin_password = os.getenv("ADMIN_PASSWORD", "")
 
-            if not admin_password:
-                st.error("❌ Configuration manquante: ADMIN_PASSWORD non défini dans .env")
-                st.stop()
-
-            if password == admin_password:
+            if password and admin_password and password == admin_password:
                 st.session_state.authenticated = True
                 st.session_state.is_admin = True
                 st.session_state.user_email = email

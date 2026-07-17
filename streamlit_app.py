@@ -1004,14 +1004,19 @@ def show_admin_panel():
             if st.button("💾 Export Feedbacks JSON", use_container_width=True):
                 try:
                     export_data = export_all_data()
-                    json_content = json.dumps(export_data, indent=2, ensure_ascii=False)
-                    st.download_button(
-                        "📥 Télécharger Feedbacks",
-                        json_content,
-                        file_name=f"feedbacks_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
-                        mime="application/json"
-                    )
-                    st.success("✅ Export prêt!")
+                    total_items = len(export_data.get("responses", [])) + len(export_data.get("feedbacks", [])) + len(export_data.get("alerts", []))
+
+                    if total_items == 0:
+                        st.warning("⚠️ Base de données vide. Générez des données avant d'exporter.")
+                    else:
+                        json_content = json.dumps(export_data, indent=2, ensure_ascii=False)
+                        st.download_button(
+                            "📥 Télécharger Feedbacks",
+                            json_content,
+                            file_name=f"feedbacks_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
+                            mime="application/json"
+                        )
+                        st.success(f"✅ Export prêt! ({total_items} éléments)")
                 except Exception as e:
                     st.error(f"Erreur: {e}")
 

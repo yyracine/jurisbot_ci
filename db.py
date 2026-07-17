@@ -116,6 +116,9 @@ def add_feedback(
     email: str = None
 ) -> bool:
     """Ajoute un feedback utilisateur à la base de données"""
+    import sys
+    print(f"[DB LOG] Attempting to save feedback for response_id: {response_id}, type: {feedback_type}", file=sys.stderr)
+
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
@@ -132,9 +135,11 @@ def add_feedback(
 
         conn.commit()
         conn.close()
+
+        print(f"[DB LOG] ✅ Feedback saved successfully for response_id: {response_id}", file=sys.stderr)
         return True
     except Exception as e:
-        print(f"Erreur lors de l'ajout du feedback: {e}")
+        print(f"[DB LOG] ❌ Erreur lors de l'ajout du feedback: {e}", file=sys.stderr)
         return False
 
 def add_alert(response_id: str, hallucination_description: str) -> bool:

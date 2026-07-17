@@ -129,38 +129,52 @@ class JurisBotMonitored:
 
 def submit_feedback(response_id: str, feedback_type: str, detailed_feedback: dict = None):
     """Soumet le feedback à la base de données SQLite"""
-    if feedback_type == "positive":
-        add_feedback(
-            response_id=response_id,
-            feedback_type="quick",
-            feedback="thumbs_up",
-            is_hallucination=False
-        )
-    elif feedback_type == "negative":
-        add_feedback(
-            response_id=response_id,
-            feedback_type="quick",
-            feedback="thumbs_down",
-            is_hallucination=False
-        )
-    elif feedback_type == "hallucination":
-        add_feedback(
-            response_id=response_id,
-            feedback_type="quick",
-            feedback="hallucination",
-            is_hallucination=True
-        )
-    elif feedback_type == "detailed" and detailed_feedback:
-        add_feedback(
-            response_id=response_id,
-            feedback_type="detailed",
-            accuracy=detailed_feedback.get("accuracy"),
-            clarity=detailed_feedback.get("clarity"),
-            citations=detailed_feedback.get("citations"),
-            completeness=detailed_feedback.get("completeness"),
-            comments=detailed_feedback.get("comments"),
-            email=detailed_feedback.get("email", "anonymous")
-        )
+    import sys
+    log_msg = f"[FEEDBACK LOG] Type: {feedback_type}, ResponseID: {response_id}"
+    print(log_msg, file=sys.stderr)
+
+    try:
+        if feedback_type == "positive":
+            result = add_feedback(
+                response_id=response_id,
+                feedback_type="quick",
+                feedback="thumbs_up",
+                is_hallucination=False
+            )
+            print(f"[FEEDBACK LOG] ✅ Positive feedback saved: {result}", file=sys.stderr)
+        elif feedback_type == "negative":
+            result = add_feedback(
+                response_id=response_id,
+                feedback_type="quick",
+                feedback="thumbs_down",
+                is_hallucination=False
+            )
+            print(f"[FEEDBACK LOG] ✅ Negative feedback saved: {result}", file=sys.stderr)
+        elif feedback_type == "hallucination":
+            result = add_feedback(
+                response_id=response_id,
+                feedback_type="quick",
+                feedback="hallucination",
+                is_hallucination=True
+            )
+            print(f"[FEEDBACK LOG] ✅ Hallucination feedback saved: {result}", file=sys.stderr)
+        elif feedback_type == "detailed" and detailed_feedback:
+            result = add_feedback(
+                response_id=response_id,
+                feedback_type="detailed",
+                accuracy=detailed_feedback.get("accuracy"),
+                clarity=detailed_feedback.get("clarity"),
+                citations=detailed_feedback.get("citations"),
+                completeness=detailed_feedback.get("completeness"),
+                comments=detailed_feedback.get("comments"),
+                email=detailed_feedback.get("email", "anonymous")
+            )
+            print(f"[FEEDBACK LOG] ✅ Detailed feedback saved: {result}", file=sys.stderr)
+        else:
+            print(f"[FEEDBACK LOG] ⚠️ No matching feedback type or missing data", file=sys.stderr)
+    except Exception as e:
+        print(f"[FEEDBACK LOG] ❌ ERROR: {str(e)}", file=sys.stderr)
+        st.error(f"❌ Erreur lors de l'enregistrement du feedback: {str(e)}")
 
 def load_detailed_feedback():
     """Charge tous les feedbacks depuis SQLite"""

@@ -5,10 +5,23 @@ import pandas as pd
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from bot_juridique import init_rag_engine, ask_legal_bot, verify_and_correct_citations
 from monitoring import get_monitor
 from hallucination_detector import HallucinationDetector
+from db import (
+    init_db, add_response, add_feedback,
+    get_all_feedbacks, get_feedback_stats, export_all_data
+)
+from db import get_stats as get_db_stats
+from analysis import FeedbackAnalyzer
+from recommendations import RecommendationEngine
+
+init_db()
 
 st.set_page_config(
     page_title="JurisBot CI - Legal AI",
@@ -94,6 +107,18 @@ class JurisBotMonitored:
             }
         )
 
+        add_response(
+            response_id=response_id,
+            query=query,
+            answer=answer,
+            sources=sources,
+            hallucination_score=detection_results.get("hallucination_score", 0.0),
+            is_hallucinating=detection_results.get("is_hallucinating", False),
+            model="mistral-large-latest",
+            retriever="FAISS",
+            embedding_model="mistral-embed"
+        )
+
         if detection_results["is_hallucinating"]:
             self.monitor.create_alert(
                 response_id=response_id,
@@ -103,74 +128,124 @@ class JurisBotMonitored:
         return answer, response_id
 
 def submit_feedback(response_id: str, feedback_type: str, detailed_feedback: dict = None):
-    monitor = get_monitoring()
-    is_hallucination = feedback_type == "hallucination"
-
-    details = f"Feedback: {feedback_type}"
-    if detailed_feedback:
-        details = json.dumps(detailed_feedback, ensure_ascii=False)
-
-    monitor.log_user_feedback(
-        response_id=response_id,
-        feedback="thumbs_down" if feedback_type in ["negative", "hallucination"] else "thumbs_up",
-        is_hallucination=is_hallucination,
-        details=details
-    )
-
-    save_detailed_feedback(response_id, feedback_type, detailed_feedback)
-
-def save_detailed_feedback(response_id: str, feedback_type: str, feedback_data: dict = None):
-    """Sauvegarde le feedback détaillé dans un fichier JSON"""
-    feedback_dir = Path("feedback_logs")
-    feedback_dir.mkdir(exist_ok=True)
-
-    feedback_file = feedback_dir / "detailed_feedback.jsonl"
-
-    entry = {
-        "response_id": response_id,
-        "timestamp": datetime.now().isoformat(),
-        "feedback_type": feedback_type,
-        "feedback_data": feedback_data or {}
-    }
-
-    with open(feedback_file, "a", encoding="utf-8") as f:
-        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    """Soumet le feedback à la base de données SQLite"""
+    if feedback_type == "positive":
+        add_feedback(
+            response_id=response_id,
+            feedback_type="quick",
+            feedback="thumbs_up",
+            is_hallucination=False
+        )
+    elif feedback_type == "negative":
+        add_feedback(
+            response_id=response_id,
+            feedback_type="quick",
+            feedback="thumbs_down",
+            is_hallucination=False
+        )
+    elif feedback_type == "hallucination":
+        add_feedback(
+            response_id=response_id,
+            feedback_type="quick",
+            feedback="hallucination",
+            is_hallucination=True
+        )
+    elif feedback_type == "detailed" and detailed_feedback:
+        add_feedback(
+            response_id=response_id,
+            feedback_type="detailed",
+            accuracy=detailed_feedback.get("accuracy"),
+            clarity=detailed_feedback.get("clarity"),
+            citations=detailed_feedback.get("citations"),
+            completeness=detailed_feedback.get("completeness"),
+            comments=detailed_feedback.get("comments"),
+            email=detailed_feedback.get("email", "anonymous")
+        )
 
 def load_detailed_feedback():
-    """Charge tous les feedbacks détaillés"""
-    feedback_file = Path("feedback_logs/detailed_feedback.jsonl")
+    """Charge tous les feedbacks depuis SQLite"""
+    feedbacks = get_all_feedbacks()
 
-    if not feedback_file.exists():
-        return []
+    formatted_feedbacks = []
+    for fb in feedbacks:
+        formatted_feedbacks.append({
+            "response_id": fb["response_id"],
+            "timestamp": fb["created_at"],
+            "feedback_type": fb["feedback_type"],
+            "feedback_data": {
+                "accuracy": fb["accuracy"],
+                "clarity": fb["clarity"],
+                "citations": fb["citations"],
+                "completeness": fb["completeness"],
+                "comments": fb["comments"],
+                "email": fb["email"] or "Anonyme"
+            }
+        })
 
-    feedbacks = []
-    with open(feedback_file, "r", encoding="utf-8") as f:
-        for line in f:
-            if line.strip():
-                feedbacks.append(json.loads(line))
-
-    return feedbacks
+    return formatted_feedbacks
 
 def get_stats():
-    monitor = get_monitoring()
-    stats = monitor.get_stats()
-
-    feedback_dist = {}
-    feedback_log = monitor.feedback_log
-    if feedback_log.exists():
-        with open(feedback_log, "r", encoding="utf-8") as f:
-            for line in f:
-                entry = json.loads(line)
-                fb_type = entry.get("feedback", "unknown")
-                feedback_dist[fb_type] = feedback_dist.get(fb_type, 0) + 1
+    """Récupère les statistiques depuis SQLite"""
+    stats = get_db_stats()
+    feedback_stats = get_feedback_stats()
 
     return {
         **stats,
-        "feedback_distribution": feedback_dist,
+        **feedback_stats,
         "hallucination_count": stats.get("hallucinations_detected", 0)
     }
 
+def init_session_state():
+    if "authenticated" not in st.session_state:
+        st.session_state.authenticated = False
+    if "is_admin" not in st.session_state:
+        st.session_state.is_admin = False
+
+def authenticate_user():
+    st.set_page_config(
+        page_title="JurisBot CI - Authentification",
+        page_icon="⚖️",
+    )
+
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.title("🔐 JurisBot CI")
+        st.markdown("---")
+        st.markdown("### Accès à la plateforme")
+
+        password = st.text_input(
+            "Mot de passe d'accès:",
+            type="password",
+            placeholder="Entrez votre mot de passe"
+        )
+
+        if st.button("Accéder", use_container_width=True):
+            admin_password = os.getenv("ADMIN_PASSWORD", "")
+
+            if not admin_password:
+                st.error("❌ Configuration manquante: ADMIN_PASSWORD non défini dans .env")
+                st.stop()
+
+            if password == admin_password:
+                st.session_state.authenticated = True
+                st.session_state.is_admin = True
+                st.success("✅ Accès administrateur activé!")
+                st.rerun()
+            else:
+                st.session_state.authenticated = True
+                st.session_state.is_admin = False
+                st.success("✅ Accès testeur activé!")
+                st.rerun()
+
+    st.stop()
+
 def main():
+    init_session_state()
+
+    if not st.session_state.authenticated:
+        authenticate_user()
+        return
+
     with st.sidebar:
         st.header("📋 JurisBot CI")
         st.markdown("---")
@@ -184,14 +259,31 @@ def main():
         """)
         st.markdown("---")
 
-        page = st.radio("Navigation", ["Chat", "Statistiques", "Feedbacks"])
+        if st.session_state.is_admin:
+            page = st.radio("Navigation", ["Chat", "Statistiques", "Feedbacks", "Analyse & Recommandations"])
+            st.markdown("---")
+            st.info(f"👤 Mode: **Admin**")
+        else:
+            page = "Chat"
+            st.info(f"👤 Mode: **Testeur**\n\nVous accédez uniquement au formulaire de feedback.")
+
+        st.markdown("---")
+        if st.button("🔒 Déconnexion", use_container_width=True):
+            st.session_state.authenticated = False
+            st.session_state.is_admin = False
+            st.session_state.chat_history = []
+            st.session_state.feedback_submitted = {}
+            st.success("✅ Déconnecté!")
+            st.rerun()
 
     if page == "Chat":
         show_chat_page()
     elif page == "Statistiques":
         show_stats_page()
-    else:
+    elif page == "Feedbacks":
         show_feedback_page()
+    else:
+        show_analysis_page()
 
 def show_chat_page():
     st.title("⚖️ JurisBot - Droit du Travail Ivoirien")
@@ -206,13 +298,25 @@ def show_chat_page():
     if "feedback_submitted" not in st.session_state:
         st.session_state.feedback_submitted = {}
 
-    with st.form(key="question_form", clear_on_submit=True):
-        user_input = st.text_area(
-            "Votre question:",
-            placeholder="Ex: Quels sont les délais de préavis pour un licenciement?",
-            height=100
-        )
-        submit_button = st.form_submit_button("📤 Envoyer", use_container_width=True)
+    col_form_left, col_form_right = st.columns([4, 1])
+
+    with col_form_left:
+        with st.form(key="question_form", clear_on_submit=True):
+            user_input = st.text_area(
+                "Votre question:",
+                placeholder="Ex: Quels sont les délais de préavis pour un licenciement?",
+                height=100
+            )
+            submit_button = st.form_submit_button("📤 Envoyer", use_container_width=True)
+
+    with col_form_right:
+        st.write("")
+        st.write("")
+        if st.button("🔄 Réinitialiser", use_container_width=True):
+            st.session_state.chat_history = []
+            st.session_state.feedback_submitted = {}
+            st.success("✅ Chat réinitialisé!")
+            st.rerun()
 
     if submit_button and user_input.strip():
         with st.spinner("⏳ Analyse en cours..."):
@@ -494,37 +598,204 @@ def show_feedback_page():
     # Export des feedbacks
     st.subheader("📥 Export des données")
 
-    if st.button("📥 Télécharger tous les feedbacks (JSON)"):
-        json_data = json.dumps(feedbacks, ensure_ascii=False, indent=2)
-        st.download_button(
-            label="Télécharger",
-            data=json_data,
-            file_name="jurisbot_feedbacks.json",
-            mime="application/json"
-        )
+    col_json, col_csv, col_all = st.columns(3)
 
-    if st.button("📊 Télécharger en CSV"):
-        csv_data = []
-        for fb in feedbacks:
-            data = fb.get("feedback_data", {})
-            csv_data.append({
-                "Date": datetime.fromisoformat(fb.get("timestamp", "")).strftime("%d/%m/%Y %H:%M"),
-                "Email": data.get("email", "Anonyme"),
-                "Précision": data.get("accuracy", ""),
-                "Clarté": data.get("clarity", ""),
-                "Citations": data.get("citations", ""),
-                "Complétude": data.get("completeness", ""),
-                "Commentaires": data.get("comments", "")
-            })
+    with col_json:
+        if st.button("📥 JSON Feedbacks"):
+            json_data = json.dumps(feedbacks, ensure_ascii=False, indent=2, default=str)
+            st.download_button(
+                label="Télécharger",
+                data=json_data,
+                file_name="jurisbot_feedbacks.json",
+                mime="application/json",
+                use_container_width=True
+            )
 
-        df = pd.DataFrame(csv_data)
-        csv = df.to_csv(index=False).encode('utf-8')
-        st.download_button(
-            label="Télécharger",
-            data=csv,
-            file_name="jurisbot_feedbacks.csv",
-            mime="text/csv"
-        )
+    with col_csv:
+        if st.button("📊 CSV Feedbacks"):
+            csv_data = []
+            for fb in feedbacks:
+                data = fb.get("feedback_data", {})
+                csv_data.append({
+                    "Date": fb.get("timestamp", "").split("T")[0],
+                    "Email": data.get("email", "Anonyme"),
+                    "Précision": data.get("accuracy", ""),
+                    "Clarté": data.get("clarity", ""),
+                    "Citations": data.get("citations", ""),
+                    "Complétude": data.get("completeness", ""),
+                    "Commentaires": data.get("comments", "")
+                })
+
+            df = pd.DataFrame(csv_data)
+            csv = df.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                label="Télécharger",
+                data=csv,
+                file_name="jurisbot_feedbacks.csv",
+                mime="text/csv",
+                use_container_width=True
+            )
+
+    with col_all:
+        if st.button("📦 Export Complet"):
+            all_data = export_all_data()
+            json_data = json.dumps(all_data, ensure_ascii=False, indent=2, default=str)
+            st.download_button(
+                label="Télécharger",
+                data=json_data,
+                file_name="jurisbot_complete_export.json",
+                mime="application/json",
+                use_container_width=True
+            )
+
+def show_analysis_page():
+    st.title("📊 Analyse & Recommandations - JurisBot CI")
+    st.markdown("Analyse intelligente des données pour améliorer l'application")
+
+    try:
+        analyzer = FeedbackAnalyzer()
+        engine = RecommendationEngine()
+
+        tab1, tab2, tab3, tab4 = st.tabs(["📈 Satisfaction", "⚠️ Problèmes", "✅ Quick Wins", "🗺️ Roadmap"])
+
+        with tab1:
+            st.subheader("Score de Satisfaction Global")
+            satisfaction = analyzer.get_user_satisfaction()
+
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric("Score Satisfaction", f"{satisfaction['satisfaction_score']:.1f}/5", satisfaction['interpretation'])
+            with col2:
+                st.metric("Total Feedbacks", satisfaction["total_feedbacks"])
+            with col3:
+                st.metric("Feedbacks Détaillés", satisfaction["detailed_feedbacks"])
+            with col4:
+                st.metric("Réponses Analysées", len(analyzer.responses))
+
+            st.markdown("---")
+
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write("**Scores détaillés**")
+                metrics_df = pd.DataFrame({
+                    "Métrique": ["Précision", "Clarté", "Citations", "Complétude"],
+                    "Score": [
+                        analyzer.feedback_stats.get("avg_accuracy", 0),
+                        analyzer.feedback_stats.get("avg_clarity", 0),
+                        analyzer.feedback_stats.get("avg_citations", 0),
+                        analyzer.feedback_stats.get("avg_completeness", 0)
+                    ]
+                })
+                st.bar_chart(metrics_df.set_index("Métrique"), height=300)
+
+            with col2:
+                st.write("**Hallucinations & Qualité**")
+                quality_df = pd.DataFrame({
+                    "Métrique": ["Hallucination Rate", "Avg Hallucination Score"],
+                    "Valeur": [
+                        analyzer.response_stats.get("hallucination_rate", 0),
+                        analyzer.response_stats.get("average_hallucination_score", 0) * 100
+                    ]
+                })
+                st.bar_chart(quality_df.set_index("Métrique"), height=300)
+
+            strengths = analyzer.get_strengths()
+            if strengths:
+                st.markdown("---")
+                st.subheader("✨ Forces du Système")
+                for strength in strengths:
+                    with st.container(border=True):
+                        col1, col2 = st.columns([3, 1])
+                        with col1:
+                            st.markdown(f"**{strength['area']}**")
+                            st.write(strength["description"])
+                        with col2:
+                            st.metric("Score", f"{strength['score']:.1f}")
+
+        with tab2:
+            st.subheader("⚠️ Zones Problématiques")
+            problems = analyzer.get_problem_areas()
+
+            if not problems:
+                st.success("✅ Aucun problème détecté! Système en bonne santé.")
+            else:
+                for problem in problems:
+                    severity_icon = {"CRITICAL": "🚨", "HIGH": "⚠️", "MEDIUM": "📌"}.get(problem["severity"], "ℹ️")
+                    with st.container(border=True):
+                        st.markdown(f"{severity_icon} **{problem['area']}** - {problem['severity']}")
+                        st.write(problem["description"])
+                        col1, col2 = st.columns(2)
+                        with col1:
+                            st.write(f"📊 {problem['impact']}")
+                        with col2:
+                            st.write(f"💡 {problem['recommendation']}")
+
+        with tab3:
+            st.subheader("⚡ Quick Wins - Actions Rapides")
+            quick_wins = engine.get_quick_wins()
+
+            if not quick_wins:
+                st.success("✅ Système optimisé! Pas de quick wins nécessaires.")
+            else:
+                for win in quick_wins:
+                    with st.expander(f"**{win['title']}** - {win['effort']} ({win['estimated_time']})"):
+                        col1, col2 = st.columns([2, 1])
+                        with col1:
+                            st.write(win["description"])
+                            st.markdown("**Actions:**")
+                            for action in win["actions"]:
+                                st.write(f"- {action}")
+                        with col2:
+                            st.metric("Priorité", win["priority"])
+                            st.metric("Impact", win["expected_impact"])
+                        st.info(f"✓ Succès: {win['success_metric']}")
+
+        with tab4:
+            st.subheader("🗺️ Roadmap Personnalisée")
+            roadmap = engine.get_personalized_roadmap()
+
+            st.write(f"**État actuel:** Satisfaction = {roadmap['current_state']['satisfaction_score']:.1f}/5")
+            st.write(f"**Focus:** {roadmap['priority_focus']}")
+
+            col1, col2 = st.columns(2)
+            with col1:
+                st.subheader("📋 Moyen Terme (1-2 semaines)")
+                for improvement in roadmap["medium_term"]:
+                    with st.container(border=True):
+                        st.markdown(f"**{improvement['title']}**")
+                        st.caption(f"{improvement['timeline']} | {improvement['effort']}")
+                        st.write(improvement["description"])
+
+            with col2:
+                st.subheader("🚀 Long Terme (1-3 mois)")
+                for phase in roadmap["long_term"]:
+                    with st.container(border=True):
+                        st.markdown(f"**{phase['phase']}**")
+                        st.caption(phase["timeline"])
+                        for initiative in phase["initiatives"]:
+                            st.write(f"- {initiative}")
+
+        st.markdown("---")
+        st.subheader("📥 Exporter les Rapports")
+        col1, col2 = st.columns(2)
+
+        with col1:
+            if st.button("📊 Export Analyse JSON"):
+                filepath = analyzer.export_report_json()
+                with open(filepath, "r", encoding="utf-8") as f:
+                    json_data = f.read()
+                st.download_button("Télécharger Analyse", json_data, file_name=filepath.split("/")[-1], mime="application/json")
+
+        with col2:
+            if st.button("🗺️ Export Recommandations JSON"):
+                filepath = engine.export_recommendations()
+                with open(filepath, "r", encoding="utf-8") as f:
+                    json_data = f.read()
+                st.download_button("Télécharger Recommandations", json_data, file_name=filepath.split("/")[-1], mime="application/json")
+
+    except Exception as e:
+        st.error(f"❌ Erreur lors de l'analyse: {e}")
+        st.info("Assurez-vous d'avoir assez de données pour l'analyse (au moins 5 feedbacks)")
 
 if __name__ == "__main__":
     main()

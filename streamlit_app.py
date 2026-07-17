@@ -15,7 +15,7 @@ from monitoring import get_monitor
 from hallucination_detector import HallucinationDetector
 from db import (
     init_db, add_response, add_feedback,
-    get_all_feedbacks, get_feedback_stats, export_all_data, clear_all_data
+    get_all_feedbacks, get_feedback_stats, export_all_data
 )
 from db import get_stats as get_db_stats
 from analysis import FeedbackAnalyzer
@@ -882,6 +882,7 @@ def show_admin_panel():
                     if confirmation.upper() == "CONFIRMER":
                         try:
                             with st.spinner("🗑️ Suppression en cours..."):
+                                from db import clear_all_data
                                 export_all_data()
                                 clear_all_data()
                             st.success("✅ Données purgées avec succès!")

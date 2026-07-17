@@ -1,0 +1,68 @@
+{
+  "timestamp": "2026-07-17T14:38:56.625260",
+  "total_responses": 5,
+  "total_feedbacks": 19,
+  "satisfaction": {
+    "satisfaction_score": 4.9375,
+    "interpretation": "⭐ Excellent",
+    "total_feedbacks": 19,
+    "detailed_feedbacks": 4
+  },
+  "problem_areas": [],
+  "strengths": [
+    {
+      "area": "Contrôle des hallucinations",
+      "score": 100.0,
+      "description": "Seulement 0.0% d'hallucinations détectées",
+      "value": "Système RAG bien calibré"
+    },
+    {
+      "area": "Précision juridique",
+      "score": 5.0,
+      "description": "Score moyen: 5.0/5",
+      "value": "Réponses juridiquement exactes"
+    },
+    {
+      "area": "Qualité des citations",
+      "score": 4.75,
+      "description": "Score moyen: 4.8/5",
+      "value": "Sources correctes et traçables"
+    }
+  ],
+  "hallucination_analysis": {
+    "total_hallucinations": 0,
+    "hallucination_rate": 0,
+    "most_problematic": [],
+    "recommendation": "✅ Aucune hallucination détectée!"
+  },
+  "trending_questions": [
+    {
+      "question": "un employé ayant un cdd peut il être embauché",
+      "frequency": 1
+    },
+    {
+      "question": "comment calculer le nombre de jour de congé payé",
+      "frequency": 1
+    },
+    {
+      "question": "comment se calcule le nombre de jour de congés",
+      "frequency": 1
+    },
+    {
+      "question": "j'ai droit à combien de jours de congés payés",
+      "frequency": 1
+    },
+    {
+      "question": "je suis un agent de maitrise, comment se calcule mon salaire?",
+      "frequency": 1
+    }
+  ],
+  "statistics": {
+    "hallucination_rate": 0.0,
+    "average_hallucination_score": 0.072,
+    "avg_accuracy": 5.0,
+    "avg_clarity": 5.0,
+    "avg_citations": 4.75,
+    "avg_completeness": 5.0
+  }
+}

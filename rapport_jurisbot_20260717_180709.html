@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Rapport Analyse JurisBot CI</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); padding: 40px; }
+        header { border-bottom: 3px solid #667eea; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { color: #333; font-size: 2em; margin-bottom: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .card { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 8px; text-align: center; }
+        .card h3 { font-size: 2em; margin-bottom: 5px; }
+        .section { margin-bottom: 30px; }
+        .section h2 { color: #333; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #667eea; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        table th { background: #667eea; color: white; padding: 10px; text-align: left; }
+        table td { padding: 10px; border-bottom: 1px solid #eee; }
+        .alert { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin: 10px 0; border-radius: 4px; }
+        .success { background: #d4edda; border-left: 4px solid #28a745; padding: 12px; margin: 10px 0; border-radius: 4px; }
+        .rec { background: #f0f7ff; border-left: 4px solid #667eea; padding: 12px; margin: 10px 0; border-radius: 4px; }
+        .priority { display: inline-block; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.85em; margin-right: 10px; }
+        .p1 { background: #ff4444; color: white; }
+        .p2 { background: #ffaa44; color: white; }
+        .timestamp { color: #999; font-size: 0.9em; }
+        footer { text-align: center; color: #999; margin-top: 30px; padding-top: 15px; border-top: 1px solid #eee; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚖️ JurisBot CI - Rapport d'Analyse</h1>
+            <p class="timestamp">Généré: 17/07/2026 18:07:09</p>
+        </header>
+
+        <div class="section">
+            <h2>📊 KPIs Clés</h2>
+            <div class="grid">
+                <div class="card"><h3>25</h3><p>Feedbacks</p></div>
+                <div class="card"><h3>0</h3><p>Hallucinations</p></div>
+                <div class="card"><h3>4.14/5</h3><p>Précision</p></div>
+                <div class="card"><h3>4.14/5</h3><p>Clarté</p></div>
+                <div class="card"><h3>4.00/5</h3><p>Citations</p></div>
+                <div class="card"><h3>4.14/5</h3><p>Complétude</p></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>✅ Points Positifs</h2>
+            <div class="success">✓ <strong>Zéro Hallucinations</strong> — 0/25 (0%). RAG bien configuré!</div>
+            <div class="success">✓ <strong>Précision Correcte</strong> — 4.14/5. 57% des réponses 5/5</div>
+            <div class="success">✓ <strong>Satisfaction</strong> — 80% thumbs up. Utilisateurs satisfaits</div>
+        </div>
+
+        <div class="section">
+            <h2>⚠️ Points d'Amélioration</h2>
+            <div class="alert">⚠️ <strong>Citations</strong> — 4.0/5 (Objectif: 4.5+). 43% des réponses 3/5</div>
+            <div class="alert">⚠️ <strong>Clarté</strong> — 4.14/5. 3 questions complexes scores bas</div>
+        </div>
+
+        <div class="section">
+            <h2>🔴 Feedbacks Problématiques</h2>
+            <table>
+                <thead><tr><th>Question</th><th>Email</th><th>Précision</th><th>Clarté</th><th>Citations</th></tr></thead>
+                <tbody>
+
+                <tr>
+                    <td>comment sont calculés les congés payés d'une femme</td>
+                    <td>toto@zoro.com</td>
+                    <td>3/5</td>
+                    <td>3/5</td>
+                    <td>3/5</td>
+                </tr>
+
+                <tr>
+                    <td>délais de préavis</td>
+                    <td>assable@hotmail.com</td>
+                    <td>3/5</td>
+                    <td>3/5</td>
+                    <td>3/5</td>
+                </tr>
+
+                <tr>
+                    <td>explique moi le calcul des heures supplémentaires</td>
+                    <td>assable@hotmail.com</td>
+                    <td>3/5</td>
+                    <td>3/5</td>
+                    <td>3/5</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Recommandations</h2>
+            <div class="rec">
+                <span class="priority p1">P1</span>
+                <strong>Citations</strong> — Score: 4.0/5 → Objectif: 4.5/5
+                <br>Vérifier les sources et corriger les hallucinations
+                <br><em>Timeline: 1-2 jours | Effort: Medium</em>
+            </div>
+            <div class="rec">
+                <span class="priority p2">P2</span>
+                <strong>Clarté</strong> — Simplifier les réponses, ajouter plus d'exemples
+                <br><em>Timeline: 2-3 jours | Effort: Medium</em>
+            </div>
+        </div>
+
+        <footer>
+            <p>Rapport généré automatiquement pour JurisBot CI</p>
+            <p>Analyse de {len(detailed)} feedbacks détaillés</p>
+        </footer>
+    </div>
+</body>
+</html>

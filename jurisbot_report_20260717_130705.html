@@ -1,0 +1,229 @@
+
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>JurisBot CI - Rapport d'Analyse</title>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+                line-height: 1.6;
+                color: #333;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #f5f5f5;
+            }
+            .header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 40px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+            }
+            .header h1 {
+                margin: 0;
+                font-size: 2.5em;
+            }
+            .timestamp {
+                opacity: 0.9;
+                font-size: 0.9em;
+            }
+            .metrics {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+                margin-bottom: 30px;
+            }
+            .metric-card {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                text-align: center;
+            }
+            .metric-value {
+                font-size: 2em;
+                font-weight: bold;
+                color: #667eea;
+                margin: 10px 0;
+            }
+            .metric-label {
+                color: #666;
+                font-size: 0.9em;
+            }
+            .section {
+                background: white;
+                padding: 30px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .section h2 {
+                border-bottom: 3px solid #667eea;
+                padding-bottom: 10px;
+                margin-top: 0;
+            }
+            .problem {
+                border-left: 4px solid #dc3545;
+                padding: 15px;
+                margin-bottom: 15px;
+                background: #f8f9fa;
+                border-radius: 4px;
+            }
+            .problem.HIGH {
+                border-left-color: #fd7e14;
+            }
+            .problem.MEDIUM {
+                border-left-color: #ffc107;
+            }
+            .severity {
+                display: inline-block;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-weight: bold;
+                font-size: 0.85em;
+                margin-bottom: 10px;
+            }
+            .severity.CRITICAL {
+                background: #dc3545;
+                color: white;
+            }
+            .severity.HIGH {
+                background: #fd7e14;
+                color: white;
+            }
+            .severity.MEDIUM {
+                background: #ffc107;
+                color: #333;
+            }
+            .strength {
+                border-left: 4px solid #28a745;
+                padding: 15px;
+                margin-bottom: 15px;
+                background: #f8f9fa;
+                border-radius: 4px;
+            }
+            .quick-win {
+                border-left: 4px solid #667eea;
+                padding: 15px;
+                margin-bottom: 15px;
+                background: #f8f9fa;
+                border-radius: 4px;
+            }
+            .actions {
+                background: #f0f4ff;
+                padding: 10px;
+                border-radius: 4px;
+                margin: 10px 0;
+                font-size: 0.9em;
+            }
+            .recommendation {
+                background: #e7f3ff;
+                border-left: 4px solid #2196F3;
+                padding: 10px;
+                margin: 10px 0;
+                border-radius: 4px;
+            }
+            @media print {
+                body {
+                    background: white;
+                }
+                .section {
+                    page-break-inside: avoid;
+                    box-shadow: none;
+                    border: 1px solid #ddd;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>⚖️ JurisBot CI - Rapport d'Analyse</h1>
+            <p class="timestamp">Généré le 17/07/2026 à 13:07:05</p>
+        </div>
+
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-label">Score Satisfaction</div>
+                <div class="metric-value">5.0/5</div>
+                <div style="color: #667eea;">⭐ Excellent</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Total Réponses</div>
+                <div class="metric-value">0</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Taux Hallucination</div>
+                <div class="metric-value">0.0%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Total Feedbacks</div>
+                <div class="metric-value">12</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>✨ Forces du Système</h2>
+    
+            <div class="strength">
+                <strong>Contrôle des hallucinations</strong> (Score: 100.0)
+                <p>Seulement 0.0% d'hallucinations détectées</p>
+                <p><em>Valeur: Système RAG bien calibré</em></p>
+            </div>
+            
+            <div class="strength">
+                <strong>Précision juridique</strong> (Score: 5.0)
+                <p>Score moyen: 5.0/5</p>
+                <p><em>Valeur: Réponses juridiquement exactes</em></p>
+            </div>
+            
+            <div class="strength">
+                <strong>Qualité des citations</strong> (Score: 5.0)
+                <p>Score moyen: 5.0/5</p>
+                <p><em>Valeur: Sources correctes et traçables</em></p>
+            </div>
+            
+        </div>
+    
+        <div class="section">
+            <h2>🗺️ Roadmap</h2>
+        
+            <div style="margin-bottom: 20px;">
+                <h3>Phase 2: Production Ready</h3>
+                <p><strong>Timeline:</strong> 2-3 semaines</p>
+                <p>Préparer le système pour des utilisateurs payants</p>
+                <ul>
+            <li>Migrer vers Supabase pgvector pour scalabilité</li><li>Ajouter authentification des utilisateurs</li><li>Implémenter rate limiting et usage tracking</li><li>Créer système de facturation (Paystack)</li><li>Ajouter analytics pour chaque utilisateur</li>
+                </ul>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <h3>Phase 3: Advanced Features</h3>
+                <p><strong>Timeline:</strong> 1 mois</p>
+                <p>Ajouter des capacités avancées</p>
+                <ul>
+            <li>Chat conversationnel (memory entre questions)</li><li>Génération de contrats basée sur les réponses</li><li>Export PDF des réponses avec citations</li><li>Système de notifications pour mises à jour légales</li><li>API publique pour intégration tiers</li>
+                </ul>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <h3>Phase 4: Scaling</h3>
+                <p><strong>Timeline:</strong> 2-3 mois</p>
+                <p>Scaler pour 1000+ utilisateurs</p>
+                <ul>
+            <li>Multi-langue (Français, Anglais, Bambara)</li><li>Cache Redis pour performances</li><li>CDN pour documents statiques</li><li>Load balancing pour API</li><li>Monitoring/alerting avec Grafana</li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <div class="section" style="background: #f8f9fa; border-top: 3px solid #667eea;">
+            <p style="text-align: center; color: #666; margin: 0;">
+                <em>Rapport généré automatiquement par JurisBot CI Analytics</em>
+            </p>
+        </div>
+    </body>
+    </html>
+    

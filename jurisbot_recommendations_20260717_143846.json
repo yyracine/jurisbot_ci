@@ -1,0 +1,106 @@
+{
+  "current_state": {
+    "satisfaction_score": 4.9375,
+    "total_responses": 5,
+    "hallucination_rate": 0.0
+  },
+  "priority_focus": "Polishing & Production",
+  "quick_wins": [],
+  "medium_term": [
+    {
+      "priority": "P1",
+      "effort": "High",
+      "timeline": "3-5 jours",
+      "title": "Dashboard de monitoring avancé",
+      "description": "Créer un tableau de bord pour suivre les KPIs en temps réel",
+      "actions": [
+        "1. Créer une nouvelle page Streamlit 'Monitoring'",
+        "2. Afficher en temps réel: hallucinations, feedback scores",
+        "3. Graphiques: tendance accuracy, satisfaction over time",
+        "4. Alertes automatiques pour anomalies"
+      ],
+      "expected_impact": "Meilleure visibilité sur la qualité",
+      "tools_needed": [
+        "Streamlit",
+        "Plotly",
+        "SQLite"
+      ]
+    },
+    {
+      "priority": "P2",
+      "effort": "Medium",
+      "timeline": "2-3 jours",
+      "title": "Fine-tuning du modèle Mistral",
+      "description": "Adapter Mistral spécifiquement au droit ivoirien",
+      "actions": [
+        "1. Collecter 50+ pairs (question, bonne_réponse)",
+        "2. Formater pour fine-tuning Mistral",
+        "3. Entraîner sur 1-2 exemples",
+        "4. Comparer accuracy avant/après"
+      ],
+      "expected_impact": "Amélioration générale des réponses",
+      "tools_needed": [
+        "Mistral API fine-tuning",
+        "Python"
+      ]
+    },
+    {
+      "priority": "P2",
+      "effort": "Medium",
+      "timeline": "2-3 jours",
+      "title": "Enrichissement de la knowledge base",
+      "description": "Ajouter des documents légaux supplémentaires",
+      "actions": [
+        "1. Identifier les topics manquants (from feedback)",
+        "2. Trouver/créer documents légaux pour ces topics",
+        "3. Intégrer dans code_du_travail_ci.md",
+        "4. Re-créer l'index FAISS",
+        "5. Re-tester le système"
+      ],
+      "expected_impact": "Couverture de plus de cas d'usage",
+      "tools_needed": [
+        "Markdown",
+        "FAISS",
+        "Python"
+      ]
+    }
+  ],
+  "long_term": [
+    {
+      "phase": "Phase 2: Production Ready",
+      "timeline": "2-3 semaines",
+      "description": "Préparer le système pour des utilisateurs payants",
+      "initiatives": [
+        "Migrer vers Supabase pgvector pour scalabilité",
+        "Ajouter authentification des utilisateurs",
+        "Implémenter rate limiting et usage tracking",
+        "Créer système de facturation (Paystack)",
+        "Ajouter analytics pour chaque utilisateur"
+      ]
+    },
+    {
+      "phase": "Phase 3: Advanced Features",
+      "timeline": "1 mois",
+      "description": "Ajouter des capacités avancées",
+      "initiatives": [
+        "Chat conversationnel (memory entre questions)",
+        "Génération de contrats basée sur les réponses",
+        "Export PDF des réponses avec citations",
+        "Système de notifications pour mises à jour légales",
+        "API publique pour intégration tiers"
+      ]
+    },
+    {
+      "phase": "Phase 4: Scaling",
+      "timeline": "2-3 mois",
+      "description": "Scaler pour 1000+ utilisateurs",
+      "initiatives": [
+        "Multi-langue (Français, Anglais, Bambara)",
+        "Cache Redis pour performances",
+        "CDN pour documents statiques",
+        "Load balancing pour API",
+        "Monitoring/alerting avec Grafana"
+      ]
+    }
+  ]
+}

@@ -252,10 +252,13 @@ def clear_all_data() -> bool:
     """Purge toutes les données de Supabase"""
     try:
         # Delete in correct order (foreign keys)
-        supabase.table("feedbacks").delete().gt("id", 0).execute()
-        supabase.table("alerts").delete().gt("id", 0).execute()
-        supabase.table("responses").delete().gt("id", 0).execute()
-        supabase.table("chat_sessions").delete().gt("id", 0).execute()
+        # Pour les tables avec IDs numériques (BIGSERIAL)
+        supabase.table("feedbacks").delete().gte("id", 1).execute()
+        supabase.table("alerts").delete().gte("id", 1).execute()
+        supabase.table("chat_sessions").delete().gte("id", 1).execute()
+
+        # Pour responses avec IDs TEXT, on utilise ilike
+        supabase.table("responses").delete().ilike("id", "%").execute()
 
         log_action("CLEAR_ALL_DATA", "✅ SUCCESS - All data cleared")
         return True

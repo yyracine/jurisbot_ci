@@ -10,7 +10,7 @@ from langchain_community.vectorstores import FAISS
 # 1. Charger les variables d'environnement
 try:
     import streamlit as st
-    MISTRAL_API_KEY = st.secrets.get("mistral_api_key")
+    MISTRAL_API_KEY = st.secrets.get("MISTRAL_API_KEY") or st.secrets.get("mistral_api_key")
 except (ImportError, AttributeError, KeyError):
     MISTRAL_API_KEY = None
 
@@ -22,7 +22,7 @@ if not MISTRAL_API_KEY:
     raise ValueError(
         "❌ Erreur: La clé MISTRAL_API_KEY est introuvable.\n"
         "Pour Streamlit Cloud: Allez à 'Settings' → 'Secrets' et ajoutez:\n"
-        "mistral_api_key = 'votre-clé-ici'\n"
+        "MISTRAL_API_KEY = 'votre-clé-ici'\n"
         "Pour développement local: Créez un fichier .env avec:\n"
         "MISTRAL_API_KEY=votre-clé-ici"
     )

@@ -252,14 +252,15 @@ def clear_all_data() -> bool:
     """Purge toutes les données de Supabase"""
     try:
         # Delete in correct order (foreign keys)
-        supabase.table("feedbacks").delete().neq("id", 0).execute()
-        supabase.table("alerts").delete().neq("id", 0).execute()
-        supabase.table("responses").delete().neq("id", 0).execute()
-        supabase.table("chat_sessions").delete().neq("id", 0).execute()
+        supabase.table("feedbacks").delete().gt("id", 0).execute()
+        supabase.table("alerts").delete().gt("id", 0).execute()
+        supabase.table("responses").delete().gt("id", 0).execute()
+        supabase.table("chat_sessions").delete().gt("id", 0).execute()
 
+        log_action("CLEAR_ALL_DATA", "✅ SUCCESS - All data cleared")
         return True
     except Exception as e:
-        print(f"Erreur lors de la purge: {e}")
+        log_action("CLEAR_ALL_DATA", f"❌ ERROR: {str(e)}")
         return False
 
 if __name__ == "__main__":

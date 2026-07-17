@@ -383,41 +383,8 @@ def show_chat_page():
 
         response_id = msg["response_id"]
 
-        # Quick feedback buttons
-        st.markdown("### Feedback rapide")
-        col_up, col_down, col_neutral = st.columns(3, gap="small")
-
-        quick_feedback_submitted = st.session_state.feedback_submitted.get(response_id)
-
-        with col_up:
-            if st.button("👍 Utile", key=f"quick_up_{response_id}", disabled=quick_feedback_submitted is not None):
-                submit_feedback(response_id, "positive")
-                st.session_state.feedback_submitted[response_id] = "positive"
-                st.rerun()
-
-        with col_down:
-            if st.button("👎 Pas utile", key=f"quick_down_{response_id}", disabled=quick_feedback_submitted is not None):
-                submit_feedback(response_id, "negative")
-                st.session_state.feedback_submitted[response_id] = "negative"
-                st.rerun()
-
-        with col_neutral:
-            if st.button("🚫 Hallucination", key=f"quick_halluc_{response_id}", disabled=quick_feedback_submitted is not None):
-                submit_feedback(response_id, "hallucination")
-                st.session_state.feedback_submitted[response_id] = "hallucination"
-                st.rerun()
-
-        if quick_feedback_submitted:
-            if quick_feedback_submitted == "positive":
-                st.success("✅ Feedback positif enregistré")
-            elif quick_feedback_submitted == "negative":
-                st.warning("⚠️ Feedback négatif enregistré")
-            else:
-                st.error("🚨 Hallucination signalée!")
-
         # Detailed feedback form
-        st.markdown("---")
-        st.markdown("### 📝 Feedback détaillé (optionnel)")
+        st.markdown("### 📝 Feedback détaillé")
         st.caption("Aidez-nous à améliorer JurisBot en répondant à quelques questions")
 
         with st.form(key=f"detailed_feedback_{response_id}"):

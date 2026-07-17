@@ -329,6 +329,25 @@ def export_all_data() -> Dict[str, Any]:
         print(f"Erreur lors de l'export: {e}")
         return {}
 
+def clear_all_data() -> bool:
+    """Purge toutes les données de la base de données"""
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+
+        cursor.execute("DELETE FROM feedbacks")
+        cursor.execute("DELETE FROM alerts")
+        cursor.execute("DELETE FROM responses")
+        cursor.execute("DELETE FROM chat_sessions")
+
+        conn.commit()
+        conn.close()
+
+        return True
+    except Exception as e:
+        print(f"Erreur lors de la purge: {e}")
+        return False
+
 if __name__ == "__main__":
     init_db()
     print("✅ Base de données SQLite initialisée!")

@@ -15,7 +15,7 @@ from monitoring import get_monitor
 from hallucination_detector import HallucinationDetector
 from db import (
     init_db, add_response, add_feedback,
-    get_all_feedbacks, get_feedback_stats, export_all_data
+    get_all_feedbacks, get_feedback_stats, export_all_data, clear_all_data
 )
 from db import get_stats as get_db_stats
 from analysis import FeedbackAnalyzer
@@ -270,7 +270,7 @@ def main():
         st.markdown("---")
 
         if st.session_state.is_admin:
-            page = st.radio("Navigation", ["Chat", "Statistiques", "Feedbacks", "Analyse & Recommandations"])
+            page = st.radio("Navigation", ["Chat", "Statistiques", "Feedbacks", "Analyse & Recommandations", "⚙️ Admin"])
             st.markdown("---")
             st.info(f"👤 Mode: **Admin**")
         else:
@@ -293,8 +293,10 @@ def main():
         show_stats_page()
     elif page == "Feedbacks":
         show_feedback_page()
-    else:
+    elif page == "Analyse & Recommandations":
         show_analysis_page()
+    else:
+        show_admin_panel()
 
 def show_chat_page():
     st.title("⚖️ JurisBot - Droit du Travail Ivoirien")
@@ -804,6 +806,157 @@ def show_analysis_page():
     except Exception as e:
         st.error(f"❌ Erreur lors de l'analyse: {e}")
         st.info("Assurez-vous d'avoir assez de données pour l'analyse (au moins 5 feedbacks)")
+
+def show_admin_panel():
+    st.title("⚙️ Panneau Administrateur - JurisBot CI")
+    st.markdown("Gérez les données et générez les rapports")
+
+    st.markdown("---")
+    st.subheader("🛠️ Actions Administrateur")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown("### 📊 Analyser les Feedbacks")
+        st.write("Génère une analyse détaillée de tous les feedbacks collectés")
+        if st.button("🔍 Analyser", key="btn_analyze", use_container_width=True):
+            try:
+                with st.spinner("⏳ Analyse en cours..."):
+                    import subprocess
+                    result = subprocess.run(
+                        ["python", "advanced_analysis.py"],
+                        capture_output=True,
+                        text=True,
+                        encoding="utf-8"
+                    )
+                    if result.returncode == 0:
+                        st.success("✅ Analyse terminée!")
+                        st.markdown("### Résultats:")
+                        st.text(result.stdout)
+                    else:
+                        st.error(f"❌ Erreur lors de l'analyse: {result.stderr}")
+            except Exception as e:
+                st.error(f"❌ Erreur: {e}")
+
+    with col2:
+        st.markdown("### 📄 Rapport Détaillé")
+        st.write("Visualise le rapport HTML avec tous les KPIs")
+        if st.button("📖 Voir Rapport", key="btn_rapport", use_container_width=True):
+            try:
+                rapport_files = list(Path(".").glob("rapport_jurisbot_*.html"))
+                if rapport_files:
+                    latest_rapport = sorted(rapport_files)[-1]
+                    st.success(f"✅ Rapport trouvé: {latest_rapport.name}")
+
+                    with open(latest_rapport, "r", encoding="utf-8") as f:
+                        rapport_html = f.read()
+
+                    st.markdown(f"### {latest_rapport.name}")
+                    st.components.v1.html(rapport_html, height=800, scrolling=True)
+
+                    with open(latest_rapport, "rb") as f:
+                        st.download_button(
+                            "💾 Télécharger Rapport",
+                            f,
+                            file_name=latest_rapport.name,
+                            mime="text/html"
+                        )
+                else:
+                    st.warning("⚠️ Aucun rapport trouvé. Générez d'abord une analyse.")
+            except Exception as e:
+                st.error(f"❌ Erreur: {e}")
+
+    with col3:
+        st.markdown("### 🗑️ Purger les Données")
+        st.write("Supprime TOUTES les données stockées (irréversible)")
+        if st.button("🚨 Purger", key="btn_purge", use_container_width=True):
+            with st.form(key="purge_form", clear_on_submit=True):
+                st.warning("⚠️ **ATTENTION:** Cette action est irréversible!")
+                confirmation = st.text_input(
+                    "Tapez 'CONFIRMER' pour purger:",
+                    placeholder="CONFIRMER"
+                )
+                submit_purge = st.form_submit_button("✅ Purger les données", use_container_width=True)
+
+                if submit_purge:
+                    if confirmation.upper() == "CONFIRMER":
+                        try:
+                            with st.spinner("🗑️ Suppression en cours..."):
+                                export_all_data()
+                                clear_all_data()
+                            st.success("✅ Données purgées avec succès!")
+                            st.balloons()
+                            st.session_state.chat_history = []
+                            st.session_state.feedback_submitted = {}
+                        except Exception as e:
+                            st.error(f"❌ Erreur lors de la purge: {e}")
+                    else:
+                        st.error("❌ Confirmation invalide. Tapez 'CONFIRMER'")
+
+    st.markdown("---")
+    st.subheader("📋 Résumé des Données")
+
+    try:
+        feedbacks = get_all_feedbacks()
+        stats = get_feedback_stats()
+        responses = get_db_stats()
+
+        col1, col2, col3, col4 = st.columns(4)
+
+        with col1:
+            st.metric("📝 Réponses", responses.get("total_responses", 0))
+
+        with col2:
+            st.metric("💬 Feedbacks", len(feedbacks))
+
+        with col3:
+            detailed = [f for f in feedbacks if f.get("feedback_type") == "detailed"]
+            st.metric("📊 Feedbacks Détaillés", len(detailed))
+
+        with col4:
+            st.metric("🚨 Hallucinations", responses.get("hallucination_rate", 0.0))
+
+        st.markdown("---")
+        st.subheader("📥 Export Données Brutes")
+
+        col_export1, col_export2 = st.columns(2)
+
+        with col_export1:
+            if st.button("💾 Export Feedbacks JSON", use_container_width=True):
+                export_file = "feedbacks_export.json"
+                export_all_data()
+                try:
+                    with open(export_file, "r", encoding="utf-8") as f:
+                        json_data = json.load(f)
+                    st.download_button(
+                        "Télécharger Feedbacks",
+                        json.dumps(json_data, indent=2, ensure_ascii=False),
+                        file_name=export_file,
+                        mime="application/json"
+                    )
+                except Exception as e:
+                    st.error(f"Erreur: {e}")
+
+        with col_export2:
+            if st.button("📊 Export Analyse JSON", use_container_width=True):
+                try:
+                    analysis_file = "feedback_analysis.json"
+                    if Path(analysis_file).exists():
+                        with open(analysis_file, "r", encoding="utf-8") as f:
+                            analysis_data = f.read()
+                        st.download_button(
+                            "Télécharger Analyse",
+                            analysis_data,
+                            file_name=analysis_file,
+                            mime="application/json"
+                        )
+                    else:
+                        st.warning("Fichier d'analyse non trouvé")
+                except Exception as e:
+                    st.error(f"Erreur: {e}")
+
+    except Exception as e:
+        st.error(f"❌ Erreur lors du chargement des données: {e}")
 
 if __name__ == "__main__":
     main()

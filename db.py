@@ -5,6 +5,16 @@ from pathlib import Path
 from typing import Optional, List, Dict, Any
 
 DB_PATH = Path("jurisbot_ci.db")
+LOG_FILE = Path("debug_db.log")
+
+def log_action(action: str, details: str = ""):
+    """Écrit un log dans le fichier de debug"""
+    try:
+        with open(LOG_FILE, "a", encoding="utf-8") as f:
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+            f.write(f"[{timestamp}] {action}: {details}\n")
+    except:
+        pass
 
 def init_db():
     """Initialise la base de données SQLite avec les tables nécessaires"""
@@ -79,8 +89,7 @@ def add_response(
     embedding_model: str = "mistral-embed"
 ) -> bool:
     """Ajoute une réponse à la base de données"""
-    import sys
-    print(f"[DB LOG] Attempting to save response with ID: {response_id}", file=sys.stderr)
+    log_action("ADD_RESPONSE", f"ID: {response_id}, Query: {query[:50]}")
 
     try:
         conn = sqlite3.connect(DB_PATH)
@@ -101,10 +110,10 @@ def add_response(
 
         conn.commit()
         conn.close()
-        print(f"[DB LOG] ✅ Response saved successfully with ID: {response_id}", file=sys.stderr)
+        log_action("ADD_RESPONSE", f"✅ SUCCESS - ID: {response_id}")
         return True
     except Exception as e:
-        print(f"[DB LOG] ❌ Erreur lors de l'ajout de la réponse: {e}", file=sys.stderr)
+        log_action("ADD_RESPONSE", f"❌ ERROR: {str(e)}")
         return False
 
 def add_feedback(
@@ -120,8 +129,7 @@ def add_feedback(
     email: str = None
 ) -> bool:
     """Ajoute un feedback utilisateur à la base de données"""
-    import sys
-    print(f"[DB LOG] Attempting to save feedback for response_id: {response_id}, type: {feedback_type}", file=sys.stderr)
+    log_action("ADD_FEEDBACK", f"Type: {feedback_type}, ResponseID: {response_id}, Email: {email}")
 
     try:
         conn = sqlite3.connect(DB_PATH)
@@ -140,10 +148,10 @@ def add_feedback(
         conn.commit()
         conn.close()
 
-        print(f"[DB LOG] ✅ Feedback saved successfully for response_id: {response_id}", file=sys.stderr)
+        log_action("ADD_FEEDBACK", f"✅ SUCCESS - ResponseID: {response_id}")
         return True
     except Exception as e:
-        print(f"[DB LOG] ❌ Erreur lors de l'ajout du feedback: {e}", file=sys.stderr)
+        log_action("ADD_FEEDBACK", f"❌ ERROR: {str(e)}")
         return False
 
 def add_alert(response_id: str, hallucination_description: str) -> bool:

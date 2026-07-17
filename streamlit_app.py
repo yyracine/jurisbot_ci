@@ -89,8 +89,19 @@ class JurisBotMonitored:
         self.detector = get_detector()
 
     def answer(self, query: str) -> tuple[str, str]:
-        import sys
-        print(f"[BOT LOG] Processing query: {query[:50]}...", file=sys.stderr)
+        from pathlib import Path
+        log_file = Path("debug_db.log")
+
+        def log_action(action, details=""):
+            try:
+                with open(log_file, "a", encoding="utf-8") as f:
+                    from datetime import datetime
+                    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+                    f.write(f"[{timestamp}] {action}: {details}\n")
+            except:
+                pass
+
+        log_action("BOT_ANSWER", f"Processing query: {query[:50]}")
 
         response = ask_legal_bot(query, self.retriever, self.llm)
         answer = response["answer"]
@@ -110,7 +121,7 @@ class JurisBotMonitored:
             }
         )
 
-        print(f"[BOT LOG] Generated response_id: {response_id}", file=sys.stderr)
+        log_action("BOT_ANSWER", f"Generated response_id: {response_id}")
 
         add_response(
             response_id=response_id,
@@ -130,7 +141,7 @@ class JurisBotMonitored:
                 hallucination_description=f"Score: {detection_results['hallucination_score']:.0%}"
             )
 
-        print(f"[BOT LOG] ✅ Response saved to database", file=sys.stderr)
+        log_action("BOT_ANSWER", f"✅ Response saved to database")
         return answer, response_id
 
 def submit_feedback(response_id: str, feedback_type: str, detailed_feedback: dict = None):

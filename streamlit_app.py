@@ -202,8 +202,6 @@ def init_session_state():
         st.session_state.is_admin = False
     if "user_email" not in st.session_state:
         st.session_state.user_email = None
-    if "dark_mode" not in st.session_state:
-        st.session_state.dark_mode = False
 
 def authenticate_user():
     st.set_page_config(
@@ -284,20 +282,14 @@ def main():
             st.info(f"👤 Mode: **Testeur**\n\nVous accédez uniquement au formulaire de feedback.")
 
         st.markdown("---")
-        col_dark, col_logout = st.columns(2)
-
-        with col_dark:
-            st.session_state.dark_mode = st.toggle("🌙 Dark Mode", st.session_state.dark_mode)
-
-        with col_logout:
-            if st.button("🔒 Logout", use_container_width=True):
-                st.session_state.authenticated = False
-                st.session_state.is_admin = False
-                st.session_state.user_email = None
-                st.session_state.chat_history = []
-                st.session_state.feedback_submitted = {}
-                st.success("✅ Déconnecté!")
-                st.rerun()
+        if st.button("🔒 Logout", use_container_width=True):
+            st.session_state.authenticated = False
+            st.session_state.is_admin = False
+            st.session_state.user_email = None
+            st.session_state.chat_history = []
+            st.session_state.feedback_submitted = {}
+            st.success("✅ Déconnecté!")
+            st.rerun()
 
     if page == "Chat":
         show_chat_page()

@@ -61,6 +61,10 @@ def verify_and_correct_citations(answer: str) -> str:
         # Préavis
         ("tableau de la Loi", "tableau du Décret"),
         ("Annexe de la Loi", "Annexe du Décret"),
+
+        # Congés payés (Article 25.2) - Hallucination correction
+        ("Article 25.2 de la Loi n° 2015-532 et Convention Collective Interprofessionnelle du 19 juillet 1977", "Article 25.2 de la Loi n° 2015-532 (modifié par Ordonnance n° 2021-902 du 22 décembre 2021)"),
+        ("Article 25.2 et Convention Collective Interprofessionnelle du 19 juillet 1977", "Article 25.2 de la Loi n° 2015-532 (modifié par Ordonnance n° 2021-902 du 22 décembre 2021)"),
     ]
 
     for wrong, correct in corrections:
@@ -325,12 +329,17 @@ RÈGLES ABSOLUES :
    - "Article 24 du Décret n° 96-203 du 7 mars 1996" (pour les taux de majoration)
    - "Article 51 de la Convention Collective Interprofessionnelle du 19 juillet 1977" (pour les majorations conventionnelles)
 
+   Pour les congés payés (Articles 25.x), tu DOIS citer :
+   - "Article 25.x de la Loi n° 2015-532 (modifié par Ordonnance n° 2021-902 du 22 décembre 2021)"
+   ❌ NE JAMAIS mixer les congés payés (Article 25) avec la Convention Collective du 19 juillet 1977
+
    ❌ INTERDIT d'écrire : "Dispositions générales sur les heures supplémentaires", "Code du Travail (extrait fourni)", "Ibid."
    ✅ OBLIGATOIRE d'écrire les numéros d'articles COMPLETS avec dates.
 
 2. INTERDICTION FORMELLE :
    ❌ Ne mentionne JAMAIS la "Loi n° 2015-532" pour les heures supplémentaires, préavis, saisie/cession.
    ✅ Pour ces sujets, cite UNIQUEMENT les DÉCRETS et la CONVENTION COLLECTIVE.
+   ⚠️ EXCEPTION : Les CONGÉS PAYÉS (Article 25) proviennent de la Loi n° 2015-532, cite-la TOUJOURS pour Article 25.
 
 3. FALLBACK STRICT - RÉPONSE OBLIGATOIRE POUR QUESTIONS HORS-SUJET :
 

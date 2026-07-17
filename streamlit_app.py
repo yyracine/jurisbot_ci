@@ -8,7 +8,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 from bot_juridique import init_rag_engine, ask_legal_bot, verify_and_correct_citations
 from monitoring import get_monitor
@@ -200,6 +200,10 @@ def init_session_state():
         st.session_state.authenticated = False
     if "is_admin" not in st.session_state:
         st.session_state.is_admin = False
+    if "user_email" not in st.session_state:
+        st.session_state.user_email = None
+    if "dark_mode" not in st.session_state:
+        st.session_state.dark_mode = False
 
 def authenticate_user():
     st.set_page_config(
@@ -213,13 +217,23 @@ def authenticate_user():
         st.markdown("---")
         st.markdown("### Accès à la plateforme")
 
+        email = st.text_input(
+            "📧 Votre adresse email:",
+            placeholder="exemple@mail.com",
+            key="login_email"
+        )
+
         password = st.text_input(
-            "Mot de passe d'accès:",
+            "🔑 Mot de passe d'accès:",
             type="password",
             placeholder="Entrez votre mot de passe"
         )
 
         if st.button("Accéder", use_container_width=True):
+            if not email or "@" not in email:
+                st.error("❌ Veuillez entrer une adresse email valide")
+                return
+
             admin_password = os.getenv("ADMIN_PASSWORD", "")
 
             if not admin_password:
@@ -229,11 +243,13 @@ def authenticate_user():
             if password == admin_password:
                 st.session_state.authenticated = True
                 st.session_state.is_admin = True
+                st.session_state.user_email = email
                 st.success("✅ Accès administrateur activé!")
                 st.rerun()
             else:
                 st.session_state.authenticated = True
                 st.session_state.is_admin = False
+                st.session_state.user_email = email
                 st.success("✅ Accès testeur activé!")
                 st.rerun()
 
@@ -268,13 +284,20 @@ def main():
             st.info(f"👤 Mode: **Testeur**\n\nVous accédez uniquement au formulaire de feedback.")
 
         st.markdown("---")
-        if st.button("🔒 Déconnexion", use_container_width=True):
-            st.session_state.authenticated = False
-            st.session_state.is_admin = False
-            st.session_state.chat_history = []
-            st.session_state.feedback_submitted = {}
-            st.success("✅ Déconnecté!")
-            st.rerun()
+        col_dark, col_logout = st.columns(2)
+
+        with col_dark:
+            st.session_state.dark_mode = st.toggle("🌙 Dark Mode", st.session_state.dark_mode)
+
+        with col_logout:
+            if st.button("🔒 Logout", use_container_width=True):
+                st.session_state.authenticated = False
+                st.session_state.is_admin = False
+                st.session_state.user_email = None
+                st.session_state.chat_history = []
+                st.session_state.feedback_submitted = {}
+                st.success("✅ Déconnecté!")
+                st.rerun()
 
     if page == "Chat":
         show_chat_page()
@@ -412,11 +435,8 @@ def show_chat_page():
                 label_visibility="visible"
             )
 
-            email = st.text_input(
-                "📧 Email (pour suivi)",
-                placeholder="votre.email@example.com",
-                label_visibility="visible"
-            )
+            email = st.session_state.user_email or "anonymous"
+            st.info(f"📧 **Email:** {email}")
 
             col_submit, col_cancel = st.columns(2)
             with col_submit:
@@ -429,7 +449,7 @@ def show_chat_page():
                     "citations": citations,
                     "completeness": completeness,
                     "comments": comments,
-                    "email": email if email else "anonymous"
+                    "email": email
                 }
                 submit_feedback(response_id, "detailed", detailed_data)
                 st.session_state.feedback_submitted[response_id] = "detailed"
@@ -530,10 +550,10 @@ def show_feedback_page():
     detailed_ratings = [f["feedback_data"] for f in feedbacks if f.get("feedback_data")]
 
     if detailed_ratings:
-        avg_accuracy = sum(r.get("accuracy", 0) for r in detailed_ratings) / len(detailed_ratings)
-        avg_clarity = sum(r.get("clarity", 0) for r in detailed_ratings) / len(detailed_ratings)
-        avg_citations = sum(r.get("citations", 0) for r in detailed_ratings) / len(detailed_ratings)
-        avg_completeness = sum(r.get("completeness", 0) for r in detailed_ratings) / len(detailed_ratings)
+        avg_accuracy = sum((r.get("accuracy") or 0) for r in detailed_ratings) / len(detailed_ratings)
+        avg_clarity = sum((r.get("clarity") or 0) for r in detailed_ratings) / len(detailed_ratings)
+        avg_citations = sum((r.get("citations") or 0) for r in detailed_ratings) / len(detailed_ratings)
+        avg_completeness = sum((r.get("completeness") or 0) for r in detailed_ratings) / len(detailed_ratings)
 
         with col1:
             st.metric("📌 Précision (moy.)", f"{avg_accuracy:.1f}/5")

@@ -89,6 +89,9 @@ class JurisBotMonitored:
         self.detector = get_detector()
 
     def answer(self, query: str) -> tuple[str, str]:
+        import sys
+        print(f"[BOT LOG] Processing query: {query[:50]}...", file=sys.stderr)
+
         response = ask_legal_bot(query, self.retriever, self.llm)
         answer = response["answer"]
         sources = response["sources"]
@@ -106,6 +109,8 @@ class JurisBotMonitored:
                 "embedding_model": "mistral-embed"
             }
         )
+
+        print(f"[BOT LOG] Generated response_id: {response_id}", file=sys.stderr)
 
         add_response(
             response_id=response_id,
@@ -125,6 +130,7 @@ class JurisBotMonitored:
                 hallucination_description=f"Score: {detection_results['hallucination_score']:.0%}"
             )
 
+        print(f"[BOT LOG] ✅ Response saved to database", file=sys.stderr)
         return answer, response_id
 
 def submit_feedback(response_id: str, feedback_type: str, detailed_feedback: dict = None):

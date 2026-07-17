@@ -79,6 +79,9 @@ def add_response(
     embedding_model: str = "mistral-embed"
 ) -> bool:
     """Ajoute une réponse à la base de données"""
+    import sys
+    print(f"[DB LOG] Attempting to save response with ID: {response_id}", file=sys.stderr)
+
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
@@ -98,9 +101,10 @@ def add_response(
 
         conn.commit()
         conn.close()
+        print(f"[DB LOG] ✅ Response saved successfully with ID: {response_id}", file=sys.stderr)
         return True
     except Exception as e:
-        print(f"Erreur lors de l'ajout de la réponse: {e}")
+        print(f"[DB LOG] ❌ Erreur lors de l'ajout de la réponse: {e}", file=sys.stderr)
         return False
 
 def add_feedback(

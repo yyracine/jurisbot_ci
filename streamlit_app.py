@@ -945,30 +945,31 @@ def show_admin_panel():
     with col3:
         st.markdown("### 🗑️ Purger les Données")
         st.write("Supprime TOUTES les données stockées (irréversible)")
-        if st.button("🚨 Purger", key="btn_purge", use_container_width=True):
-            with st.form(key="purge_form", clear_on_submit=True):
-                st.warning("⚠️ **ATTENTION:** Cette action est irréversible!")
-                confirmation = st.text_input(
-                    "Tapez 'CONFIRMER' pour purger:",
-                    placeholder="CONFIRMER"
-                )
-                submit_purge = st.form_submit_button("✅ Purger les données", use_container_width=True)
 
-                if submit_purge:
-                    if confirmation.upper() == "CONFIRMER":
-                        try:
-                            with st.spinner("🗑️ Suppression en cours..."):
-                                from db import clear_all_data
-                                export_all_data()
-                                clear_all_data()
-                            st.success("✅ Données purgées avec succès!")
-                            st.balloons()
-                            st.session_state.chat_history = []
-                            st.session_state.feedback_submitted = {}
-                        except Exception as e:
-                            st.error(f"❌ Erreur lors de la purge: {e}")
-                    else:
-                        st.error("❌ Confirmation invalide. Tapez 'CONFIRMER'")
+        with st.form(key="purge_form"):
+            st.warning("⚠️ **ATTENTION:** Cette action est irréversible!")
+            confirmation = st.text_input(
+                "Tapez 'CONFIRMER' pour purger:",
+                placeholder="CONFIRMER"
+            )
+            submit_purge = st.form_submit_button("🚨 Purger les données", use_container_width=True)
+
+            if submit_purge:
+                if confirmation.upper() == "CONFIRMER":
+                    try:
+                        with st.spinner("🗑️ Suppression en cours..."):
+                            from db import clear_all_data
+                            export_all_data()
+                            result = clear_all_data()
+                            if result:
+                                st.success("✅ Données purgées avec succès!")
+                                st.balloons()
+                            else:
+                                st.error("❌ Erreur lors de la purge")
+                    except Exception as e:
+                        st.error(f"❌ Erreur: {str(e)}")
+                else:
+                    st.error("❌ Confirmation invalide. Tapez 'CONFIRMER'")
 
     st.markdown("---")
     st.subheader("📋 Résumé des Données")

@@ -790,18 +790,96 @@ def show_analysis_page():
         col1, col2 = st.columns(2)
 
         with col1:
-            if st.button("📊 Export Analyse JSON"):
-                filepath = analyzer.export_report_json()
-                with open(filepath, "r", encoding="utf-8") as f:
-                    json_data = f.read()
-                st.download_button("Télécharger Analyse", json_data, file_name=filepath.split("/")[-1], mime="application/json")
+            if st.button("📊 Export Analyse Markdown"):
+                satisfaction = analyzer.get_user_satisfaction()
+                markdown_content = f"""# 📊 Analyse Détaillée - JurisBot CI
+
+## 🎯 Résumé Exécutif
+
+- **Score de Satisfaction Global:** {satisfaction['satisfaction_score']:.1f}/5
+- **Total Feedbacks:** {satisfaction["total_feedbacks"]}
+- **Feedbacks Détaillés:** {satisfaction["detailed_feedbacks"]}
+- **Réponses Analysées:** {len(analyzer.responses)}
+
+## 📈 Scores Détaillés
+
+| Métrique | Score | Interprétation |
+|----------|-------|-----------------|
+| Précision | {analyzer.feedback_stats.get("avg_accuracy", 0):.2f}/5 | {("✅ Excellent" if analyzer.feedback_stats.get("avg_accuracy", 0) >= 4.5 else "⚠️ À améliorer")} |
+| Clarté | {analyzer.feedback_stats.get("avg_clarity", 0):.2f}/5 | {("✅ Excellent" if analyzer.feedback_stats.get("avg_clarity", 0) >= 4.5 else "⚠️ À améliorer")} |
+| Citations | {analyzer.feedback_stats.get("avg_citations", 0):.2f}/5 | {("✅ Excellent" if analyzer.feedback_stats.get("avg_citations", 0) >= 4.5 else "⚠️ À améliorer")} |
+| Complétude | {analyzer.feedback_stats.get("avg_completeness", 0):.2f}/5 | {("✅ Excellent" if analyzer.feedback_stats.get("avg_completeness", 0) >= 4.5 else "⚠️ À améliorer")} |
+
+## 🚨 Qualité & Hallucinations
+
+- **Taux d'Hallucination:** {analyzer.response_stats.get("hallucination_rate", 0):.1f}%
+- **Score Hallucination Moyen:** {analyzer.response_stats.get("average_hallucination_score", 0):.2f}
+
+## ✨ Forces du Système
+
+"""
+                strengths = analyzer.get_strengths()
+                if strengths:
+                    for strength in strengths:
+                        markdown_content += f"\n### {strength['area']}\n\n{strength['description']}\n\n**Score:** {strength['score']:.1f}/5\n"
+                else:
+                    markdown_content += "\n✅ Système stable et performant!\n"
+
+                markdown_content += "\n## ⚠️ Zones Problématiques\n\n"
+                problems = analyzer.get_problem_areas()
+                if not problems:
+                    markdown_content += "✅ Aucun problème détecté!\n"
+                else:
+                    for problem in problems:
+                        severity_icon = {"CRITICAL": "🚨", "HIGH": "⚠️", "MEDIUM": "📌"}.get(problem["severity"], "ℹ️")
+                        markdown_content += f"\n### {severity_icon} {problem['area']} [{problem['severity']}]\n\n{problem['description']}\n\n**Impact:** {problem['impact']}\n\n**Recommandation:** {problem['recommendation']}\n"
+
+                st.download_button(
+                    "📥 Télécharger Analyse",
+                    markdown_content,
+                    file_name=f"analyse_jurisbot_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md",
+                    mime="text/markdown"
+                )
 
         with col2:
-            if st.button("🗺️ Export Recommandations JSON"):
-                filepath = engine.export_recommendations()
-                with open(filepath, "r", encoding="utf-8") as f:
-                    json_data = f.read()
-                st.download_button("Télécharger Recommandations", json_data, file_name=filepath.split("/")[-1], mime="application/json")
+            if st.button("🗺️ Export Recommandations Markdown"):
+                roadmap = engine.get_personalized_roadmap()
+                markdown_rec = f"""# 🗺️ Recommandations & Roadmap - JurisBot CI
+
+## 📊 État Actuel
+
+- **Score de Satisfaction:** {roadmap['current_state']['satisfaction_score']:.1f}/5
+- **Focus Prioritaire:** {roadmap['priority_focus']}
+
+## ⚡ Quick Wins (Actions Rapides)
+
+"""
+                quick_wins = engine.get_quick_wins()
+                if quick_wins:
+                    for i, win in enumerate(quick_wins, 1):
+                        markdown_rec += f"\n### {i}. {win['title']}\n\n**Priorité:** {win['priority']} | **Effort:** {win['effort']} ({win['estimated_time']})\n\n{win['description']}\n\n**Actions:**\n"
+                        for action in win["actions"]:
+                            markdown_rec += f"- {action}\n"
+                        markdown_rec += f"\n**Impact Attendu:** {win['expected_impact']}\n\n**Métrique de Succès:** {win['success_metric']}\n"
+                else:
+                    markdown_rec += "\n✅ Système optimisé, pas de quick wins nécessaires.\n"
+
+                markdown_rec += "\n## 📋 Moyen Terme (1-2 semaines)\n\n"
+                for improvement in roadmap["medium_term"]:
+                    markdown_rec += f"\n### {improvement['title']}\n\n**Timeline:** {improvement['timeline']} | **Effort:** {improvement['effort']}\n\n{improvement['description']}\n"
+
+                markdown_rec += "\n## 🚀 Long Terme (1-3 mois)\n\n"
+                for phase in roadmap["long_term"]:
+                    markdown_rec += f"\n### {phase['phase']}\n\n**Timeline:** {phase['timeline']}\n\n"
+                    for initiative in phase["initiatives"]:
+                        markdown_rec += f"- {initiative}\n"
+
+                st.download_button(
+                    "📥 Télécharger Recommandations",
+                    markdown_rec,
+                    file_name=f"recommandations_jurisbot_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md",
+                    mime="text/markdown"
+                )
 
     except Exception as e:
         st.error(f"❌ Erreur lors de l'analyse: {e}")

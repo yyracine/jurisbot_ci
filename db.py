@@ -1,10 +1,29 @@
-import sqlite3
+"""
+Database module - Supabase PostgreSQL backend
+Remplace SQLite par une base de données centralisée
+"""
+
 import json
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, List, Dict, Any
+from dotenv import load_dotenv
+import os
 
-DB_PATH = Path("jurisbot_ci.db")
+load_dotenv(override=True)
+
+# Import Supabase client
+from supabase import create_client, Client
+
+# Initialize Supabase
+SUPABASE_URL = os.getenv("SUPABASE_URL", "")
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    raise ValueError("SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY doivent être définis dans .env")
+
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+
 LOG_FILE = Path("debug_db.log")
 
 def log_action(action: str, details: str = ""):
@@ -17,65 +36,8 @@ def log_action(action: str, details: str = ""):
         pass
 
 def init_db():
-    """Initialise la base de données SQLite avec les tables nécessaires"""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS responses (
-            id TEXT PRIMARY KEY,
-            query TEXT NOT NULL,
-            answer TEXT NOT NULL,
-            sources TEXT,
-            hallucination_score REAL,
-            is_hallucinating INTEGER,
-            model TEXT,
-            retriever TEXT,
-            embedding_model TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    """)
-
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS feedbacks (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            response_id TEXT NOT NULL,
-            feedback_type TEXT,
-            feedback TEXT,
-            is_hallucination INTEGER,
-            accuracy INTEGER,
-            clarity INTEGER,
-            citations INTEGER,
-            completeness INTEGER,
-            comments TEXT,
-            email TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (response_id) REFERENCES responses(id)
-        )
-    """)
-
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS alerts (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            response_id TEXT NOT NULL,
-            hallucination_description TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (response_id) REFERENCES responses(id)
-        )
-    """)
-
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS chat_sessions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_role TEXT,
-            user_email TEXT,
-            session_start TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            session_end TIMESTAMP
-        )
-    """)
-
-    conn.commit()
-    conn.close()
+    """Initialise la connexion à Supabase (les tables existent déjà)"""
+    log_action("INIT_DB", "✅ Supabase connection initialized")
 
 def add_response(
     response_id: str,
@@ -88,28 +50,24 @@ def add_response(
     retriever: str = "FAISS",
     embedding_model: str = "mistral-embed"
 ) -> bool:
-    """Ajoute une réponse à la base de données"""
+    """Ajoute une réponse à Supabase"""
     log_action("ADD_RESPONSE", f"ID: {response_id}, Query: {query[:50]}")
 
     try:
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
+        data = {
+            "id": response_id,
+            "query": query,
+            "answer": answer,
+            "sources": sources or [],
+            "hallucination_score": hallucination_score,
+            "is_hallucinating": is_hallucinating,
+            "model": model,
+            "retriever": retriever,
+            "embedding_model": embedding_model,
+        }
 
-        sources_json = json.dumps(sources or [])
+        response = supabase.table("responses").insert(data).execute()
 
-        cursor.execute("""
-            INSERT INTO responses (
-                id, query, answer, sources, hallucination_score,
-                is_hallucinating, model, retriever, embedding_model
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            response_id, query, answer, sources_json,
-            hallucination_score, 1 if is_hallucinating else 0,
-            model, retriever, embedding_model
-        ))
-
-        conn.commit()
-        conn.close()
         log_action("ADD_RESPONSE", f"✅ SUCCESS - ID: {response_id}")
         return True
     except Exception as e:
@@ -128,25 +86,24 @@ def add_feedback(
     comments: str = None,
     email: str = None
 ) -> bool:
-    """Ajoute un feedback utilisateur à la base de données"""
+    """Ajoute un feedback à Supabase"""
     log_action("ADD_FEEDBACK", f"Type: {feedback_type}, ResponseID: {response_id}, Email: {email}")
 
     try:
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
+        data = {
+            "response_id": response_id,
+            "feedback_type": feedback_type,
+            "feedback": feedback,
+            "is_hallucination": is_hallucination,
+            "accuracy": accuracy,
+            "clarity": clarity,
+            "citations": citations,
+            "completeness": completeness,
+            "comments": comments,
+            "email": email,
+        }
 
-        cursor.execute("""
-            INSERT INTO feedbacks (
-                response_id, feedback_type, feedback, is_hallucination,
-                accuracy, clarity, citations, completeness, comments, email
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            response_id, feedback_type, feedback, 1 if is_hallucination else 0,
-            accuracy, clarity, citations, completeness, comments, email
-        ))
-
-        conn.commit()
-        conn.close()
+        response = supabase.table("feedbacks").insert(data).execute()
 
         log_action("ADD_FEEDBACK", f"✅ SUCCESS - ResponseID: {response_id}")
         return True
@@ -155,18 +112,14 @@ def add_feedback(
         return False
 
 def add_alert(response_id: str, hallucination_description: str) -> bool:
-    """Ajoute une alerte pour une hallucination détectée"""
+    """Ajoute une alerte à Supabase"""
     try:
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
+        data = {
+            "response_id": response_id,
+            "hallucination_description": hallucination_description,
+        }
 
-        cursor.execute("""
-            INSERT INTO alerts (response_id, hallucination_description)
-            VALUES (?, ?)
-        """, (response_id, hallucination_description))
-
-        conn.commit()
-        conn.close()
+        supabase.table("alerts").insert(data).execute()
         return True
     except Exception as e:
         print(f"Erreur lors de l'ajout de l'alerte: {e}")
@@ -175,16 +128,10 @@ def add_alert(response_id: str, hallucination_description: str) -> bool:
 def get_response(response_id: str) -> Optional[Dict[str, Any]]:
     """Récupère une réponse par son ID"""
     try:
-        conn = sqlite3.connect(DB_PATH)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
+        response = supabase.table("responses").select("*").eq("id", response_id).execute()
 
-        cursor.execute("SELECT * FROM responses WHERE id = ?", (response_id,))
-        row = cursor.fetchone()
-        conn.close()
-
-        if row:
-            return dict(row)
+        if response.data:
+            return dict(response.data[0])
         return None
     except Exception as e:
         print(f"Erreur lors de la récupération de la réponse: {e}")
@@ -193,15 +140,8 @@ def get_response(response_id: str) -> Optional[Dict[str, Any]]:
 def get_all_responses() -> List[Dict[str, Any]]:
     """Récupère toutes les réponses"""
     try:
-        conn = sqlite3.connect(DB_PATH)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-
-        cursor.execute("SELECT * FROM responses ORDER BY created_at DESC")
-        rows = cursor.fetchall()
-        conn.close()
-
-        return [dict(row) for row in rows]
+        response = supabase.table("responses").select("*").order("created_at", desc=True).execute()
+        return response.data or []
     except Exception as e:
         print(f"Erreur lors de la récupération des réponses: {e}")
         return []
@@ -209,15 +149,8 @@ def get_all_responses() -> List[Dict[str, Any]]:
 def get_all_feedbacks() -> List[Dict[str, Any]]:
     """Récupère tous les feedbacks"""
     try:
-        conn = sqlite3.connect(DB_PATH)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-
-        cursor.execute("SELECT * FROM feedbacks ORDER BY created_at DESC")
-        rows = cursor.fetchall()
-        conn.close()
-
-        return [dict(row) for row in rows]
+        response = supabase.table("feedbacks").select("*").order("created_at", desc=True).execute()
+        return response.data or []
     except Exception as e:
         print(f"Erreur lors de la récupération des feedbacks: {e}")
         return []
@@ -225,18 +158,8 @@ def get_all_feedbacks() -> List[Dict[str, Any]]:
 def get_feedbacks_for_response(response_id: str) -> List[Dict[str, Any]]:
     """Récupère les feedbacks pour une réponse spécifique"""
     try:
-        conn = sqlite3.connect(DB_PATH)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-
-        cursor.execute(
-            "SELECT * FROM feedbacks WHERE response_id = ? ORDER BY created_at DESC",
-            (response_id,)
-        )
-        rows = cursor.fetchall()
-        conn.close()
-
-        return [dict(row) for row in rows]
+        response = supabase.table("feedbacks").select("*").eq("response_id", response_id).order("created_at", desc=True).execute()
+        return response.data or []
     except Exception as e:
         print(f"Erreur lors de la récupération des feedbacks: {e}")
         return []
@@ -244,31 +167,27 @@ def get_feedbacks_for_response(response_id: str) -> List[Dict[str, Any]]:
 def get_stats() -> Dict[str, Any]:
     """Récupère les statistiques générales"""
     try:
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
+        # Total responses
+        responses_data = supabase.table("responses").select("id").execute()
+        total_responses = len(responses_data.data or [])
 
-        cursor.execute("SELECT COUNT(*) as total FROM responses")
-        total_responses = cursor.fetchone()[0]
+        # Hallucinations detected
+        hallucinations_data = supabase.table("responses").select("id").eq("is_hallucinating", True).execute()
+        hallucinations_detected = len(hallucinations_data.data or [])
 
-        cursor.execute("SELECT COUNT(*) as total FROM responses WHERE is_hallucinating = 1")
-        hallucinations_detected = cursor.fetchone()[0]
-
-        cursor.execute("SELECT AVG(hallucination_score) as avg FROM responses")
-        avg_hallucination_score = cursor.fetchone()[0] or 0.0
-
-        cursor.execute("SELECT hallucination_score FROM responses ORDER BY created_at DESC")
-        responses_scores = [row[0] for row in cursor.fetchall()]
+        # Average hallucination score
+        all_responses = supabase.table("responses").select("hallucination_score").execute()
+        scores = [r["hallucination_score"] for r in (all_responses.data or []) if r.get("hallucination_score")]
+        avg_hallucination_score = sum(scores) / len(scores) if scores else 0.0
 
         hallucination_rate = (hallucinations_detected / total_responses * 100) if total_responses > 0 else 0
-
-        conn.close()
 
         return {
             "total_responses": total_responses,
             "hallucinations_detected": hallucinations_detected,
             "hallucination_rate": hallucination_rate,
             "average_hallucination_score": avg_hallucination_score,
-            "responses_by_score": responses_scores
+            "responses_by_score": scores
         }
     except Exception as e:
         print(f"Erreur lors de la récupération des stats: {e}")
@@ -283,28 +202,22 @@ def get_stats() -> Dict[str, Any]:
 def get_feedback_stats() -> Dict[str, Any]:
     """Récupère les statistiques des feedbacks"""
     try:
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
+        feedbacks_data = supabase.table("feedbacks").select("*").execute()
+        feedbacks = feedbacks_data.data or []
 
-        cursor.execute("SELECT COUNT(*) as total FROM feedbacks")
-        total_feedbacks = cursor.fetchone()[0]
+        total_feedbacks = len(feedbacks)
+        detailed_feedbacks = len([f for f in feedbacks if f.get("feedback_type") == "detailed"])
 
-        cursor.execute("SELECT COUNT(*) as total FROM feedbacks WHERE feedback_type = 'detailed'")
-        detailed_feedbacks = cursor.fetchone()[0]
+        # Calculate averages
+        accuracies = [f["accuracy"] for f in feedbacks if f.get("accuracy")]
+        clarities = [f["clarity"] for f in feedbacks if f.get("clarity")]
+        citations_scores = [f["citations"] for f in feedbacks if f.get("citations")]
+        completeness_scores = [f["completeness"] for f in feedbacks if f.get("completeness")]
 
-        cursor.execute("SELECT AVG(accuracy) FROM feedbacks WHERE accuracy IS NOT NULL")
-        avg_accuracy = cursor.fetchone()[0] or 0
-
-        cursor.execute("SELECT AVG(clarity) FROM feedbacks WHERE clarity IS NOT NULL")
-        avg_clarity = cursor.fetchone()[0] or 0
-
-        cursor.execute("SELECT AVG(citations) FROM feedbacks WHERE citations IS NOT NULL")
-        avg_citations = cursor.fetchone()[0] or 0
-
-        cursor.execute("SELECT AVG(completeness) FROM feedbacks WHERE completeness IS NOT NULL")
-        avg_completeness = cursor.fetchone()[0] or 0
-
-        conn.close()
+        avg_accuracy = sum(accuracies) / len(accuracies) if accuracies else 0
+        avg_clarity = sum(clarities) / len(clarities) if clarities else 0
+        avg_citations = sum(citations_scores) / len(citations_scores) if citations_scores else 0
+        avg_completeness = sum(completeness_scores) / len(completeness_scores) if completeness_scores else 0
 
         return {
             "total_feedbacks": total_feedbacks,
@@ -319,27 +232,16 @@ def get_feedback_stats() -> Dict[str, Any]:
         return {}
 
 def export_all_data() -> Dict[str, Any]:
-    """Exporte toutes les données (responses + feedbacks + alerts)"""
+    """Exporte toutes les données"""
     try:
-        conn = sqlite3.connect(DB_PATH)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-
-        cursor.execute("SELECT * FROM responses ORDER BY created_at DESC")
-        responses = [dict(row) for row in cursor.fetchall()]
-
-        cursor.execute("SELECT * FROM feedbacks ORDER BY created_at DESC")
-        feedbacks = [dict(row) for row in cursor.fetchall()]
-
-        cursor.execute("SELECT * FROM alerts ORDER BY created_at DESC")
-        alerts = [dict(row) for row in cursor.fetchall()]
-
-        conn.close()
+        responses_data = supabase.table("responses").select("*").order("created_at", desc=True).execute()
+        feedbacks_data = supabase.table("feedbacks").select("*").order("created_at", desc=True).execute()
+        alerts_data = supabase.table("alerts").select("*").order("created_at", desc=True).execute()
 
         return {
-            "responses": responses,
-            "feedbacks": feedbacks,
-            "alerts": alerts,
+            "responses": responses_data.data or [],
+            "feedbacks": feedbacks_data.data or [],
+            "alerts": alerts_data.data or [],
             "export_timestamp": datetime.now().isoformat()
         }
     except Exception as e:
@@ -347,18 +249,13 @@ def export_all_data() -> Dict[str, Any]:
         return {}
 
 def clear_all_data() -> bool:
-    """Purge toutes les données de la base de données"""
+    """Purge toutes les données de Supabase"""
     try:
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-
-        cursor.execute("DELETE FROM feedbacks")
-        cursor.execute("DELETE FROM alerts")
-        cursor.execute("DELETE FROM responses")
-        cursor.execute("DELETE FROM chat_sessions")
-
-        conn.commit()
-        conn.close()
+        # Delete in correct order (foreign keys)
+        supabase.table("feedbacks").delete().neq("id", 0).execute()
+        supabase.table("alerts").delete().neq("id", 0).execute()
+        supabase.table("responses").delete().neq("id", 0).execute()
+        supabase.table("chat_sessions").delete().neq("id", 0).execute()
 
         return True
     except Exception as e:
@@ -367,4 +264,4 @@ def clear_all_data() -> bool:
 
 if __name__ == "__main__":
     init_db()
-    print("✅ Base de données SQLite initialisée!")
+    print("✅ Base de données Supabase configurée!")

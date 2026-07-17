@@ -2,14 +2,46 @@
 .env
 .env.local
 .env.production
+env.example
 
 # Python
 __pycache__/
 *.pyc
 venv/
+.venv/
+
+# Bases de données (locales)
+*.db
+jurisbot_ci.db
+*.sqlite
+
+# Fichiers de test
+test_*.py
+test_*.json
+test_*.log
+test_output.txt
 
 # Données temporaires
 faiss_index/
 hallucination_logs/
+feedback_logs/
 monitoring_test_report.json
 monitoring_*.json
+*.backup
+
+# Rapports de test (garde seulement les finaux)
+jurisbot_report_*.html
+jurisbot_report_*.json
+jurisbot_analysis_report_*.json
+jurisbot_recommendations_*.json
+rapport_jurisbot_*.html
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

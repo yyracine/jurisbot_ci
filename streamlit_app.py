@@ -215,6 +215,7 @@ def load_detailed_feedback():
             "response_id": fb["response_id"],
             "timestamp": fb["created_at"],
             "feedback_type": fb["feedback_type"],
+            "feedback": fb.get("feedback"),
             "feedback_data": {
                 "accuracy": fb["accuracy"],
                 "clarity": fb["clarity"],
@@ -641,7 +642,7 @@ def show_feedback_page():
     st.markdown("---")
 
     # Hallucinations signalées
-    hallucinations = [fb for fb in feedbacks if fb.get("feedback_type") == "quick" and "Hallucination" in str(fb.get("feedback_data", {}))]
+    hallucinations = [fb for fb in feedbacks if fb.get("feedback_type") == "quick" and fb.get("feedback") == "Hallucination"]
     if hallucinations:
         st.subheader("🚩 Hallucinations Signalées")
         with st.expander(f"⚠️ Hallucinations détectées ({len(hallucinations)})"):

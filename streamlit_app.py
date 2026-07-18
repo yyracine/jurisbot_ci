@@ -178,11 +178,13 @@ def submit_feedback(response_id: str, feedback_type: str, detailed_feedback: dic
             )
             print(f"[FEEDBACK LOG] ✅ Negative feedback saved: {result}", file=sys.stderr)
         elif feedback_type == "hallucination":
+            user_email = st.session_state.get("user_email", "anonymous")
             result = add_feedback(
                 response_id=response_id,
                 feedback_type="quick",
-                feedback="hallucination",
-                is_hallucination=True
+                feedback="Hallucination",
+                is_hallucination=True,
+                email=user_email
             )
             print(f"[FEEDBACK LOG] ✅ Hallucination feedback saved: {result}", file=sys.stderr)
         elif feedback_type == "detailed" and detailed_feedback:

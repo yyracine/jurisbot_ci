@@ -20,15 +20,10 @@ if not MISTRAL_API_KEY:
         load_dotenv(env_path)
         MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 
-if not MISTRAL_API_KEY:
-    raise ValueError(
-        "❌ Erreur: La clé MISTRAL_API_KEY est introuvable.\n"
-        "Pour Streamlit Cloud: Allez à 'Settings' → 'Secrets' et ajoutez:\n"
-        "MISTRAL_API_KEY = 'votre-clé-ici'\n"
-        "Pour développement local: Créez un fichier .env avec:\n"
-        "MISTRAL_API_KEY=votre-clé-ici"
-    )
-os.environ["MISTRAL_API_KEY"] = MISTRAL_API_KEY
+if MISTRAL_API_KEY:
+    os.environ["MISTRAL_API_KEY"] = MISTRAL_API_KEY
+else:
+    print("⚠️ Warning: MISTRAL_API_KEY not configured - RAG engine features will be limited")
 
 # 2. Chemin du fichier
 FILE_PATH = "code_du_travail_ci.md"
@@ -258,6 +253,15 @@ def _split_by_section(documents):
 
 def init_rag_engine():
     """Initialise la base vectorielle et le modèle de langage."""
+    if not MISTRAL_API_KEY:
+        raise ValueError(
+            "❌ Erreur: La clé MISTRAL_API_KEY est introuvable.\n"
+            "Pour Streamlit Cloud: Allez à 'Settings' → 'Secrets' et ajoutez:\n"
+            "MISTRAL_API_KEY = 'votre-clé-ici'\n"
+            "Pour développement local: Créez un fichier .env avec:\n"
+            "MISTRAL_API_KEY=votre-clé-ici"
+        )
+
     print("🧠 Chargement et indexation du Code du Travail...")
 
     if not os.path.exists(FILE_PATH):

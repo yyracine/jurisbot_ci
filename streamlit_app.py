@@ -276,16 +276,29 @@ def authenticate_user():
                 return
 
             admin_password = None
+
+            try:
+                available_keys = list(st.secrets.keys()) if hasattr(st.secrets, 'keys') else []
+                import sys
+                print(f"[AUTH DEBUG] Available secrets keys: {available_keys}", file=sys.stderr)
+            except Exception as e:
+                print(f"[AUTH DEBUG] Error listing secrets: {e}", file=sys.stderr)
+
             try:
                 admin_password = st.secrets["ADMIN_PASSWORD"]
-            except (KeyError, AttributeError):
+                print(f"[AUTH DEBUG] Found ADMIN_PASSWORD in st.secrets", file=sys.stderr)
+            except (KeyError, AttributeError) as e:
+                print(f"[AUTH DEBUG] ADMIN_PASSWORD not found: {type(e).__name__}", file=sys.stderr)
                 try:
                     admin_password = st.secrets["admin_password"]
-                except (KeyError, AttributeError):
+                    print(f"[AUTH DEBUG] Found admin_password in st.secrets", file=sys.stderr)
+                except (KeyError, AttributeError) as e2:
+                    print(f"[AUTH DEBUG] admin_password not found: {type(e2).__name__}", file=sys.stderr)
                     pass
 
             if not admin_password:
                 admin_password = os.getenv("ADMIN_PASSWORD", "")
+                print(f"[AUTH DEBUG] Using os.getenv, result: {'FOUND' if admin_password else 'NOT FOUND'}", file=sys.stderr)
 
             import sys
             print(f"[AUTH DEBUG] Mot de passe entré: {'OUI' if password else 'VIDE'}, longueur: {len(password) if password else 0}", file=sys.stderr)

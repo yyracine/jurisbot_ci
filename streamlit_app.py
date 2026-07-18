@@ -276,12 +276,18 @@ def authenticate_user():
                 return
 
             try:
-                admin_password = st.secrets.get("ADMIN_PASSWORD") or st.secrets.get("admin_password")
-            except (AttributeError, KeyError):
+                admin_password = st.secrets.get("ADMIN_PASSWORD")
+                if not admin_password:
+                    admin_password = st.secrets.get("admin_password")
+            except (AttributeError, KeyError, TypeError):
                 admin_password = None
 
             if not admin_password:
                 admin_password = os.getenv("ADMIN_PASSWORD", "")
+
+            print(f"[AUTH DEBUG] Mot de passe entré: {'***' if password else 'VIDE'}")
+            print(f"[AUTH DEBUG] Admin password configuré: {'OUI' if admin_password else 'NON'}")
+            print(f"[AUTH DEBUG] Longueur mot de passe admin: {len(admin_password) if admin_password else 0}")
 
             if password and admin_password and password == admin_password:
                 st.session_state.authenticated = True

@@ -410,6 +410,16 @@ def show_chat_page():
 
         response_id = msg["response_id"]
 
+        # Quick hallucination report button
+        col_hallucination, col_spacer = st.columns([1, 4])
+        with col_hallucination:
+            if st.button("🚩 Signaler une hallucination", key=f"hallucination_{response_id}", use_container_width=True):
+                submit_feedback(response_id, "hallucination")
+                st.session_state.feedback_submitted[response_id] = "hallucination"
+                st.success("✅ Hallucination signalée! Merci pour votre contribution.")
+
+        st.markdown("---")
+
         # Detailed feedback form
         st.markdown("### 📝 Feedback détaillé")
         st.caption("Aidez-nous à améliorer JurisBot en répondant à quelques questions")

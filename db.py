@@ -15,19 +15,36 @@ load_dotenv(override=True)
 # Import Supabase client
 from supabase import create_client, Client
 
-# Initialize Supabase
-SUPABASE_URL = os.getenv("SUPABASE_URL", "")
-SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
+def _load_supabase_credentials():
+    """Load Supabase credentials from st.secrets or environment variables"""
+    url = None
+    key = None
+
+    try:
+        import streamlit as st
+        url = st.secrets.get("SUPABASE_URL")
+        key = st.secrets.get("SUPABASE_SERVICE_ROLE_KEY")
+    except (ImportError, AttributeError, KeyError, TypeError):
+        pass
+
+    if not url:
+        url = os.getenv("SUPABASE_URL", "")
+    if not key:
+        key = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
+
+    return url, key
 
 supabase: Client = None
 
+# Try to initialize at module load time (for local development)
+SUPABASE_URL, SUPABASE_KEY = _load_supabase_credentials()
 if SUPABASE_URL and SUPABASE_KEY:
     try:
         supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
     except Exception as e:
-        print(f"⚠️ Warning: Could not connect to Supabase: {e}")
+        print(f"⚠️ Warning: Could not connect to Supabase at module load: {e}")
 else:
-    print("⚠️ Warning: SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY not configured")
+    print("⚠️ Warning: SUPABASE credentials not found at module load - will retry on init_db()")
 
 LOG_FILE = Path("debug_db.log")
 
@@ -42,10 +59,24 @@ def log_action(action: str, details: str = ""):
 
 def init_db():
     """Initialise la connexion à Supabase (les tables existent déjà)"""
+    global supabase
+
     if supabase:
         log_action("INIT_DB", "✅ Supabase connection initialized")
     else:
-        print("❌ Supabase not configured - database features will be limited")
+        # Try to load credentials again (for Streamlit Cloud secrets)
+        url, key = _load_supabase_credentials()
+        if url and key:
+            try:
+                supabase = create_client(url, key)
+                log_action("INIT_DB", "✅ Supabase connection initialized from secrets")
+                print("✅ Supabase connected successfully")
+            except Exception as e:
+                print(f"❌ Supabase not configured - database features will be limited: {e}")
+                log_action("INIT_DB", f"❌ Connection error: {e}")
+        else:
+            print("❌ Supabase not configured - database features will be limited")
+            log_action("INIT_DB", "❌ No credentials found")
 
 def add_response(
     response_id: str,

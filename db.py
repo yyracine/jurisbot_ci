@@ -19,10 +19,15 @@ from supabase import create_client, Client
 SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 
-if not SUPABASE_URL or not SUPABASE_KEY:
-    raise ValueError("SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY doivent être définis dans .env")
+supabase: Client = None
 
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+if SUPABASE_URL and SUPABASE_KEY:
+    try:
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+    except Exception as e:
+        print(f"⚠️ Warning: Could not connect to Supabase: {e}")
+else:
+    print("⚠️ Warning: SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY not configured")
 
 LOG_FILE = Path("debug_db.log")
 
@@ -37,7 +42,10 @@ def log_action(action: str, details: str = ""):
 
 def init_db():
     """Initialise la connexion à Supabase (les tables existent déjà)"""
-    log_action("INIT_DB", "✅ Supabase connection initialized")
+    if supabase:
+        log_action("INIT_DB", "✅ Supabase connection initialized")
+    else:
+        print("❌ Supabase not configured - database features will be limited")
 
 def add_response(
     response_id: str,
@@ -51,6 +59,9 @@ def add_response(
     embedding_model: str = "mistral-embed"
 ) -> bool:
     """Ajoute une réponse à Supabase"""
+    if not supabase:
+        return True
+
     log_action("ADD_RESPONSE", f"ID: {response_id}, Query: {query[:50]}")
 
     try:
@@ -87,6 +98,9 @@ def add_feedback(
     email: str = None
 ) -> bool:
     """Ajoute un feedback à Supabase"""
+    if not supabase:
+        return True
+
     log_action("ADD_FEEDBACK", f"Type: {feedback_type}, ResponseID: {response_id}, Email: {email}")
 
     try:
@@ -113,6 +127,9 @@ def add_feedback(
 
 def add_alert(response_id: str, hallucination_description: str) -> bool:
     """Ajoute une alerte à Supabase"""
+    if not supabase:
+        return True
+
     try:
         data = {
             "response_id": response_id,
@@ -127,6 +144,9 @@ def add_alert(response_id: str, hallucination_description: str) -> bool:
 
 def get_response(response_id: str) -> Optional[Dict[str, Any]]:
     """Récupère une réponse par son ID"""
+    if not supabase:
+        return None
+
     try:
         response = supabase.table("responses").select("*").eq("id", response_id).execute()
 
@@ -139,6 +159,9 @@ def get_response(response_id: str) -> Optional[Dict[str, Any]]:
 
 def get_all_responses() -> List[Dict[str, Any]]:
     """Récupère toutes les réponses"""
+    if not supabase:
+        return []
+
     try:
         response = supabase.table("responses").select("*").order("created_at", desc=True).execute()
         return response.data or []
@@ -148,6 +171,9 @@ def get_all_responses() -> List[Dict[str, Any]]:
 
 def get_all_feedbacks() -> List[Dict[str, Any]]:
     """Récupère tous les feedbacks"""
+    if not supabase:
+        return []
+
     try:
         response = supabase.table("feedbacks").select("*").order("created_at", desc=True).execute()
         return response.data or []
@@ -157,6 +183,9 @@ def get_all_feedbacks() -> List[Dict[str, Any]]:
 
 def get_feedbacks_for_response(response_id: str) -> List[Dict[str, Any]]:
     """Récupère les feedbacks pour une réponse spécifique"""
+    if not supabase:
+        return []
+
     try:
         response = supabase.table("feedbacks").select("*").eq("response_id", response_id).order("created_at", desc=True).execute()
         return response.data or []
@@ -166,6 +195,15 @@ def get_feedbacks_for_response(response_id: str) -> List[Dict[str, Any]]:
 
 def get_stats() -> Dict[str, Any]:
     """Récupère les statistiques générales"""
+    if not supabase:
+        return {
+            "total_responses": 0,
+            "hallucinations_detected": 0,
+            "hallucination_rate": 0.0,
+            "average_hallucination_score": 0.0,
+            "responses_by_score": []
+        }
+
     try:
         # Total responses
         responses_data = supabase.table("responses").select("id").execute()
@@ -201,6 +239,9 @@ def get_stats() -> Dict[str, Any]:
 
 def get_feedback_stats() -> Dict[str, Any]:
     """Récupère les statistiques des feedbacks"""
+    if not supabase:
+        return {}
+
     try:
         feedbacks_data = supabase.table("feedbacks").select("*").execute()
         feedbacks = feedbacks_data.data or []
@@ -233,6 +274,9 @@ def get_feedback_stats() -> Dict[str, Any]:
 
 def export_all_data() -> Dict[str, Any]:
     """Exporte toutes les données"""
+    if not supabase:
+        return {}
+
     try:
         responses_data = supabase.table("responses").select("*").order("created_at", desc=True).execute()
         feedbacks_data = supabase.table("feedbacks").select("*").order("created_at", desc=True).execute()
@@ -250,6 +294,9 @@ def export_all_data() -> Dict[str, Any]:
 
 def check_user_quota(user_email: str, max_per_day: int = 100) -> bool:
     """Vérifie si l'utilisateur a atteint son quota quotidien"""
+    if not supabase:
+        return True
+
     try:
         from datetime import date
         today = date.today().isoformat()
@@ -269,6 +316,9 @@ def check_user_quota(user_email: str, max_per_day: int = 100) -> bool:
 
 def clear_all_data() -> bool:
     """Purge toutes les données de Supabase"""
+    if not supabase:
+        return True
+
     try:
         # Delete in correct order (foreign keys)
         # Pour les tables avec IDs numériques (BIGSERIAL)

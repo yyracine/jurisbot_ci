@@ -790,7 +790,7 @@ def show_analysis_page():
             with col2:
                 st.write("**Hallucinations & Qualité**")
                 quality_df = pd.DataFrame({
-                    "Métrique": ["Hallucination Rate", "Avg Hallucination Score"],
+                    "Métrique": ["Taux d'Hallucination (%)", "Score d'Hallucination Moyen"],
                     "Valeur": [
                         analyzer.response_stats.get("hallucination_rate", 0),
                         analyzer.response_stats.get("average_hallucination_score", 0) * 100

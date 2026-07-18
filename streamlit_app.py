@@ -883,6 +883,277 @@ def show_analysis_page():
         st.error(f"❌ Erreur lors de l'analyse: {e}")
         st.info("Assurez-vous d'avoir assez de données pour l'analyse (au moins 5 feedbacks)")
 
+def generate_analysis_html(analyzer, engine):
+    """Génère un rapport HTML d'analyse des feedbacks"""
+    satisfaction = analyzer.get_user_satisfaction()
+    problems = analyzer.get_problem_areas()
+    strengths = analyzer.get_strengths()
+    quick_wins = engine.get_quick_wins()
+    roadmap = engine.get_personalized_roadmap()
+
+    html = f"""
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>JurisBot CI - Analyse des Feedbacks</title>
+        <style>
+            body {{
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+                line-height: 1.6;
+                color: #333;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #f5f5f5;
+            }}
+            .header {{
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 40px;
+                border-radius: 8px;
+                margin-bottom: 30px;
+            }}
+            .header h1 {{
+                margin: 0;
+                font-size: 2.5em;
+            }}
+            .timestamp {{
+                opacity: 0.9;
+                font-size: 0.9em;
+            }}
+            .metrics {{
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+                margin-bottom: 30px;
+            }}
+            .metric-card {{
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                text-align: center;
+            }}
+            .metric-value {{
+                font-size: 2em;
+                font-weight: bold;
+                color: #667eea;
+                margin: 10px 0;
+            }}
+            .metric-label {{
+                color: #666;
+                font-size: 0.9em;
+            }}
+            .section {{
+                background: white;
+                padding: 30px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }}
+            .section h2 {{
+                border-bottom: 3px solid #667eea;
+                padding-bottom: 10px;
+                margin-top: 0;
+            }}
+            .problem {{
+                border-left: 4px solid #dc3545;
+                padding: 15px;
+                margin-bottom: 15px;
+                background: #f8f9fa;
+                border-radius: 4px;
+            }}
+            .problem.HIGH {{
+                border-left-color: #fd7e14;
+            }}
+            .problem.MEDIUM {{
+                border-left-color: #ffc107;
+            }}
+            .severity {{
+                display: inline-block;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-weight: bold;
+                font-size: 0.85em;
+                margin-bottom: 10px;
+            }}
+            .severity.CRITICAL {{
+                background: #dc3545;
+                color: white;
+            }}
+            .severity.HIGH {{
+                background: #fd7e14;
+                color: white;
+            }}
+            .severity.MEDIUM {{
+                background: #ffc107;
+                color: #333;
+            }}
+            .strength {{
+                border-left: 4px solid #28a745;
+                padding: 15px;
+                margin-bottom: 15px;
+                background: #f8f9fa;
+                border-radius: 4px;
+            }}
+            .quick-win {{
+                border-left: 4px solid #667eea;
+                padding: 15px;
+                margin-bottom: 15px;
+                background: #f8f9fa;
+                border-radius: 4px;
+            }}
+            .actions {{
+                background: #f0f4ff;
+                padding: 10px;
+                border-radius: 4px;
+                margin: 10px 0;
+                font-size: 0.9em;
+            }}
+            @media print {{
+                body {{
+                    background: white;
+                }}
+                .section {{
+                    page-break-inside: avoid;
+                    box-shadow: none;
+                    border: 1px solid #ddd;
+                }}
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>📊 JurisBot CI - Analyse des Feedbacks</h1>
+            <p class="timestamp">Généré le {datetime.now().strftime('%d/%m/%Y à %H:%M:%S')}</p>
+        </div>
+
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-label">Score Satisfaction</div>
+                <div class="metric-value">{satisfaction['satisfaction_score']:.1f}/5</div>
+                <div style="color: #667eea;">{satisfaction['interpretation']}</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Total Réponses</div>
+                <div class="metric-value">{analyzer.response_stats.get('total_responses', 0)}</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Taux Hallucination</div>
+                <div class="metric-value">{analyzer.response_stats.get('hallucination_rate', 0):.1f}%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Total Feedbacks</div>
+                <div class="metric-value">{satisfaction['total_feedbacks']}</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>✨ Forces du Système</h2>
+    """
+
+    if strengths:
+        for strength in strengths:
+            html += f"""
+            <div class="strength">
+                <strong>{strength['area']}</strong> (Score: {strength['score']:.1f}/5)
+                <p>{strength['description']}</p>
+            </div>
+            """
+    else:
+        html += "<p>✅ Système stable et performant!</p>"
+
+    html += """
+        </div>
+
+        <div class="section">
+            <h2>📊 Distribution des Scores Détaillée</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="border-bottom: 2px solid #667eea;">
+                    <th style="padding: 12px; text-align: left;">Catégorie</th>
+                    <th style="padding: 12px; text-align: center;">Score Moyen</th>
+                    <th style="padding: 12px; text-align: center;">Évaluation</th>
+                </tr>
+    """
+
+    metrics_scores = {
+        "Précision": analyzer.feedback_stats.get("avg_accuracy", 0),
+        "Clarté": analyzer.feedback_stats.get("avg_clarity", 0),
+        "Citations": analyzer.feedback_stats.get("avg_citations", 0),
+        "Complétude": analyzer.feedback_stats.get("avg_completeness", 0)
+    }
+
+    for category, score in metrics_scores.items():
+        evaluation = "✅ Excellent" if score >= 4.5 else ("⚠️ Bon" if score >= 3.5 else "📌 À améliorer")
+        html += f"""
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 12px;">{category}</td>
+                    <td style="padding: 12px; text-align: center;"><strong>{score:.2f}/5</strong></td>
+                    <td style="padding: 12px; text-align: center;">{evaluation}</td>
+                </tr>
+        """
+
+    html += """
+            </table>
+        </div>
+    """
+
+    problems_list = analyzer.get_problem_areas()
+    if problems_list:
+        html += """
+        <div class="section">
+            <h2>⚠️ Zones Problématiques</h2>
+        """
+        for problem in problems_list:
+            html += f"""
+            <div class="problem {problem['severity']}">
+                <span class="severity {problem['severity']}">{problem['severity']}</span>
+                <strong>{problem['area']}</strong>
+                <p>{problem['description']}</p>
+                <p><strong>Impact:</strong> {problem['impact']}</p>
+                <p><strong>Recommandation:</strong> {problem['recommendation']}</p>
+            </div>
+            """
+        html += """
+        </div>
+        """
+
+    if quick_wins:
+        html += """
+        <div class="section">
+            <h2>⚡ Quick Wins - Actions Rapides</h2>
+        """
+        for win in quick_wins:
+            html += f"""
+            <div class="quick-win">
+                <strong>{win['title']}</strong> - {win['effort']} ({win['estimated_time']})
+                <p>{win['description']}</p>
+                <div class="actions">
+                    <strong>Actions:</strong><br>
+                    {'<br>'.join(win['actions'])}
+                </div>
+                <p><strong>Priorité:</strong> {win['priority']} | <strong>Impact:</strong> {win['expected_impact']}</p>
+                <p><strong>✓ Succès:</strong> {win['success_metric']}</p>
+            </div>
+            """
+        html += """
+        </div>
+        """
+
+    html += """
+        <div class="section" style="background: #f8f9fa; border-top: 3px solid #667eea;">
+            <p style="text-align: center; color: #666; margin: 0;">
+                <em>Rapport généré automatiquement par JurisBot CI Analytics</em>
+            </p>
+        </div>
+    </body>
+    </html>
+    """
+
+    return html
+
 def show_admin_panel():
     st.title("⚙️ Panneau Administrateur - JurisBot CI")
     st.markdown("Gérez les données et générez les rapports")
@@ -894,49 +1165,49 @@ def show_admin_panel():
 
     with col1:
         st.markdown("### 📊 Analyser les Feedbacks")
-        st.write("Génère une analyse détaillée de tous les feedbacks collectés")
+        st.write("Génère une analyse HTML détaillée de tous les feedbacks")
         if st.button("🔍 Analyser", key="btn_analyze", use_container_width=True):
             try:
                 with st.spinner("⏳ Analyse en cours..."):
-                    import subprocess
-                    result = subprocess.run(
-                        ["python", "advanced_analysis.py"],
-                        capture_output=True,
-                        text=True,
-                        encoding="utf-8"
+                    from analysis import FeedbackAnalyzer
+                    from recommendations import RecommendationEngine
+
+                    analyzer = FeedbackAnalyzer()
+                    engine = RecommendationEngine()
+
+                    # Génération du rapport HTML
+                    html_content = generate_analysis_html(analyzer, engine)
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+                    st.success("✅ Analyse générée!")
+                    st.download_button(
+                        "📥 Télécharger l'analyse en HTML",
+                        html_content,
+                        file_name=f"analyse_jurisbot_{timestamp}.html",
+                        mime="text/html",
+                        use_container_width=True
                     )
-                    if result.returncode == 0:
-                        st.success("✅ Analyse terminée!")
-                        st.markdown("### Résultats:")
-                        st.text(result.stdout)
-                    else:
-                        st.error(f"❌ Erreur lors de l'analyse: {result.stderr}")
             except Exception as e:
                 st.error(f"❌ Erreur: {e}")
 
     with col2:
         st.markdown("### 📄 Rapport Détaillé")
-        st.write("Visualise le rapport HTML avec tous les KPIs")
-        if st.button("📖 Voir Rapport", key="btn_rapport", use_container_width=True):
+        st.write("Télécharge le rapport HTML avec tous les KPIs")
+        if st.button("📥 Télécharger", key="btn_rapport", use_container_width=True):
             try:
                 rapport_files = list(Path(".").glob("rapport_jurisbot_*.html"))
                 if rapport_files:
                     latest_rapport = sorted(rapport_files)[-1]
-                    st.success(f"✅ Rapport trouvé: {latest_rapport.name}")
-
-                    with open(latest_rapport, "r", encoding="utf-8") as f:
-                        rapport_html = f.read()
-
-                    st.markdown(f"### {latest_rapport.name}")
-                    st.components.v1.html(rapport_html, height=800, scrolling=True)
 
                     with open(latest_rapport, "rb") as f:
                         st.download_button(
-                            "💾 Télécharger Rapport",
+                            "💾 Télécharger le rapport",
                             f,
                             file_name=latest_rapport.name,
-                            mime="text/html"
+                            mime="text/html",
+                            use_container_width=True
                         )
+                    st.caption(f"Fichier: {latest_rapport.name}")
                 else:
                     st.warning("⚠️ Aucun rapport trouvé. Générez d'abord une analyse.")
             except Exception as e:

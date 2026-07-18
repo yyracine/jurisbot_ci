@@ -287,11 +287,12 @@ def authenticate_user():
             if not admin_password:
                 admin_password = os.getenv("ADMIN_PASSWORD", "")
 
-            print(f"[AUTH DEBUG] Mot de passe entré: {'***' if password else 'VIDE'}")
-            print(f"[AUTH DEBUG] Admin password configuré: {'OUI' if admin_password else 'NON'}")
-            print(f"[AUTH DEBUG] Longueur mot de passe admin: {len(admin_password) if admin_password else 0}")
+            import sys
+            print(f"[AUTH DEBUG] Mot de passe entré: {'OUI' if password else 'VIDE'}, longueur: {len(password) if password else 0}", file=sys.stderr)
+            print(f"[AUTH DEBUG] Admin password configuré: {'OUI' if admin_password else 'NON'}, longueur: {len(admin_password) if admin_password else 0}", file=sys.stderr)
+            print(f"[AUTH DEBUG] Passwords equal: {password == admin_password if (password and admin_password) else 'N/A'}", file=sys.stderr)
 
-            if password and admin_password and password == admin_password:
+            if password and admin_password and password.strip() == admin_password.strip():
                 st.session_state.authenticated = True
                 st.session_state.is_admin = True
                 st.session_state.user_email = email

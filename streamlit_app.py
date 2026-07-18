@@ -640,22 +640,45 @@ def show_feedback_page():
 
     st.markdown("---")
 
+    # Hallucinations signalées
+    hallucinations = [fb for fb in feedbacks if fb.get("feedback_type") == "quick" and "Hallucination" in str(fb.get("feedback_data", {}))]
+    if hallucinations:
+        st.subheader("🚩 Hallucinations Signalées")
+        with st.expander(f"⚠️ Hallucinations détectées ({len(hallucinations)})"):
+            for idx, fb in enumerate(hallucinations, 1):
+                with st.container(border=True):
+                    timestamp = datetime.fromisoformat(fb.get("timestamp", "")).strftime("%d/%m/%Y %H:%M")
+                    email = fb.get("feedback_data", {}).get("email", "Anonyme")
+
+                    col_header = st.columns([3, 1])
+                    with col_header[0]:
+                        st.markdown(f"**#{idx}** — 📧 {email}")
+                    with col_header[1]:
+                        st.caption(timestamp)
+
+                    st.write(f"**Réponse ID:** `{fb.get('response_id')}`")
+
+        st.markdown("---")
+
     # Commentaires détaillés
     st.subheader("📝 Commentaires des Testeurs")
 
-    with st.expander(f"👥 Afficher tous les commentaires ({len(feedbacks)})"):
-        for idx, fb in enumerate(feedbacks, 1):
-            with st.container(border=True):
-                timestamp = datetime.fromisoformat(fb.get("timestamp", "")).strftime("%d/%m/%Y %H:%M")
-                email = fb.get("feedback_data", {}).get("email", "Anonyme")
+    detailed_feedbacks = [fb for fb in feedbacks if fb.get("feedback_type") == "detailed"]
+    if not detailed_feedbacks:
+        st.info("Aucun feedback détaillé pour le moment.")
+    else:
+        with st.expander(f"👥 Afficher tous les commentaires ({len(detailed_feedbacks)})"):
+            for idx, fb in enumerate(detailed_feedbacks, 1):
+                with st.container(border=True):
+                    timestamp = datetime.fromisoformat(fb.get("timestamp", "")).strftime("%d/%m/%Y %H:%M")
+                    email = fb.get("feedback_data", {}).get("email", "Anonyme")
 
-                col_header = st.columns([3, 1])
-                with col_header[0]:
-                    st.markdown(f"**#{idx}** — {email}")
-                with col_header[1]:
-                    st.caption(timestamp)
+                    col_header = st.columns([3, 1])
+                    with col_header[0]:
+                        st.markdown(f"**#{idx}** — {email}")
+                    with col_header[1]:
+                        st.caption(timestamp)
 
-                if fb.get("feedback_type") == "detailed":
                     data = fb.get("feedback_data", {})
                     st.markdown(f"""
                     - **Précision:** {data.get("accuracy", "N/A")}/5
@@ -664,9 +687,9 @@ def show_feedback_page():
                     - **Complétude:** {data.get("completeness", "N/A")}/5
                     """)
 
-                comments = fb.get("feedback_data", {}).get("comments", "")
-                if comments:
-                    st.write(f"💭 *{comments}*")
+                    comments = fb.get("feedback_data", {}).get("comments", "")
+                    if comments:
+                        st.write(f"💭 *{comments}*")
 
     st.markdown("---")
 

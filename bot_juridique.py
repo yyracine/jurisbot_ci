@@ -15,7 +15,8 @@ except (ImportError, AttributeError, KeyError):
     MISTRAL_API_KEY = None
 
 if not MISTRAL_API_KEY:
-    load_dotenv()
+    env_path = os.path.join(os.path.dirname(__file__), ".env")
+    load_dotenv(env_path)
     MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 
 if not MISTRAL_API_KEY:

@@ -275,12 +275,14 @@ def authenticate_user():
                 st.error("❌ Veuillez entrer une adresse email valide")
                 return
 
+            admin_password = None
             try:
-                admin_password = st.secrets.get("ADMIN_PASSWORD")
-                if not admin_password:
-                    admin_password = st.secrets.get("admin_password")
-            except (AttributeError, KeyError, TypeError):
-                admin_password = None
+                admin_password = st.secrets["ADMIN_PASSWORD"]
+            except (KeyError, AttributeError):
+                try:
+                    admin_password = st.secrets["admin_password"]
+                except (KeyError, AttributeError):
+                    pass
 
             if not admin_password:
                 admin_password = os.getenv("ADMIN_PASSWORD", "")

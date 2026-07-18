@@ -7,8 +7,18 @@ sys.stdout.reconfigure(encoding='utf-8')
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import logging
 
 load_dotenv(override=True)
+
+# Configure logging
+logging.basicConfig(
+    filename="jurisbot_production.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S"
+)
+logger = logging.getLogger("jurisbot")
 
 from bot_juridique import init_rag_engine, ask_legal_bot, verify_and_correct_citations
 from monitoring import get_monitor
@@ -363,16 +373,33 @@ def show_chat_page():
             st.rerun()
 
     if submit_button and user_input.strip():
+        from db import check_user_quota
+        user_email = st.session_state.get("user_email", "anonymous")
+
+        if not check_user_quota(user_email, max_per_day=100):
+            st.error("❌ **Quota dépassé!** Vous avez posé 100 questions aujourd'hui. Réessayez demain.")
+            st.stop()
+
         with st.spinner("⏳ Analyse en cours..."):
             bot = st.session_state.bot
-            response_text, response_id = bot.answer(user_input)
+            try:
+                response_text, response_id = bot.answer(user_input)
 
-            st.session_state.chat_history.append({
-                "question": user_input,
-                "response": response_text,
-                "response_id": response_id,
-                "timestamp": datetime.now().isoformat()
-            })
+                st.session_state.chat_history.append({
+                    "question": user_input,
+                    "response": response_text,
+                    "response_id": response_id,
+                    "timestamp": datetime.now().isoformat()
+                })
+            except Exception as e:
+                error_msg = str(e)
+                logger.error(f"Bot answer error for user {user_email}: {error_msg}", exc_info=True)
+                if "rate" in error_msg.lower() or "quota" in error_msg.lower():
+                    st.error("❌ **Limite d'appels API atteinte.** Réessayez dans quelques minutes.")
+                elif "timeout" in error_msg.lower():
+                    st.error("❌ **Délai d'attente dépassé.** Le serveur met trop de temps à répondre.")
+                else:
+                    st.error(f"❌ **Erreur:** {error_msg[:100]}")
 
     if st.session_state.chat_history:
         msg = st.session_state.chat_history[-1]

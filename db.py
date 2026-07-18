@@ -248,6 +248,25 @@ def export_all_data() -> Dict[str, Any]:
         print(f"Erreur lors de l'export: {e}")
         return {}
 
+def check_user_quota(user_email: str, max_per_day: int = 100) -> bool:
+    """Vérifie si l'utilisateur a atteint son quota quotidien"""
+    try:
+        from datetime import date
+        today = date.today().isoformat()
+
+        response = supabase.table("responses").select("id").eq("user_email", user_email).gte("created_at", today).execute()
+        count = len(response.data) if response.data else 0
+
+        if count >= max_per_day:
+            log_action("QUOTA_EXCEEDED", f"User {user_email}: {count}/{max_per_day}")
+            return False
+
+        log_action("QUOTA_CHECK", f"User {user_email}: {count}/{max_per_day}")
+        return True
+    except Exception as e:
+        log_action("QUOTA_CHECK_ERROR", f"Error checking quota for {user_email}: {str(e)}")
+        return True
+
 def clear_all_data() -> bool:
     """Purge toutes les données de Supabase"""
     try:

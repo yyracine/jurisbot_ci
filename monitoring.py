@@ -161,10 +161,11 @@ class HallucinationMonitor:
         print("\n" + "="*60)
         print("📊 STATISTIQUES DE MONITORING")
         print("="*60)
-        print(f"Total réponses : {stats['total_responses']}")
-        print(f"Total feedbacks : {stats['total_feedback']}")
-        print(f"Hallucinations détectées : {stats['hallucinations_detected']}")
-        print(f"Taux d'hallucination : {stats['false_positive_rate']:.2f}%")
+        print(f"Total réponses : {stats.get('total_responses', 0)}")
+        print(f"Total feedbacks : {stats.get('total_feedback', 0)}")
+        print(f"Hallucinations détectées : {stats.get('hallucinations_detected', 0)}")
+        hallucination_rate = stats.get('hallucination_rate', 0)
+        print(f"Taux d'hallucination : {hallucination_rate:.2f}%")
         print("="*60 + "\n")
 
 
